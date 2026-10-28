@@ -16,6 +16,7 @@ function JourneyCard({ step, title, description }) {
   )
 }
 
+
 export function Journey() {
   return (
     <section id="expedition" className="relative z-10 py-24 px-6 scroll-mt-6">
