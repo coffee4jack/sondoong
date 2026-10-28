@@ -117,7 +117,7 @@ export function ScrollExperience() {
           className="absolute inset-0"
         >
           <img
-            src="https://www.elledecoration.vn/wp-content/uploads/2025/03/1-son-doong.jpg"
+            src="https://images.pexels.com/photos/2876511/pexels-photo-2876511.jpeg"
             alt="The enormous underground world of Son Doong"
             className="h-full w-full object-cover"
           />

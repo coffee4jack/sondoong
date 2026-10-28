@@ -15,7 +15,7 @@ export default function App() {
         className="pointer-events-none fixed inset-0 bg-cover bg-center"
         style={{
           backgroundImage:
-            "url(https://www.elledecoration.vn/wp-content/uploads/2025/03/1-son-doong.jpg)",
+            "url(https://images.pexels.com/photos/4284290/pexels-photo-4284290.jpeg)",
         }}
         aria-hidden="true"
       >
@@ -25,9 +25,10 @@ export default function App() {
       <Hero />
 
       <main>
+        <ScrollExperience />
         <Journey />
 
-        <ScrollExperience />
+        
 
         <Features />
         <Faq />
