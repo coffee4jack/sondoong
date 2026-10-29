@@ -6,7 +6,7 @@ import { fadeUp, inView, stagger } from "../lib/motion.js"
 
 function FaqItem({ id, question, answer, isOpen, onToggle }) {
   return (
-    <motion.div variants={fadeUp} className="rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur overflow-hidden">
+    <motion.div variants={fadeUp} className="rounded-2xl bg-white/5 ring-1 ring-white/10 backdrop-blur overflow-hidden hover:ring-white/20 transition-shadow duration-300">
       <h3>
         <button
           type="button"
@@ -16,8 +16,8 @@ function FaqItem({ id, question, answer, isOpen, onToggle }) {
           id={`${id}-trigger`}
           className="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors"
         >
-          <span className="text-lg font-semibold pr-4">{question}</span>
-          <motion.span animate={{ rotate: isOpen ? 45 : 0 }} transition={{ duration: 0.25 }} className="shrink-0">
+          <span className="text-lg font-semibold pr-4 text-white">{question}</span>
+          <motion.span animate={{ rotate: isOpen ? 45 : 0 }} transition={{ duration: 0.25 }} className="shrink-0 text-emerald-400">
             <Plus className="w-5 h-5" aria-hidden="true" />
           </motion.span>
         </button>
@@ -33,7 +33,7 @@ function FaqItem({ id, question, answer, isOpen, onToggle }) {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <p className="px-6 pb-6 text-white/80 leading-relaxed">{answer}</p>
+            <p className="px-6 pb-6 text-white/80 leading-relaxed font-light">{answer}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -53,12 +53,11 @@ export function Faq() {
       >
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           <motion.div variants={fadeUp}>
-            <h2 className="text-5xl md:text-6xl font-bold tracking-tight mb-6 text-balance">
-              Frequently Asked Questions
+            <h2 className="text-5xl md:text-6xl font-bold tracking-tight mb-6 text-balance text-white">
+              Preguntas Frecuentes
             </h2>
-            <p className="text-xl text-white/80 leading-relaxed text-pretty">
-              Everything you need to know about the expedition, from physical requirements to booking your spot on this
-              exclusive adventure.
+            <p className="text-xl text-white/80 leading-relaxed text-pretty font-light">
+              Todo lo que necesitas saber antes de empezar tu ruta con DriverGO.
             </p>
           </motion.div>
 

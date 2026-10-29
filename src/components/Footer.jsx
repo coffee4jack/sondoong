@@ -1,5 +1,5 @@
 import { motion } from "motion/react"
-import { Compass } from "lucide-react"
+import { Car } from "lucide-react"
 import { footerColumns } from "../data/site-data.js"
 import { NewsletterForm } from "./NewsletterForm.jsx"
 import { fadeUp, inView } from "../lib/motion.js"
@@ -15,23 +15,21 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-6">
-              <Compass className="w-6 h-6" aria-hidden="true" />
-              <span className="text-xl font-semibold">Son Doong Expeditions</span>
+              <Car className="w-6 h-6 text-emerald-400" aria-hidden="true" />
+              <span className="text-xl font-bold text-white">DriverGO</span>
             </div>
-            <p className="text-white/80 leading-relaxed text-pretty">
-              {
-                "The official tour operator for expeditions into Son Doong, the world's largest cave. We are dedicated to safety, conservation, and unforgettable adventures."
-              }
+            <p className="text-white/80 leading-relaxed text-pretty font-light">
+              La plataforma líder de logística y entregas de última milla. Conectamos comercios, clientes y conductores con tecnología transparente e ingresos justos.
             </p>
           </div>
 
           {footerColumns.map((column) => (
             <div key={column.title}>
-              <h3 className="text-sm font-bold uppercase tracking-wider mb-6">{column.title}</h3>
+              <h3 className="text-sm font-bold uppercase tracking-wider mb-6 text-emerald-400">{column.title}</h3>
               <ul className="flex flex-col gap-3">
                 {column.links.map((link) => (
                   <li key={link}>
-                    <a href="#" className="text-white/70 hover:text-white transition-colors text-sm leading-relaxed">
+                    <a href="#" className="inline-block text-white/70 hover:text-white hover:translate-x-1 transition-[color,transform] duration-200 text-sm leading-relaxed">
                       {link}
                     </a>
                   </li>
@@ -46,7 +44,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-white/10 pt-8">
-          <p className="text-white/60 text-sm text-center">© {new Date().getFullYear()} Son Doong Expeditions</p>
+          <p className="text-white/60 text-sm text-center">© {new Date().getFullYear()} DriverGO Inc. Todos los derechos reservados.</p>
         </div>
       </motion.div>
     </footer>
