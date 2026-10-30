@@ -34,9 +34,16 @@ export default function App() {
       <div className="relative min-h-screen overflow-x-clip bg-[#080b09]">
         <ScrollProgress />
 
+        {/* https://images.pexels.com/photos/7641148/pexels-photo-7641148.jpeg */}
+
         <div
           className="pointer-events-none fixed inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url(https://images.pexels.com/photos/7641148/pexels-photo-7641148.jpeg)" }}
+          style={{
+            width: "100%",
+            height: "100%",
+
+            backgroundImage: "url(https://images.pexels.com/photos/7794388/pexels-photo-7794388.jpeg)"
+          }}
           aria-hidden="true"
         >
           <div className="absolute inset-0 bg-black/40" />
