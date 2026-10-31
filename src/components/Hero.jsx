@@ -1,81 +1,125 @@
-import { motion, useReducedMotion } from "motion/react"
-import { Lock, ChevronDown } from "lucide-react"
-import { Navbar } from "./Navbar.jsx"
-import { fadeUp, stagger } from "../lib/motion.js"
+import { useState } from "react";
+import { motion } from "framer-motion";
 
-// transition-colors: transition-all choca con las transformaciones de motion
-const glass = "bg-black/40 ring-1 ring-white/20 backdrop-blur rounded-full transition-colors duration-300"
+import Button from "./buttons/Button"
 
-export function Hero() {
-  const reduceMotion = useReducedMotion()
+const tabs = ["Viaje", "Comida", "Scooter"];
+
+export default function Hero() {
+  const [tab, setTab] = useState("Viaje");
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      <Navbar />
+    // <section className="relative overflow-hidden bg-[#ffffff]">
+    //   <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-16 lg:grid-cols-2 lg:py-24">
+    //     <motion.div
+    //       initial={{ opacity: 0, x: -40 }}
+    //       animate={{ opacity: 1, x: 0 }}
+    //       transition={{ duration: 0.6 }}
+    //     >
+    //       <h1 className="text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
+    //         Muévete a tu manera
+    //       </h1>
+    //       <p className="mt-5 max-w-md text-lg text-black/60">
+    //         Pide un viaje, súbete y listo. Viajes rápidos y a buen precio, cuando los necesites.
+    //       </p>
 
-      <motion.section
-        className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100svh-120px)] px-6 pb-16 text-center"
-        variants={stagger(0.2, 0.15)}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* leading-[1.1] + pb evitan que bg-clip-text recorte la g y la q */}
-        <motion.h1
-          variants={fadeUp}
-          className="text-6xl md:text-8xl font-light tracking-tight leading-[1.1] pb-2 mb-6 text-balance bg-gradient-to-r from-emerald-400 via-teal-200 to-green-400 bg-[length:200%_auto] bg-clip-text text-transparent"
-          animate={reduceMotion ? undefined : { backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-        >
-          Conduce cuando quieras, <br /> gana lo que mereces.
-        </motion.h1>
+    //       <div className="mt-8 max-w-md rounded-3xl bg-white p-5 shadow-xl shadow-black/5">
+    //         <div className="mb-4 flex gap-2">
+    //           {tabs.map((t) => (
+    //             <button
+    //               key={t}
+    //               onClick={() => setTab(t)}
+    //               className={`rounded-full px-4 py-1.5 text-sm font-semibold transition ${tab === t ? "bg-[#09090B] text-white" : "bg-black/5 text-black/70 hover:bg-black/10"
+    //                 }`}
+    //             >
+    //               {t}
+    //             </button>
+    //           ))}
+    //         </div>
 
-        <motion.p
-          variants={fadeUp}
-          className="text-xl md:text-2xl text-white/90 max-w-4xl mb-12 leading-relaxed text-pretty font-light"
-        >
-          Genera ingresos a tu propio ritmo completando entregas en tu ciudad con DriverGO. Maneja tus propios horarios con total libertad y respaldo.
-        </motion.p>
+    //         <div className="space-y-3">
+    //           <div className="flex items-center gap-3 rounded-xl bg-black/5 px-4 py-3">
+    //             <span className="h-2.5 w-2.5 rounded-full bg-[#34D186]" />
+    //             <input
+    //               className="w-full bg-transparent text-sm outline-none placeholder:text-black/40"
+    //               placeholder="Lugar de recogida"
+    //             />
+    //           </div>
+    //           <div className="flex items-center gap-3 rounded-xl bg-black/5 px-4 py-3">
+    //             <span className="h-2.5 w-2.5 bg-black" />
+    //             <input
+    //               className="w-full bg-transparent text-sm outline-none placeholder:text-black/40"
+    //               placeholder="Destino"
+    //             />
+    //           </div>
+    //           <motion.button
+    //             whileHover={{ scale: 1.02 }}
+    //             whileTap={{ scale: 0.98 }}
+    //             className="w-full rounded-xl bg-[#34D186] py-3.5 font-bold text-black"
+    //           >
+    //             Ver precios
+    //           </motion.button>
+    //         </div>
+    //       </div>
+    //     </motion.div>
 
-        <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 mb-16">
-          <motion.a
-            href="#contact"
-            className="bg-emerald-400 text-black font-semibold rounded-full px-8 py-4 text-lg hover:bg-emerald-300 transition-colors shadow-lg shadow-emerald-400/25"
-            whileHover={{ scale: 1.04, boxShadow: "0px 0px 25px rgba(52, 211, 153, 0.4)" }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Descargar App Driver
-          </motion.a>
-          <motion.a
-            href="#como-empezar"
-            className={`${glass} font-medium px-8 py-4 text-lg hover:bg-black/60 hover:ring-white/40`}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            Ver Requisitos
-          </motion.a>
-        </motion.div>
+    //     <motion.div
+    //       initial={{ opacity: 0, scale: 0.9 }}
+    //       animate={{ opacity: 1, scale: 1 }}
+    //       transition={{ duration: 0.7, delay: 0.2 }}
+    //       className="relative mx-auto aspect-square w-full max-w-md"
+    //     >
+    //       <div className="absolute inset-0 rounded-[3rem] bg-[#34D186]" />
+    //       <motion.div
+    //         animate={{ y: [0, -12, 0] }}
+    //         transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+    //         className="absolute inset-8 flex items-center justify-center rounded-[2.5rem] bg-[#09090B] text-8xl"
+    //       >
+    //         🚗
+    //       </motion.div>
+    //       <motion.div
+    //         animate={{ y: [0, 10, 0] }}
+    //         transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+    //         className="absolute -bottom-4 -left-4 rounded-2xl bg-white px-5 py-3 shadow-xl"
+    //       >
+    //         <p className="text-xs text-black/50">Llegada estimada</p>
+    //         <p className="text-lg font-bold">3 min</p>
+    //       </motion.div>
+    //     </motion.div>
+    //   </div>
+    // </section>
 
-        <motion.div
-          variants={fadeUp}
-          className={`flex items-center gap-2 px-4 py-2 ${glass} hover:ring-emerald-400/40`}
-          whileHover={{ y: -2 }}
-        >
-          <Lock className="w-4 h-4 text-emerald-400" aria-hidden="true" />
-          <span className="text-sm font-medium text-white/90">Tu Seguridad es Nuestra Prioridad</span>
-        </motion.div>
-      </motion.section>
 
-      {/* Indicador de scroll */}
-      <motion.a
-        href="#features"
-        aria-label="Ir a la siguiente sección"
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 text-white/60 hover:text-emerald-400 transition-colors"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: reduceMotion ? 0 : [0, 8, 0] }}
-        transition={{ opacity: { delay: 1.4, duration: 0.6 }, y: { duration: 1.8, repeat: Infinity, ease: "easeInOut" } }}
-      >
-        <ChevronDown className="w-6 h-6" aria-hidden="true" />
-      </motion.a>
-    </div>
-  )
+
+    <section className="relative overflow-hidden bg-[#ffffff] pt-20 ">
+      <h1 className="text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl text-center">
+        Lorem Ipsum
+      </h1>
+
+      <p className="mt-5 max-w-md text-lg text-black/60 text-center mx-auto">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.
+      </p>
+
+      <div className=" mx-auto 
+      p-6
+      font-semibold
+      flex items-center justify-center">
+        <Button title="Reservar Ahora" color="#498a4c" textColor="white" />
+        <Button title="Reservar Ahora" color="#ebebeb" textColor="#000000" />
+      </div>
+
+
+      <div className="w-full h-1/2 mt-8 overflow-hidden">
+        <img
+          src="https://images.pexels.com/photos/5988831/pexels-photo-5988831.jpeg"
+          alt=""
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+
+    </section>
+
+
+  );
 }
