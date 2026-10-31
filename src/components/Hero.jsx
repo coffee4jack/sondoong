@@ -111,9 +111,10 @@ export default function Hero() {
 
       <div className="w-full h-1/2 mt-8 overflow-hidden">
         <img
-          src="https://images.pexels.com/photos/5988831/pexels-photo-5988831.jpeg"
+          src="https://images.pexels.com/photos/17445328/pexels-photo-17445328.jpeg"
+
           alt=""
-          className="w-full h-full object-cover"
+          className="w-full h-160 object-cover"
         />
       </div>
 
