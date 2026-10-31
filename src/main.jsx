@@ -11,6 +11,7 @@ import Safety from "./components/Safety";
 import AppDownload from "./components/AppDownload";
 import Footer from "./components/Footer";
 
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <div className="font-sans text-[#09090B] antialiased scroll-smooth">
