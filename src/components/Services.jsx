@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
+import { img } from "motion/react-client";
 
 const items = [
-  { icon: "🚕", title: "Viajes", text: "Llega a tu destino de forma rápida, segura y con precios claros.", bg: "bg-[#34D186]" },
+  { img: "🚕", title: "Viajes", text: "Llega a tu destino de forma rápida, segura y con precios claros.", bg: "bg-[#34D186]" },
   { icon: "🍔", title: "Comida", text: "Tus restaurantes favoritos entregados directamente en tu puerta.", bg: "bg-[#FFD84D]" },
   { icon: "🛴", title: "Scooters", text: "Recorre la ciudad en scooters eléctricos, sin tráfico y sin complicaciones.", bg: "bg-[#B8E4FF]" },
   { icon: "🛒", title: "Tiendas", text: "Supermercado y esenciales en minutos, cuando los necesites.", bg: "bg-[#FFB8D1]" },
