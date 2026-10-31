@@ -92,7 +92,7 @@ export default function Hero() {
 
 
     <section className="relative overflow-hidden bg-[#ffffff] pt-20 ">
-      <h1 className="text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl text-center">
+      <h1 className="text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl text-center">
         Lorem Ipsum
       </h1>
 
