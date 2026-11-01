@@ -163,6 +163,9 @@ const Logo = () => (
   </a>
 );
 
+/* Contenedor común: contenido de 1358px en pantallas grandes */
+const CONTAINER = "mx-auto w-full max-w-[1398px] px-5";
+
 /* ---------- Componente ---------- */
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -185,83 +188,80 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Barra superior */}
+      <motion.div
+        initial={{ opacity: 0, y: -20, scale: 0.9 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.6 }}
+      >
+        <header className="sticky top-0 z-[60]">
+          <div className={`${CONTAINER} flex h-[68px] items-center justify-between`}>
+            <Logo />
 
-      <div className="pl-66 pr-66">
+            <div className="flex items-center gap-5 sm:gap-7">
+              <button className="flex items-center gap-2.5 text-sm font-semibold">
+                <span className="flex h-[18px] w-[26px] items-center justify-center rounded-[4px] bg-[#1479F5] text-white">
+                  <Globe />
+                </span>
+                EN
+              </button>
 
-        {/* Barra superior */}
-        <motion.div
+              <a href="#" className="hidden text-sm font-medium sm:block">
+                Support
+              </a>
 
-          initial={{ opacity: 0, y: -20, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 2 }}
-        >
+              <button className="rounded-full bg-[#2B2B3B] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1F1F2B]">
+                Register
+              </button>
 
-          <header className="sticky top-0 z-[60]  opacity-100  ">
-            <div className="flex h-[58px] items-center justify-between px-5">
-              <Logo />
-
-              <div className="flex items-center gap-5 sm:gap-7">
-                <button className="flex items-center gap-2.5 text-sm font-semibold">
-                  <span className="flex h-[18px] w-[26px] items-center justify-center rounded-[4px] bg-[#1479F5] text-white">
-                    <Globe />
-                  </span>
-                  EN
-                </button>
-
-                <a href="#" className="hidden text-sm font-medium sm:block">
-                  Support
-                </a>
-
-                <button className="rounded-full bg-[#2B2B3B] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1F1F2B]">
-                  Register
-                </button>
-
-                <button
-                  onClick={() => setOpen(!open)}
-                  aria-label={open ? "Close menu" : "Open menu"}
-                  aria-expanded={open}
-                  className="flex h-8 w-8 items-center justify-center"
-                >
-                  {open ? (
-                    <Svg className="h-6 w-6">
-                      <path d="M5 5l14 14M19 5L5 19" />
-                    </Svg>
-                  ) : (
-                    <Svg className="h-6 w-6">
-                      <path d="M4 7h16M4 12h16M4 17h16" />
-                    </Svg>
-                  )}
-                </button>
-              </div>
+              <button
+                onClick={() => setOpen(!open)}
+                aria-label={open ? "Close menu" : "Open menu"}
+                aria-expanded={open}
+                className="flex h-8 w-8 items-center justify-center"
+              >
+                {open ? (
+                  <Svg className="h-6 w-6">
+                    <path d="M5 5l14 14M19 5L5 19" />
+                  </Svg>
+                ) : (
+                  <Svg className="h-6 w-6">
+                    <path d="M4 7h16M4 12h16M4 17h16" />
+                  </Svg>
+                )}
+              </button>
             </div>
-          </header>
-        </motion.div>
+          </div>
+        </header>
+      </motion.div>
 
-        {/* Menú desplegable a pantalla completa */}
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-[#F9FAFA] opacity-100 pt-[58px]"
-            >
-              <div className="mx-auto flex w-full flex-1 flex-col gap-3 px-5 pb-4 pt-9 lg:flex-row">
+      {/* Menú desplegable a pantalla completa */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-[#F9FAFA] pt-[113px]"
+          >
+            <div className={CONTAINER}>
+              {/* Paneles: 1038px + 12px de separación + 308px = 1358px */}
+              <div className="grid gap-3 lg:grid-cols-[1fr_308px]">
                 {/* Panel principal */}
                 <motion.div
                   initial={{ y: 12, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.05, duration: 0.3 }}
-                  className="flex-1 rounded-[28px] bg-[#F0F1F3] p-5 lg:p-8"
+                  className="rounded-[28px] bg-[#F0F1F3] p-5 lg:h-[670px] lg:p-9"
                 >
                   {/* Pestañas */}
-                  <div className="flex flex-wrap gap-x-2 gap-y-1 lg:gap-x-5">
+                  <div className="flex flex-wrap gap-x-[27px] gap-y-1">
                     {tabs.map((t) => (
                       <button
                         key={t}
                         onClick={() => setTab(t)}
-                        className={`rounded-xl px-3.5 py-2.5 text-sm font-semibold transition ${tab === t ? "bg-white shadow-sm" : "hover:bg-white/60"
+                        className={`rounded-xl px-[9px] py-[9px] text-base font-semibold leading-6 transition ${tab === t ? "bg-white shadow-sm" : "hover:bg-white/60"
                           }`}
                       >
                         {t}
@@ -269,7 +269,7 @@ export default function Navbar() {
                     ))}
                   </div>
 
-                  {/* Enlaces */}
+                  {/* Enlaces: 4 columnas de 229px */}
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={tab}
@@ -277,15 +277,15 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.15 }}
-                      className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 px-1 lg:grid-cols-4"
+                      className="mt-[34px] grid grid-cols-2 gap-x-6 gap-y-10 px-[9px] lg:grid-cols-[repeat(4,229px)] lg:gap-x-0 lg:gap-y-[58px]"
                     >
                       {menu[tab].map((group, gi) => (
-                        <ul key={gi} className="space-y-[18px]">
+                        <ul key={gi} className="flex flex-col gap-[22.5px]">
                           {group.map((l, i) => (
                             <li key={l + i}>
                               <a
                                 href="#"
-                                className="block max-w-[170px] text-sm font-medium leading-snug text-[#1F1F2B] hover:underline"
+                                className="block max-w-[160px] text-base font-medium leading-6 text-[#1F1F2B] hover:underline"
                               >
                                 {l}
                               </a>
@@ -297,29 +297,29 @@ export default function Navbar() {
                   </AnimatePresence>
                 </motion.div>
 
-                {/* Panel lateral */}
+                {/* Panel lateral: 308px de ancho, misma altura */}
                 <motion.aside
                   initial={{ y: 12, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.1, duration: 0.3 }}
-                  className="rounded-[28px] bg-[#F0F1F3] p-5 lg:w-[272px] lg:shrink-0"
+                  className="rounded-[28px] bg-[#F0F1F3] p-7 lg:h-[670px] lg:pt-11"
                 >
-                  <ul className="space-y-5">
+                  <ul className="space-y-11">
                     {side.map((s) => (
                       <li key={s.title}>
                         <a href="#" className="flex items-start justify-between gap-3">
-                          <span className="flex gap-3">
-                            <span className={`mt-0.5 ${s.color}`}>{s.icon}</span>
+                          <span className="flex gap-[11px]">
+                            <span className={`mt-1 shrink-0 ${s.color}`}>{s.icon}</span>
                             <span>
-                              <span className="block text-sm font-semibold leading-snug">
+                              <span className="block text-base font-semibold leading-6">
                                 {s.title}
                               </span>
-                              <span className="mt-0.5 block text-xs leading-snug text-black/55">
+                              <span className="mt-[5px] block text-sm leading-[18px] text-black/55">
                                 {s.text}
                               </span>
                             </span>
                           </span>
-                          <span className="mt-0.5 shrink-0">
+                          <span className="mt-1 shrink-0">
                             <Chevron />
                           </span>
                         </a>
@@ -330,27 +330,25 @@ export default function Navbar() {
               </div>
 
               {/* Pie del menú */}
-              <div className="flex flex-col items-start justify-between gap-4 px-5 pb-6 pt-4 text-xs text-black/60 sm:flex-row sm:items-center">
-                <div className="flex gap-6">
+              <div className="mt-[50px] flex flex-col items-start justify-between gap-4 pb-8 text-sm text-black/60 sm:flex-row sm:items-center">
+                <div className="flex gap-[45px] pl-[11px]">
                   {socials.map((icon, i) => (
                     <a key={i} href="#" className="transition hover:text-black">
                       {icon}
                     </a>
                   ))}
                 </div>
-                <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
+                <div className="flex flex-wrap items-center gap-x-[18px] gap-y-1">
                   <a href="#" className="hover:text-black">Terms &amp; Conditions</a>
                   <a href="#" className="hover:text-black">Privacy</a>
                   <a href="#" className="hover:text-black">Cookies</a>
                   <span>© {new Date().getFullYear()} Bolt Technology OÜ</span>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-      </div>
-
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

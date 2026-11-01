@@ -6,11 +6,12 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
 import DriveSection from "./components/DriveSection";
+import About from "./components/About";
 import Business from "./components/Business";
-import Safety from "./components/Safety";
+import BoltSend from "./components/BoltSend";
 import AppDownload from "./components/AppDownload";
+import News from "./components/News";
 import Footer from "./components/Footer";
-
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -20,9 +21,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Hero />
         <Services />
         <DriveSection />
+        <About />
         <Business />
-        <Safety />
+        <BoltSend />
         <AppDownload />
+        <News />
       </main>
       <Footer />
     </div>

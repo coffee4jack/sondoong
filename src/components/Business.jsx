@@ -1,44 +1,80 @@
 import { motion } from "framer-motion";
 
-const cards = [
-  { icon: "💼", title: "Bolt Business", text: "Gestiona los viajes y entregas de tu equipo desde un solo panel." },
-  { icon: "🤝", title: "Socios de flota", text: "Haz crecer tu flota y administra a tus conductores fácilmente." },
-  { icon: "🏪", title: "Para restaurantes", text: "Llega a más clientes con Bolt Food y aumenta tus ventas." },
+const blocks = [
+  {
+    eyebrow: "Gana dinero como conductor",
+    title: "Conduce y gana dinero",
+    text: "Más de 200 millones de usuarios te enviarán solicitudes de viaje. Cuando la demanda es alta, puedes ganar aún más.",
+    cta: "Regístrate para conducir",
+    img: "https://images.pexels.com/photos/5988831/pexels-photo-5988831.jpeg",
+    alt: "Conductora sonriendo dentro de un auto",
+  },
+  {
+    eyebrow: "Sé un repartidor de Bolt",
+    title: "Gana con cada entrega",
+    text: "Tú decides cuándo y con qué frecuencia entregas: entre semana, por las tardes, los fines de semana o solo una hora cuando quieras.",
+    cta: "Regístrate como repartidor",
+    img: "https://images.pexels.com/photos/1149601/pexels-photo-1149601.jpeg",
+    alt: "Repartidor entregando un pedido",
+  },
+  {
+    eyebrow: "Aumenta tus ingresos como comercio",
+    title: "Aumenta tus ventas y llega a nuevos clientes",
+    text: "Millones de usuarios piden comida y productos a restaurantes y tiendas como la tuya.",
+    cta: "Regístrate en Bolt Food",
+    img: "https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg",
+    alt: "Dueño de un comercio con una tableta",
+  },
 ];
 
 export default function Business() {
   return (
-    <section className="mx-auto max-w-7xl px-5 py-20">
-      <div className="max-w-2xl">
-        <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
-          Soluciones para tu negocio
+    <section id="gana" className="bg-[#f7f9f8] py-20">
+      <div className="mx-auto max-w-6xl px-5">
+        <h2 className="text-4xl font-extrabold tracking-tight text-[#0f1f17] sm:text-5xl">
+          Gana dinero con Bolt
         </h2>
-        <p className="mt-4 text-lg text-black/60">
-          Herramientas pensadas para empresas, flotas y comercios de todos los tamaños.
+        <p className="mt-6 max-w-3xl text-lg leading-relaxed text-black/60">
+          Únete a más de 4,5 millones de socios en todo el mundo que ganan con
+          Bolt. Para conductores, repartidores, comercios y dueños de flotas
+          que buscan nuevas formas de aumentar sus ingresos.
         </p>
-      </div>
 
-      <div className="mt-12 grid gap-6 md:grid-cols-3">
-        {cards.map((c, i) => (
-          <motion.div
-            key={c.title}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            whileHover={{ scale: 1.03 }}
-            className="rounded-3xl border border-black/10 bg-white p-8 shadow-sm"
-          >
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#34D186]/20 text-3xl">
-              {c.icon}
-            </div>
-            <h3 className="mt-6 text-xl font-bold">{c.title}</h3>
-            <p className="mt-2 text-black/60">{c.text}</p>
-            <a href="#" className="mt-6 inline-block font-semibold text-[#1a9e63] hover:underline">
-              Saber más →
-            </a>
-          </motion.div>
-        ))}
+        <div className="mt-16 space-y-16 sm:space-y-20">
+          {blocks.map((b, i) => (
+            <motion.div
+              key={b.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5 }}
+              className="grid items-center gap-8 md:grid-cols-2 md:gap-16"
+            >
+              <img
+                src={b.img}
+                alt={b.alt}
+                loading="lazy"
+                className={`aspect-[4/3] w-full rounded-2xl object-cover md:max-w-[525px] ${i % 2 === 1 ? "md:order-2 md:ml-auto" : ""
+                  }`}
+              />
+              <div className={i % 2 === 1 ? "md:order-1" : ""}>
+                <p className="text-sm font-semibold text-black/60">{b.eyebrow}</p>
+                <h3 className="mt-2 text-2xl font-bold tracking-tight text-[#0f1f17] sm:text-3xl">
+                  {b.title}
+                </h3>
+                <p className="mt-4 max-w-md text-base leading-relaxed text-black/60">
+                  {b.text}
+                </p>
+                <a
+                  href="#"
+                  className="mt-8 inline-flex h-12 items-center rounded-xl bg-[#2a8c5e] px-6 text-sm font-semibold text-white transition hover:bg-[#31a06c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2a8c5e]"
+                >
+                  {b.cta}
+                </a>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
