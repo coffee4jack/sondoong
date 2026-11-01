@@ -185,47 +185,57 @@ export default function Navbar() {
 
   return (
     <>
+
       <div className="pl-66 pr-66">
+
         {/* Barra superior */}
-        <header className="sticky top-0 z-[60] bg-[#ffffff] opacity-100  ">
-          <div className="flex h-[58px] items-center justify-between px-5">
-            <Logo />
+        <motion.div
 
-            <div className="flex items-center gap-5 sm:gap-7">
-              <button className="flex items-center gap-2.5 text-sm font-semibold">
-                <span className="flex h-[18px] w-[26px] items-center justify-center rounded-[4px] bg-[#1479F5] text-white">
-                  <Globe />
-                </span>
-                EN
-              </button>
+          initial={{ opacity: 0, y: -20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 2 }}
+        >
 
-              <a href="#" className="hidden text-sm font-medium sm:block">
-                Support
-              </a>
+          <header className="sticky top-0 z-[60]  opacity-100  ">
+            <div className="flex h-[58px] items-center justify-between px-5">
+              <Logo />
 
-              <button className="rounded-full bg-[#2B2B3B] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1F1F2B]">
-                Register
-              </button>
+              <div className="flex items-center gap-5 sm:gap-7">
+                <button className="flex items-center gap-2.5 text-sm font-semibold">
+                  <span className="flex h-[18px] w-[26px] items-center justify-center rounded-[4px] bg-[#1479F5] text-white">
+                    <Globe />
+                  </span>
+                  EN
+                </button>
 
-              <button
-                onClick={() => setOpen(!open)}
-                aria-label={open ? "Close menu" : "Open menu"}
-                aria-expanded={open}
-                className="flex h-8 w-8 items-center justify-center"
-              >
-                {open ? (
-                  <Svg className="h-6 w-6">
-                    <path d="M5 5l14 14M19 5L5 19" />
-                  </Svg>
-                ) : (
-                  <Svg className="h-6 w-6">
-                    <path d="M4 7h16M4 12h16M4 17h16" />
-                  </Svg>
-                )}
-              </button>
+                <a href="#" className="hidden text-sm font-medium sm:block">
+                  Support
+                </a>
+
+                <button className="rounded-full bg-[#2B2B3B] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1F1F2B]">
+                  Register
+                </button>
+
+                <button
+                  onClick={() => setOpen(!open)}
+                  aria-label={open ? "Close menu" : "Open menu"}
+                  aria-expanded={open}
+                  className="flex h-8 w-8 items-center justify-center"
+                >
+                  {open ? (
+                    <Svg className="h-6 w-6">
+                      <path d="M5 5l14 14M19 5L5 19" />
+                    </Svg>
+                  ) : (
+                    <Svg className="h-6 w-6">
+                      <path d="M4 7h16M4 12h16M4 17h16" />
+                    </Svg>
+                  )}
+                </button>
+              </div>
             </div>
-          </div>
-        </header>
+          </header>
+        </motion.div>
 
         {/* Menú desplegable a pantalla completa */}
         <AnimatePresence>
@@ -338,6 +348,7 @@ export default function Navbar() {
             </motion.div>
           )}
         </AnimatePresence>
+
       </div>
 
     </>

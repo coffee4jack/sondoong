@@ -1,53 +1,51 @@
 import { motion } from "framer-motion";
 
-const perks = [
-  "Trabaja con tu propio horario",
-  "Cobra de forma rápida y transparente",
-  "Comisiones competitivas",
-  "Soporte las 24 horas",
-];
+// Cambia esta imagen por la tuya (ideal: PNG/JPG ancho, de al menos 1600px)
+const IMAGE =
+  "https://images.pexels.com/photos/1149601/pexels-photo-1149601.jpeg";
 
 export default function DriveSection() {
   return (
-    <section className="bg-[#09090B] text-white">
-      <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 py-20 lg:grid-cols-2">
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
+    <section className="overflow-hidden bg-[#0d0f0e] text-white">
+      {/* Texto centrado */}
+      <div className="mx-auto max-w-3xl px-5 pt-20 text-center sm:pt-24">
+        <motion.h2
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex aspect-[4/3] items-center justify-center rounded-3xl bg-[#34D186] text-9xl"
+          transition={{ duration: 2.6 }}
+          className="text-5xl font-extrabold tracking-tight sm:text-7xl"
         >
-          🧑‍✈️
-        </motion.div>
+          Conduce con Bolt
+        </motion.h2>
 
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+        <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-white/60 sm:text-lg">
+          Trabaja con tu propio horario, cobra de forma rápida y transparente y
+          aprovecha comisiones competitivas. Además, cuentas con soporte las 24
+          horas para que te enfoques en lo importante: ganar a tu ritmo.
+        </p>
+
+        <motion.button
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          className="mt-10 rounded-xl bg-[#2a8c5e] px-8 py-4 text-base font-semibold text-white transition hover:bg-[#31a06c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#34D186]"
         >
-          <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
-            Conduce con Bolt y gana a tu ritmo
-          </h2>
-          <ul className="mt-8 space-y-4">
-            {perks.map((p) => (
-              <li key={p} className="flex items-center gap-3 text-lg text-white/80">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#34D186] text-sm font-bold text-black">
-                  ✓
-                </span>
-                {p}
-              </li>
-            ))}
-          </ul>
-          <motion.button
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            className="mt-10 rounded-full bg-[#34D186] px-8 py-4 font-bold text-black"
-          >
-            Regístrate como conductor
-          </motion.button>
-        </motion.div>
+          Regístrate como conductor
+        </motion.button>
+      </div>
+
+      {/* Imagen grande que sale por abajo */}
+      <div className="relative mx-auto mt-16 h-[280px] max-w-[1400px] sm:h-[420px] lg:h-[520px]">
+        <img
+          src={IMAGE}
+          alt="Conductor Bolt"
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
+        {/* Degradado para fundir la imagen con el fondo oscuro */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0d0f0e] via-transparent to-transparent" />
+        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#0d0f0e] to-transparent sm:w-48" />
+        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#0d0f0e] to-transparent sm:w-48" />
       </div>
     </section>
   );
