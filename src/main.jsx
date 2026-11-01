@@ -8,7 +8,7 @@ import Services from "./components/Services";
 import DriveSection from "./components/DriveSection";
 import About from "./components/About";
 import Business from "./components/Business";
-import BoltSend from "./components/BoltSend";
+import BoltSend from "./components/Boltsend.jsx";
 import AppDownload from "./components/AppDownload";
 import News from "./components/News";
 import Footer from "./components/Footer";

@@ -163,8 +163,8 @@ const Logo = () => (
   </a>
 );
 
-/* Contenedor común: contenido de 1358px en pantallas grandes */
-const CONTAINER = "mx-auto w-full max-w-[1398px] px-5";
+/* Contenedor común: más angosto, con margen a los lados */
+const CONTAINER = "mx-auto w-full max-w-[1240px] px-6 sm:px-10 lg:px-14";
 
 /* ---------- Componente ---------- */
 export default function Navbar() {
@@ -190,8 +190,8 @@ export default function Navbar() {
     <>
       {/* Barra superior */}
       <motion.div
-        initial={{ opacity: 0, y: -20, scale: 0.9 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
+        initial={{ opacity: 0, x: -20, scale: 0.96 }}
+        animate={{ opacity: 1, x: 0, scale: 1 }}
         transition={{ duration: 0.6 }}
       >
         <header className="sticky top-0 z-[60]">
@@ -246,22 +246,22 @@ export default function Navbar() {
             className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-[#F9FAFA] pt-[113px]"
           >
             <div className={CONTAINER}>
-              {/* Paneles: 1038px + 12px de separación + 308px = 1358px */}
-              <div className="grid gap-3 lg:grid-cols-[1fr_308px]">
+              {/* Paneles: principal flexible + lateral de 280px */}
+              <div className="grid gap-3 lg:grid-cols-[1fr_280px]">
                 {/* Panel principal */}
                 <motion.div
                   initial={{ y: 12, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.05, duration: 0.3 }}
-                  className="rounded-[28px] bg-[#F0F1F3] p-5 lg:h-[670px] lg:p-9"
+                  className="rounded-3xl bg-[#F3F4F5] p-6 lg:h-[600px] lg:p-8"
                 >
                   {/* Pestañas */}
-                  <div className="flex flex-wrap gap-x-[27px] gap-y-1">
+                  <div className="flex flex-wrap gap-x-4 gap-y-1">
                     {tabs.map((t) => (
                       <button
                         key={t}
                         onClick={() => setTab(t)}
-                        className={`rounded-xl px-[9px] py-[9px] text-base font-semibold leading-6 transition ${tab === t ? "bg-white shadow-sm" : "hover:bg-white/60"
+                        className={`rounded-xl px-[9px] py-[9px] text-[15px] font-semibold leading-6 transition ${tab === t ? "bg-white shadow-sm" : "hover:bg-white/60"
                           }`}
                       >
                         {t}
@@ -277,15 +277,15 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.15 }}
-                      className="mt-[34px] grid grid-cols-2 gap-x-6 gap-y-10 px-[9px] lg:grid-cols-[repeat(4,229px)] lg:gap-x-0 lg:gap-y-[58px]"
+                      className="mt-8 grid grid-cols-2 gap-x-6 gap-y-10 px-[9px] lg:grid-cols-4 lg:gap-y-12"
                     >
                       {menu[tab].map((group, gi) => (
-                        <ul key={gi} className="flex flex-col gap-[22.5px]">
+                        <ul key={gi} className="flex flex-col gap-5">
                           {group.map((l, i) => (
                             <li key={l + i}>
                               <a
                                 href="#"
-                                className="block max-w-[160px] text-base font-medium leading-6 text-[#1F1F2B] hover:underline"
+                                className="block max-w-[160px] text-[15px] font-medium leading-6 text-[#1F1F2B] hover:underline"
                               >
                                 {l}
                               </a>
@@ -302,19 +302,19 @@ export default function Navbar() {
                   initial={{ y: 12, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.1, duration: 0.3 }}
-                  className="rounded-[28px] bg-[#F0F1F3] p-7 lg:h-[670px] lg:pt-11"
+                  className="rounded-3xl bg-[#F3F4F5] p-6 lg:h-[600px] lg:p-8 lg:pt-10"
                 >
-                  <ul className="space-y-11">
+                  <ul className="space-y-9">
                     {side.map((s) => (
                       <li key={s.title}>
                         <a href="#" className="flex items-start justify-between gap-3">
                           <span className="flex gap-[11px]">
                             <span className={`mt-1 shrink-0 ${s.color}`}>{s.icon}</span>
                             <span>
-                              <span className="block text-base font-semibold leading-6">
+                              <span className="block text-[15px] font-semibold leading-6">
                                 {s.title}
                               </span>
-                              <span className="mt-[5px] block text-sm leading-[18px] text-black/55">
+                              <span className="mt-[5px] block text-[13px] leading-[18px] text-black/55">
                                 {s.text}
                               </span>
                             </span>
@@ -330,8 +330,8 @@ export default function Navbar() {
               </div>
 
               {/* Pie del menú */}
-              <div className="mt-[50px] flex flex-col items-start justify-between gap-4 pb-8 text-sm text-black/60 sm:flex-row sm:items-center">
-                <div className="flex gap-[45px] pl-[11px]">
+              <div className="mt-14 flex flex-col items-start justify-between gap-4 pb-12 text-[13px] text-black/60 sm:flex-row sm:items-center">
+                <div className="flex gap-8 pl-[11px]">
                   {socials.map((icon, i) => (
                     <a key={i} href="#" className="transition hover:text-black">
                       {icon}
