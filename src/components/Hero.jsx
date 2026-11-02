@@ -11,7 +11,7 @@ export default function Hero() {
   const imageScale = useTransform(
     scrollY,
     [0, 500],
-    [1, 0.7]
+    [1, 0.95]
   );
 
   return (
@@ -23,6 +23,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
+
         >
           <h1 className="text-center text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
             Lorem Ipsum
@@ -52,9 +53,9 @@ export default function Hero() {
 
 
         <motion.div
-          initial={{ opacity: 0.9, scale: 0.97 }}
+          initial={{ opacity: 0.0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 4, ease: "easeOut" }}
+          transition={{ duration: 1, ease: "easeOut" }}
         >
 
           {/* Imagen con efecto scroll */}
@@ -70,7 +71,7 @@ export default function Hero() {
                 src="https://images.pexels.com/photos/17445328/pexels-photo-17445328.jpeg"
                 alt="Paisaje de viaje"
                 loading="eager"
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover rounded-2xl"
               />
             </div>
           </motion.div>
