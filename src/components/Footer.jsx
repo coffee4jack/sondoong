@@ -8,6 +8,7 @@ const columns = [
   { title: "Soluciones para ciudades", links: ["Nuestra misión", "Estaciones de carga"] },
 ];
 
+
 export default function Footer() {
   return (
     <footer className="bg-[#0d0f0e] text-white">
