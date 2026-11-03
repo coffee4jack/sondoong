@@ -58,6 +58,7 @@ export default function Hero() {
           transition={{ duration: 1, ease: "easeOut" }}
         >
 
+
           {/* Imagen con efecto scroll */}
           <motion.div
             style={{
