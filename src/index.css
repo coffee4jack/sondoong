@@ -4,10 +4,14 @@
 /* Paleta y tipografía de la app móvil */
 @theme {
   --font-sans: "PT Sans", ui-sans-serif, system-ui, sans-serif;
-  --color-ink: #010f1c;   /* azul oscuro */
-  --color-brand: #3bb77e; /* verde */
-  --color-mute: #999999;  /* gris */
-  --color-sand: #ede9e0;  /* crema */
+  --color-ink: #010f1c;
+  /* azul oscuro */
+  --color-brand: #3bb77e;
+  /* verde */
+  --color-mute: #999999;
+  /* gris */
+  --color-sand: #ffffff;
+  /* crema */
 }
 
 html {
@@ -21,7 +25,19 @@ body {
 
 /* Impresión: solo se imprime el contenido marcado con .print-area */
 @media print {
-  body * { visibility: hidden; }
-  .print-area, .print-area * { visibility: visible; }
-  .print-area { position: absolute; left: 0; top: 0; width: 100%; }
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
 }
