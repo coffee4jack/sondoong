@@ -1,7 +1,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 
-import Button from "./buttons/Button";
+import Button from "../buttons/Button";
 
 export default function Hero() {
   // Detectar el desplazamiento de la página
@@ -16,7 +16,7 @@ export default function Hero() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-white pt-20">
+      <section className="relative overflow-hidden bg-sand pt-20">
 
         {/* Contenido principal */}
         <motion.div
@@ -29,24 +29,15 @@ export default function Hero() {
             Lorem Ipsum
           </h1>
 
-          <p className="mx-auto mt-5 max-w-md text-center text-lg text-black/60">
+          <p className="mx-auto mt-5 max-w-md text-center text-lg text-ink/60">
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
             Quisquam, quod.
           </p>
 
           {/* Botones */}
-          <div className="mx-auto flex items-center justify-center gap-4 p-6">
-            <Button
-              title="Reservar Ahora"
-              color="#498a4c"
-              textColor="white"
-            />
-
-            <Button
-              title="Reservar Ahora"
-              color="#ebebeb"
-              textColor="#000000"
-            />
+          <div className="mx-auto flex items-center justify-center gap-3 p-6">
+            <Button size="lg">Reservar Ahora</Button>
+            <Button size="lg" variant="light">Reservar Ahora</Button>
           </div>
         </motion.div>
 
@@ -57,7 +48,6 @@ export default function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
         >
-
 
           {/* Imagen con efecto scroll */}
           <motion.div

@@ -7,10 +7,10 @@ const items = [
     title: "Viajes",
     text: "Pide en segundos, viaja en minutos.",
     cta: "Empezar",
-    bg: "bg-[#04170f]",
+    bg: "bg-ink",
     textColor: "text-white",
     sub: "text-white/70",
-    btn: "bg-[#2a8c5e] text-white",
+    btn: "bg-brand text-ink",
     href: "#",
   },
   {
@@ -18,10 +18,10 @@ const items = [
     title: "Comida",
     text: "Tus restaurantes favoritos, entregados rápido.",
     cta: "Ir a Comida",
-    bg: "bg-[#1b3a2a]",
+    bg: "bg-ink",
     textColor: "text-white",
     sub: "text-white/80",
-    btn: "bg-[#2a8c5e] text-white",
+    btn: "bg-brand text-ink",
     href: "#",
   },
   {
@@ -29,10 +29,10 @@ const items = [
     title: "Scooters",
     text: "Recorre la ciudad en scooters eléctricos, sin tráfico.",
     cta: "Ir a Scooters",
-    bg: "bg-[#12331f]",
+    bg: "bg-ink",
     textColor: "text-white",
     sub: "text-white/80",
-    btn: "bg-[#e3fbe9] text-black",
+    btn: "bg-white text-ink",
     href: "#",
   },
   {
@@ -40,10 +40,10 @@ const items = [
     title: "Tiendas",
     text: "Supermercado y esenciales cuando los necesites.",
     cta: "Ir a Tiendas",
-    bg: "bg-[#eaf7ef]",
-    textColor: "text-[#0f1f17]",
-    sub: "text-[#0f1f17]/70",
-    btn: "bg-[#0a2416] text-white",
+    bg: "bg-white",
+    textColor: "text-ink",
+    sub: "text-ink/70",
+    btn: "bg-ink text-white",
     href: "#",
   },
 ];
@@ -71,17 +71,17 @@ export default function Services() {
   };
 
   const arrow =
-    "flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-lg text-black transition hover:bg-black hover:text-white disabled:cursor-default disabled:opacity-30 disabled:hover:bg-black/5 disabled:hover:text-black";
+    "flex h-9 w-9 items-center justify-center rounded-full bg-ink/5 text-lg text-ink transition hover:bg-ink hover:text-white disabled:cursor-default disabled:opacity-30 disabled:hover:bg-ink/5 disabled:hover:text-ink";
 
   return (
-    <section className="bg-[#f5f8f6] py-16">
+    <section className="bg-sand py-16">
       <div className="mx-auto max-w-7xl px-5">
         {/* Encabezado centrado */}
         <div className="mx-auto max-w-xl text-center">
-          <h2 className="text-4xl font-extrabold tracking-tight text-[#0f1f17] sm:text-5xl">
+          <h2 className="text-4xl font-bold tracking-tight text-ink sm:text-5xl">
             Nuestros servicios
           </h2>
-          <p className="mt-4 text-sm text-black/60">
+          <p className="mt-4 text-sm text-ink/60">
             Los productos y funciones varían según el país. Algunas funciones
             pueden no estar disponibles en tu app.
           </p>
@@ -111,18 +111,18 @@ export default function Services() {
               />
               <div
                 className={`absolute inset-0 ${i.textColor === "text-white"
-                    ? "bg-gradient-to-b from-black/70 via-black/10 to-black/20"
+                    ? "bg-gradient-to-b from-ink/70 via-ink/10 to-ink/20"
                     : "bg-gradient-to-b from-white/90 via-white/30 to-transparent"
                   }`}
               />
 
               {/* Contenido */}
               <div className={`relative z-10 p-6 ${i.textColor}`}>
-                <h3 className="text-lg font-semibold">{i.title}</h3>
+                <h3 className="text-lg font-bold">{i.title}</h3>
                 <p className={`mt-2 text-sm leading-snug ${i.sub}`}>{i.text}</p>
                 <a
                   href={i.href}
-                  className={`mt-5 inline-flex h-9 items-center rounded-lg px-4 text-xs font-semibold transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2a8c5e] ${i.btn}`}
+                  className={`mt-5 inline-flex h-9 items-center rounded-lg px-4 text-xs font-bold transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${i.btn}`}
                 >
                   {i.cta}
                 </a>

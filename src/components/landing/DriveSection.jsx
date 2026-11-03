@@ -6,7 +6,7 @@ const IMAGE =
 
 export default function DriveSection() {
   return (
-    <section className="overflow-hidden bg-[#0d0f0e] text-white">
+    <section className="overflow-hidden bg-ink text-white">
       {/* Texto centrado */}
       <div className="mx-auto max-w-3xl px-5 pt-20 text-center sm:pt-24">
         <motion.h2
@@ -14,7 +14,7 @@ export default function DriveSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-5xl font-extrabold tracking-tight sm:text-7xl"
+          className="text-5xl font-bold tracking-tight sm:text-7xl"
         >
           Conduce con Bolt
         </motion.h2>
@@ -28,7 +28,7 @@ export default function DriveSection() {
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          className="mt-10 rounded-xl bg-[#2a8c5e] px-8 py-4 text-base font-semibold text-white transition hover:bg-[#31a06c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#34D186]"
+          className="mt-10 rounded-xl bg-brand px-8 py-4 text-base font-bold text-ink transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
         >
           Regístrate como conductor
         </motion.button>
@@ -43,9 +43,9 @@ export default function DriveSection() {
           className="absolute inset-0 h-full w-full object-cover object-center"
         />
         {/* Degradado para fundir la imagen con el fondo oscuro */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0d0f0e] via-transparent to-transparent" />
-        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#0d0f0e] to-transparent sm:w-48" />
-        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#0d0f0e] to-transparent sm:w-48" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink via-transparent to-transparent" />
+        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-ink to-transparent sm:w-48" />
+        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-ink to-transparent sm:w-48" />
       </div>
     </section>
   );

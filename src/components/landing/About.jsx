@@ -10,26 +10,26 @@ const rides = [
 
 export default function About() {
     return (
-        <section id="nosotros" className="overflow-hidden bg-[#21804f] text-white">
+        <section id="nosotros" className="overflow-hidden bg-brand text-ink">
             <div className="mx-auto max-w-4xl px-5 pt-20 text-center sm:pt-24">
-                <p className="text-sm font-semibold text-white/60">Sobre nosotros</p>
+                <p className="text-sm font-bold text-ink/70">Sobre nosotros</p>
                 <motion.h2
                     initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="mt-4 text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-7xl"
+                    className="mt-4 text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl"
                 >
                     La primera super-app de movilidad.
                 </motion.h2>
-                <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/90 sm:text-lg">
+                <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-ink sm:text-lg">
                     Hacemos ciudades para las personas, con mejores alternativas para
                     cada uso de un auto privado: viajes, autos compartidos, scooters y
                     entrega de comida y supermercado.
                 </p>
                 <a
                     href="#mision"
-                    className="mt-8 inline-flex h-12 items-center rounded-xl bg-[#e3fbe9] px-7 text-base font-semibold text-black transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                    className="mt-8 inline-flex h-12 items-center rounded-xl bg-white px-7 text-base font-bold text-ink transition hover:bg-sand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                 >
                     Nuestra misión
                 </a>
@@ -42,21 +42,21 @@ export default function About() {
                 aria-hidden="true"
             >
                 <div
-                    className="mx-auto w-full max-w-xl rounded-[2.5rem] border-[10px] border-[#0b1a12] bg-[#ececec] p-5 text-[#0d0f0e] shadow-2xl"
+                    className="mx-auto w-full max-w-xl rounded-[2.5rem] border-[10px] border-ink bg-white p-5 text-ink shadow-2xl"
                     style={{ transform: "rotateX(38deg)", transformOrigin: "top center" }}
                 >
-                    <div className="mx-auto mb-4 h-1 w-16 rounded-full bg-black/20" />
+                    <div className="mx-auto mb-4 h-1 w-16 rounded-full bg-ink/20" />
                     <ul>
                         {rides.map((r, i) => (
                             <li
                                 key={r.name}
-                                className={`flex items-center justify-between border-b border-black/10 px-3 py-3 ${i === 0 ? "rounded-lg border border-[#21804f]" : ""
+                                className={`flex items-center justify-between border-b border-ink/10 px-3 py-3 ${i === 0 ? "rounded-lg border border-brand" : ""
                                     }`}
                             >
                                 <div>
                                     <p className="text-sm font-bold">{r.name}</p>
-                                    <p className="text-xs text-black/60">{r.info}</p>
-                                    <p className="text-xs text-black/60">{r.desc}</p>
+                                    <p className="text-xs text-ink/60">{r.info}</p>
+                                    <p className="text-xs text-ink/60">{r.desc}</p>
                                 </div>
                                 <span className="text-sm font-bold">{r.price}</span>
                             </li>

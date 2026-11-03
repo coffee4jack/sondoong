@@ -29,12 +29,12 @@ const blocks = [
 
 export default function Business() {
   return (
-    <section id="gana" className="bg-[#f7f9f8] py-20">
+    <section id="gana" className="bg-sand py-20">
       <div className="mx-auto max-w-6xl px-5">
-        <h2 className="text-4xl font-extrabold tracking-tight text-[#0f1f17] sm:text-5xl">
+        <h2 className="text-4xl font-bold tracking-tight text-ink sm:text-5xl">
           Gana dinero con Bolt
         </h2>
-        <p className="mt-6 max-w-3xl text-lg leading-relaxed text-black/60">
+        <p className="mt-6 max-w-3xl text-lg leading-relaxed text-ink/60">
           Únete a más de 4,5 millones de socios en todo el mundo que ganan con
           Bolt. Para conductores, repartidores, comercios y dueños de flotas
           que buscan nuevas formas de aumentar sus ingresos.
@@ -58,16 +58,16 @@ export default function Business() {
                   }`}
               />
               <div className={i % 2 === 1 ? "md:order-1" : ""}>
-                <p className="text-sm font-semibold text-black/60">{b.eyebrow}</p>
-                <h3 className="mt-2 text-2xl font-bold tracking-tight text-[#0f1f17] sm:text-3xl">
+                <p className="text-sm font-bold text-ink/60">{b.eyebrow}</p>
+                <h3 className="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
                   {b.title}
                 </h3>
-                <p className="mt-4 max-w-md text-base leading-relaxed text-black/60">
+                <p className="mt-4 max-w-md text-base leading-relaxed text-ink/60">
                   {b.text}
                 </p>
                 <a
                   href="#"
-                  className="mt-8 inline-flex h-12 items-center rounded-xl bg-[#2a8c5e] px-6 text-sm font-semibold text-white transition hover:bg-[#31a06c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2a8c5e]"
+                  className="mt-8 inline-flex h-12 items-center rounded-xl bg-brand px-6 text-sm font-bold text-ink transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
                 >
                   {b.cta}
                 </a>

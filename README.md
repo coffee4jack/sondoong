@@ -1,98 +1,57 @@
-# Bolt Landing Page
+# Bolt · Landing y Portal del comercio
 
-Landing page de movilidad y entregas inspirada en el diseño de Bolt. Es un proyecto de práctica de frontend, no un sitio oficial.
+Landing page de movilidad y entregas, más el portal del comercio. Proyecto de práctica de frontend, no es un sitio oficial.
 
-Hecha con:
-
-- [Vite](https://vite.dev) como bundler y servidor de desarrollo
-- [React 19](https://react.dev) usando **solo JavaScript** (archivos `.jsx` / `.js`)
-- [Tailwind CSS v4](https://tailwindcss.com) mediante el plugin `@tailwindcss/vite`
-- [Framer Motion](https://motion.dev) para las animaciones
+Hecho con Vite, React 19, Tailwind CSS v4, Framer Motion y react-router-dom. Colores y tipografía (PT Sans) tomados de la app móvil.
 
 ## Requisitos
 
-- Node.js **20.19 o superior** (recomendado: 22 LTS o más nuevo)
-- npm (viene incluido con Node.js)
+Node.js 20.19 o superior.
 
-Para revisar tus versiones:
-
-```bash
-node -v
-npm -v
-```
-
-## Cómo correrlo en local
+## Correrlo
 
 ```bash
-# 1. Clonar el repositorio
-git clone <url-del-repositorio>
-cd <carpeta-del-proyecto>
-
-# 2. Instalar dependencias
 npm install
-
-# 3. Iniciar el servidor de desarrollo
 npm run dev
 ```
 
-Después abre la URL que muestre la terminal en el navegador (normalmente [http://localhost:5173](http://localhost:5173), o el puerto que tengas configurado en `vite.config.js`). Los cambios se ven al instante gracias al Hot Module Replacement de Vite.
+Abre la URL que muestre la terminal (normalmente http://localhost:5173).
 
-## Scripts disponibles
+| Comando           | Qué hace                                  |
+| ----------------- | ----------------------------------------- |
+| `npm run dev`     | Servidor de desarrollo                    |
+| `npm run build`   | Build de producción en `dist/`            |
+| `npm run preview` | Sirve la build para revisarla             |
 
-| Comando           | Qué hace                                              |
-| ----------------- | ----------------------------------------------------- |
-| `npm run dev`     | Inicia el servidor de desarrollo                      |
-| `npm run build`   | Genera la versión de producción en la carpeta `dist/` |
-| `npm run preview` | Sirve localmente la build de `dist/` para revisarla   |
+## Rutas
 
-## Secciones de la página
+| Ruta                     | Contenido                         |
+| ------------------------ | --------------------------------- |
+| `/`                      | Landing                           |
+| `/portal/pedidos`        | Panel de pedidos, alertas, impresión y chat |
+| `/portal/catalogo`       | Catálogo y existencias            |
+| `/portal/horarios`       | Pausas y horarios                 |
+| `/portal/historial`      | Historial con filtros             |
+| `/portal/reportes`       | Reportes                          |
+| `/portal/liquidaciones`  | Liquidaciones (solo lectura)      |
+| `/portal/mensajes`       | Comunicación por pedido           |
 
-El orden en el que aparecen está definido en `src/main.jsx`:
-
-| Orden | Componente         | Qué muestra                                                  |
-| ----- | ------------------ | ------------------------------------------------------------ |
-| 1     | `Navbar.jsx`       | Barra superior y menú desplegable a pantalla completa        |
-| 2     | `Hero.jsx`         | Portada con el mensaje principal                             |
-| 3     | `Services.jsx`     | "Nuestros servicios": carrusel de tarjetas                   |
-| 4     | `DriveSection.jsx` | Sección oscura con llamada a registrarse como conductor      |
-| 5     | `About.jsx`        | "Sobre nosotros" sobre fondo verde, con teléfono en perspectiva |
-| 6     | `Business.jsx`     | "Gana dinero con Bolt": conductores, repartidores y comercios |
-| 7     | `Boltsend.jsx`     | Bolt Send, entrega de paquetes                               |
-| 8     | `AppDownload.jsx`  | "Descarga nuestras apps", con pestañas                       |
-| 9     | `News.jsx`         | "Noticias y novedades"                                       |
-| 10    | `Footer.jsx`       | Pie de página con enlaces                                    |
-
-## Estructura del proyecto
+## Estructura
 
 ```
-.
-├── index.html              # Punto de entrada HTML (metadatos, fuentes)
-├── vite.config.js          # Configuración de Vite (React + Tailwind)
-├── public/                 # Archivos estáticos (íconos, favicon)
-└── src/
-    ├── main.jsx            # Monta la app y ordena las secciones
-    ├── index.css           # Tailwind CSS y estilos globales
-    └── components/
-        ├── Navbar.jsx
-        ├── Hero.jsx
-        ├── Services.jsx
-        ├── DriveSection.jsx
-        ├── About.jsx
-        ├── Business.jsx
-        ├── Boltsend.jsx
-        ├── AppDownload.jsx
-        ├── News.jsx
-        └── Footer.jsx
+src/
+├── main.jsx, App.jsx, index.css
+├── pages/            Landing.jsx y pages/portal/*
+├── components/
+│   ├── buttons/      Button.jsx
+│   ├── landing/      Navbar, Hero, Services, ...
+│   └── portal/       PortalLayout, ui, Chat
+├── data/portal.js    Datos de ejemplo del portal
+├── hooks/, lib/
 ```
 
-## Editar el contenido
-
-Cada componente guarda su contenido (textos, enlaces e imágenes) en arreglos o constantes al inicio del archivo, por ejemplo `items` en `Services.jsx`, `blocks` en `Business.jsx`, `featured` y `list` en `News.jsx` o `columns` en `Footer.jsx`. Para cambiar un texto o una imagen, edita esos datos sin tocar el JSX.
-
-Las imágenes actuales son de ejemplo (Pexels y Unsplash). Antes de publicar, reemplázalas por las tuyas.
+Los colores se definen en `src/index.css` (bloque `@theme`): `ink`, `brand`, `mute` y `sand`.
 
 ## Despliegue
 
-El proyecto se puede desplegar en [Vercel](https://vercel.com), que reconoce Vite automáticamente, ejecuta `npm run build` y publica la carpeta `dist/`. También funciona en cualquier hosting estático (Netlify, GitHub Pages, etc.) si subes el contenido de `dist/`.
-
-> Los servidores de Linux distinguen mayúsculas y minúsculas. Asegúrate de que el nombre de cada archivo coincida exactamente con su `import` (por ejemplo `Boltsend.jsx`), o el build puede fallar en producción aunque funcione en tu equipo.
+`vercel.json` incluye el rewrite que necesitan las rutas de react-router. Los datos del portal son de ejemplo y no se guardan al recargar.

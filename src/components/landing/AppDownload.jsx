@@ -24,10 +24,10 @@ export default function AppDownload() {
   const t = tabs[active];
 
   return (
-    <section id="app" className="bg-[#0d0f0e] py-20 text-white">
+    <section id="app" className="bg-ink py-20 text-white">
       <div className="mx-auto max-w-6xl px-5">
         <div className="text-center">
-          <h2 className="text-4xl font-extrabold tracking-tight sm:text-6xl">
+          <h2 className="text-4xl font-bold tracking-tight sm:text-6xl">
             Descarga nuestras apps
           </h2>
           <p className="mt-5 text-base text-white/60 sm:text-lg">
@@ -38,13 +38,13 @@ export default function AppDownload() {
         <div className="mt-16 grid items-center gap-12 md:grid-cols-2">
           {/* Teléfono con íconos */}
           <div
-            className="relative mx-auto h-[320px] w-full max-w-[420px] overflow-hidden rounded-tl-[3rem] border-l-[14px] border-t-[14px] border-[#1f9d63] bg-black p-8"
+            className="relative mx-auto h-[320px] w-full max-w-[420px] overflow-hidden rounded-tl-[3rem] border-l-[14px] border-t-[14px] border-brand bg-ink p-8"
             aria-hidden="true"
           >
             <div className="grid grid-cols-3 gap-5">
               {apps.map((a) => (
                 <div key={a.name} className="text-center">
-                  <div className="flex aspect-square items-center justify-center rounded-2xl bg-[#1f9d63] text-sm font-extrabold leading-tight">
+                  <div className="flex aspect-square items-center justify-center rounded-2xl bg-brand text-ink text-sm font-bold leading-tight">
                     {a.label}
                   </div>
                   <p className="mt-2 text-xs text-white/70">{a.name}</p>
@@ -62,8 +62,8 @@ export default function AppDownload() {
                   role="tab"
                   aria-selected={active === k}
                   onClick={() => setActive(k)}
-                  className={`-mb-px border-b-2 px-4 py-2 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#34D186] ${active === k
-                      ? "border-[#2a8c5e] text-white"
+                  className={`-mb-px border-b-2 px-4 py-2 text-sm font-bold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand ${active === k
+                      ? "border-brand text-white"
                       : "border-transparent text-white/60 hover:text-white"
                     }`}
                 >
@@ -78,7 +78,7 @@ export default function AppDownload() {
             <p className="mt-4 text-base text-white/60">{t.text}</p>
             <a
               href="#"
-              className="mt-8 inline-flex h-12 items-center rounded-xl bg-[#2a8c5e] px-6 text-sm font-semibold text-white transition hover:bg-[#31a06c] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#34D186]"
+              className="mt-8 inline-flex h-12 items-center rounded-xl bg-brand px-6 text-sm font-bold text-ink transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
             >
               {t.cta}
             </a>

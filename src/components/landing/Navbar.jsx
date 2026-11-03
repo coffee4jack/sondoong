@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 /* ---------- Datos del menú ---------- */
@@ -78,7 +79,7 @@ const side = [
   {
     title: "Become a driver",
     text: "Make money on your terms",
-    color: "text-[#3B4BDB]",
+    color: "text-ink",
     icon: (
       <Svg>
         <circle cx="12" cy="7" r="3.5" />
@@ -89,7 +90,7 @@ const side = [
   {
     title: "Become a courier",
     text: "Deliver food and get paid weekly",
-    color: "text-[#2A8C5A]",
+    color: "text-ink",
     icon: (
       <Svg>
         <circle cx="6" cy="17" r="3" />
@@ -101,7 +102,7 @@ const side = [
   {
     title: "Add a restaurant or store",
     text: "Reach more customers and increase earnings",
-    color: "text-[#2A8C5A]",
+    color: "text-ink",
     icon: (
       <Svg>
         <path d="M7 3v8M4 3v5a3 3 0 006 0V3M7 11v10M17 3c-2 2-3 5-3 8h3v10" />
@@ -111,7 +112,7 @@ const side = [
   {
     title: "Sign up as a fleet owner",
     text: "Add your fleet to Bolt and boost your income",
-    color: "text-[#2A8C5A]",
+    color: "text-ink",
     icon: (
       <Svg>
         <path d="M5 16V11l2-5h10l2 5v5M3 16h18v3H3zM7 13h.01M17 13h.01" />
@@ -121,7 +122,7 @@ const side = [
   {
     title: "Bolt for Business",
     text: "Bolt products and services scaled-up for your business",
-    color: "text-[#2A8C5A]",
+    color: "text-ink",
     icon: (
       <Svg>
         <rect x="3" y="7" width="18" height="13" rx="2" />
@@ -154,13 +155,13 @@ const socials = [
 
 /* ---------- Logo ---------- */
 const Logo = () => (
-  <a
-    href="#"
-    className="relative text-[28px] font-extrabold leading-none tracking-tighter text-[#1F1F2B]"
+  <Link
+    to="/"
+    className="relative text-[28px] font-bold leading-none tracking-tighter text-ink"
   >
     Bolt
-    <span className="absolute -bottom-1 left-[17px] h-[5px] w-[5px] rounded-full bg-[#1F1F2B]" />
-  </a>
+    <span className="absolute -bottom-1 left-[17px] h-[5px] w-[5px] rounded-full bg-ink" />
+  </Link>
 );
 
 /* Contenedor común: más angosto, con margen a los lados */
@@ -186,6 +187,12 @@ export default function Navbar() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // Cierra el menú al navegar a otra ruta
+  const { pathname } = useLocation();
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
   return (
     <>
       {/* Barra superior */}
@@ -199,8 +206,8 @@ export default function Navbar() {
             <Logo />
 
             <div className="flex items-center gap-5 sm:gap-7">
-              <button className="flex items-center gap-2.5 text-sm font-semibold">
-                <span className="flex h-[18px] w-[26px] items-center justify-center rounded-[4px] bg-[#1479F5] text-white">
+              <button className="flex items-center gap-2.5 text-sm font-bold">
+                <span className="flex h-[18px] w-[26px] items-center justify-center rounded-[4px] bg-ink text-white">
                   <Globe />
                 </span>
                 EN
@@ -209,8 +216,11 @@ export default function Navbar() {
               <a href="#" className="hidden text-sm font-medium sm:block">
                 Support
               </a>
+              <Link to="/portal" className="hidden text-sm font-medium sm:block">
+                Para comercios
+              </Link>
 
-              <button className="rounded-full bg-[#2B2B3B] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1F1F2B]">
+              <button className="rounded-full bg-ink px-4 py-2 text-sm font-bold text-white transition hover:bg-ink/85">
                 Register
               </button>
 
@@ -243,7 +253,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-[#F9FAFA] pt-[113px]"
+            className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-sand pt-[113px]"
           >
             <div className={CONTAINER}>
               {/* Paneles: principal flexible + lateral de 280px */}
@@ -253,7 +263,7 @@ export default function Navbar() {
                   initial={{ y: 12, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.05, duration: 0.3 }}
-                  className="rounded-3xl bg-[#F3F4F5] p-6 lg:h-[600px] lg:p-8"
+                  className="rounded-3xl bg-white p-6 lg:h-[600px] lg:p-8"
                 >
                   {/* Pestañas */}
                   <div className="flex flex-wrap gap-x-4 gap-y-1">
@@ -261,7 +271,7 @@ export default function Navbar() {
                       <button
                         key={t}
                         onClick={() => setTab(t)}
-                        className={`rounded-xl px-[9px] py-[9px] text-[15px] font-semibold leading-6 transition ${tab === t ? "bg-white shadow-sm" : "hover:bg-white/60"
+                        className={`rounded-xl px-[9px] py-[9px] text-[15px] font-bold leading-6 transition ${tab === t ? "bg-brand text-ink" : "hover:bg-sand"
                           }`}
                       >
                         {t}
@@ -285,7 +295,7 @@ export default function Navbar() {
                             <li key={l + i}>
                               <a
                                 href="#"
-                                className="block max-w-[160px] text-[15px] font-medium leading-6 text-[#1F1F2B] hover:underline"
+                                className="block max-w-[160px] text-[15px] font-medium leading-6 text-ink hover:underline"
                               >
                                 {l}
                               </a>
@@ -302,7 +312,7 @@ export default function Navbar() {
                   initial={{ y: 12, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.1, duration: 0.3 }}
-                  className="rounded-3xl bg-[#F3F4F5] p-6 lg:h-[600px] lg:p-8 lg:pt-10"
+                  className="rounded-3xl bg-white p-6 lg:h-[600px] lg:p-8 lg:pt-10"
                 >
                   <ul className="space-y-9">
                     {side.map((s) => (
@@ -311,10 +321,10 @@ export default function Navbar() {
                           <span className="flex gap-[11px]">
                             <span className={`mt-1 shrink-0 ${s.color}`}>{s.icon}</span>
                             <span>
-                              <span className="block text-[15px] font-semibold leading-6">
+                              <span className="block text-[15px] font-bold leading-6">
                                 {s.title}
                               </span>
-                              <span className="mt-[5px] block text-[13px] leading-[18px] text-black/55">
+                              <span className="mt-[5px] block text-[13px] leading-[18px] text-ink/65">
                                 {s.text}
                               </span>
                             </span>
@@ -330,18 +340,18 @@ export default function Navbar() {
               </div>
 
               {/* Pie del menú */}
-              <div className="mt-14 flex flex-col items-start justify-between gap-4 pb-12 text-[13px] text-black/60 sm:flex-row sm:items-center">
+              <div className="mt-14 flex flex-col items-start justify-between gap-4 pb-12 text-[13px] text-ink/60 sm:flex-row sm:items-center">
                 <div className="flex gap-8 pl-[11px]">
                   {socials.map((icon, i) => (
-                    <a key={i} href="#" className="transition hover:text-black">
+                    <a key={i} href="#" className="transition hover:text-ink">
                       {icon}
                     </a>
                   ))}
                 </div>
                 <div className="flex flex-wrap items-center gap-x-[18px] gap-y-1">
-                  <a href="#" className="hover:text-black">Terms &amp; Conditions</a>
-                  <a href="#" className="hover:text-black">Privacy</a>
-                  <a href="#" className="hover:text-black">Cookies</a>
+                  <a href="#" className="hover:text-ink">Terms &amp; Conditions</a>
+                  <a href="#" className="hover:text-ink">Privacy</a>
+                  <a href="#" className="hover:text-ink">Cookies</a>
                   <span>© {new Date().getFullYear()} Bolt Technology OÜ</span>
                 </div>
               </div>
