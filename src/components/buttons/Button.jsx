@@ -6,7 +6,7 @@ const base =
 const variants = {
   primary: "bg-brand text-ink hover:brightness-110",
   dark: "bg-ink text-white hover:bg-ink/85",
-  light: "bg-white text-ink hover:bg-white/80",
+  light: "border border-ink/15 bg-white text-ink hover:bg-ink/5",
   outline: "border border-mute bg-transparent text-ink hover:bg-ink/5",
 };
 
@@ -27,6 +27,7 @@ export default function Button({
   pill = false,
   to,
   href,
+  type = "button",
   children,
   text,
   title,
@@ -36,7 +37,21 @@ export default function Button({
   const cls = `${base} ${variants[variant]} ${sizes[size]} ${pill ? "rounded-full" : "rounded-xl"} ${className}`;
   const label = children ?? text ?? title;
 
-  if (to) return <Link to={to} className={cls} {...rest}>{label}</Link>;
-  if (href) return <a href={href} className={cls} {...rest}>{label}</a>;
-  return <button type="button" className={cls} {...rest}>{label}</button>;
+  if (to)
+    return (
+      <Link to={to} className={cls} {...rest}>
+        {label}
+      </Link>
+    );
+  if (href)
+    return (
+      <a href={href} className={cls} {...rest}>
+        {label}
+      </a>
+    );
+  return (
+    <button type={type} className={cls} {...rest}>
+      {label}
+    </button>
+  );
 }

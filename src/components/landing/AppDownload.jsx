@@ -27,9 +27,7 @@ export default function AppDownload() {
     <section id="app" className="bg-ink py-20 text-white">
       <div className="mx-auto max-w-6xl px-5">
         <div className="text-center">
-          <h2 className="text-4xl font-bold tracking-tight sm:text-6xl">
-            Descarga nuestras apps
-          </h2>
+          <h2 className="text-4xl font-bold tracking-tight sm:text-6xl">Descarga nuestras apps</h2>
           <p className="mt-5 text-base text-white/60 sm:text-lg">
             Disponible para dispositivos iOS y Android.
           </p>
@@ -62,19 +60,18 @@ export default function AppDownload() {
                   role="tab"
                   aria-selected={active === k}
                   onClick={() => setActive(k)}
-                  className={`-mb-px border-b-2 px-4 py-2 text-sm font-bold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand ${active === k
+                  className={`-mb-px border-b-2 px-4 py-2 text-sm font-bold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand ${
+                    active === k
                       ? "border-brand text-white"
                       : "border-transparent text-white/60 hover:text-white"
-                    }`}
+                  }`}
                 >
                   {k}
                 </button>
               ))}
             </div>
 
-            <h3 className="mt-8 text-2xl font-bold tracking-tight sm:text-3xl">
-              {t.title}
-            </h3>
+            <h3 className="mt-8 text-2xl font-bold tracking-tight sm:text-3xl">{t.title}</h3>
             <p className="mt-4 text-base text-white/60">{t.text}</p>
             <a
               href="#"

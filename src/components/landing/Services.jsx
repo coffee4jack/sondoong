@@ -74,7 +74,7 @@ export default function Services() {
     "flex h-9 w-9 items-center justify-center rounded-full bg-ink/5 text-lg text-ink transition hover:bg-ink hover:text-white disabled:cursor-default disabled:opacity-30 disabled:hover:bg-ink/5 disabled:hover:text-ink";
 
   return (
-    <section className="bg-sand py-16">
+    <section className="bg-white py-16">
       <div className="mx-auto max-w-7xl px-5">
         {/* Encabezado centrado */}
         <div className="mx-auto max-w-xl text-center">
@@ -82,8 +82,8 @@ export default function Services() {
             Nuestros servicios
           </h2>
           <p className="mt-4 text-sm text-ink/60">
-            Los productos y funciones varían según el país. Algunas funciones
-            pueden no estar disponibles en tu app.
+            Los productos y funciones varían según el país. Algunas funciones pueden no estar
+            disponibles en tu app.
           </p>
         </div>
 
@@ -110,10 +110,11 @@ export default function Services() {
                 className="absolute inset-0 h-full w-full object-cover"
               />
               <div
-                className={`absolute inset-0 ${i.textColor === "text-white"
+                className={`absolute inset-0 ${
+                  i.textColor === "text-white"
                     ? "bg-gradient-to-b from-ink/70 via-ink/10 to-ink/20"
                     : "bg-gradient-to-b from-white/90 via-white/30 to-transparent"
-                  }`}
+                }`}
               />
 
               {/* Contenido */}

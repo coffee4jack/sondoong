@@ -1,7 +1,12 @@
 const MIN = 60 * 1000;
 
 export const makeOrder = (id, items, total, minutesAgo, target, priority, status = "new") => ({
-  id, items, total, target, priority, status,
+  id,
+  items,
+  total,
+  target,
+  priority,
+  status,
   enteredAt: Date.now() - minutesAgo * MIN,
 });
 
@@ -24,14 +29,86 @@ export const initialChats = {
 export const categories = ["Hamburguesas", "Pizzas", "Bebidas", "Postres"];
 
 export const initialProducts = [
-  { id: 1, name: "Hamburguesa clásica", category: "Hamburguesas", price: 125, stock: 24, available: true, options: ["Sin cebolla", "Extra queso +L 15"], image: "" },
-  { id: 2, name: "Hamburguesa doble", category: "Hamburguesas", price: 165, stock: 12, available: true, options: ["Sin cebolla"], image: "" },
-  { id: 3, name: "Pizza personal", category: "Pizzas", price: 140, stock: 8, available: true, options: ["Extra queso +L 15"], image: "" },
-  { id: 4, name: "Pollo frito", category: "Hamburguesas", price: 150, stock: 0, available: false, options: [], image: "" },
-  { id: 5, name: "Papas medianas", category: "Hamburguesas", price: 45, stock: 40, available: true, options: [], image: "" },
-  { id: 6, name: "Ensalada", category: "Pizzas", price: 95, stock: 6, available: true, options: [], image: "" },
-  { id: 7, name: "Refresco", category: "Bebidas", price: 30, stock: 60, available: true, options: ["Sin hielo"], image: "" },
-  { id: 8, name: "Brownie", category: "Postres", price: 55, stock: 0, available: false, options: [], image: "" },
+  {
+    id: 1,
+    name: "Hamburguesa clásica",
+    category: "Hamburguesas",
+    price: 125,
+    stock: 24,
+    available: true,
+    options: ["Sin cebolla", "Extra queso +L 15"],
+    image: "",
+  },
+  {
+    id: 2,
+    name: "Hamburguesa doble",
+    category: "Hamburguesas",
+    price: 165,
+    stock: 12,
+    available: true,
+    options: ["Sin cebolla"],
+    image: "",
+  },
+  {
+    id: 3,
+    name: "Pizza personal",
+    category: "Pizzas",
+    price: 140,
+    stock: 8,
+    available: true,
+    options: ["Extra queso +L 15"],
+    image: "",
+  },
+  {
+    id: 4,
+    name: "Pollo frito",
+    category: "Hamburguesas",
+    price: 150,
+    stock: 0,
+    available: false,
+    options: [],
+    image: "",
+  },
+  {
+    id: 5,
+    name: "Papas medianas",
+    category: "Hamburguesas",
+    price: 45,
+    stock: 40,
+    available: true,
+    options: [],
+    image: "",
+  },
+  {
+    id: 6,
+    name: "Ensalada",
+    category: "Pizzas",
+    price: 95,
+    stock: 6,
+    available: true,
+    options: [],
+    image: "",
+  },
+  {
+    id: 7,
+    name: "Refresco",
+    category: "Bebidas",
+    price: 30,
+    stock: 60,
+    available: true,
+    options: ["Sin hielo"],
+    image: "",
+  },
+  {
+    id: 8,
+    name: "Brownie",
+    category: "Postres",
+    price: 55,
+    stock: 0,
+    available: false,
+    options: [],
+    image: "",
+  },
 ];
 
 export const weeklyHours = [
@@ -61,19 +138,108 @@ export const historyRows = [
 ];
 
 export const reportRanges = {
-  Hoy: { sales: 3850, orders: 24, cancels: 1, prep: 13, rating: 4.8, reviews: 9, commission: 770, bars: [["9h", 300], ["11h", 650], ["13h", 1100], ["15h", 500], ["17h", 600], ["19h", 700]] },
-  "7 días": { sales: 21400, orders: 138, cancels: 4, prep: 14, rating: 4.7, reviews: 52, commission: 4280, bars: [["Lun", 2600], ["Mar", 2900], ["Mié", 3100], ["Jue", 3300], ["Vie", 4200], ["Sáb", 3800], ["Dom", 1500]] },
-  "30 días": { sales: 48250, orders: 312, cancels: 9, prep: 14, rating: 4.7, reviews: 185, commission: 9650, bars: [["Sem 1", 10900], ["Sem 2", 12400], ["Sem 3", 11300], ["Sem 4", 13650]] },
+  Hoy: {
+    sales: 3850,
+    orders: 24,
+    cancels: 1,
+    prep: 13,
+    rating: 4.8,
+    reviews: 9,
+    commission: 770,
+    bars: [
+      ["9h", 300],
+      ["11h", 650],
+      ["13h", 1100],
+      ["15h", 500],
+      ["17h", 600],
+      ["19h", 700],
+    ],
+  },
+  "7 días": {
+    sales: 21400,
+    orders: 138,
+    cancels: 4,
+    prep: 14,
+    rating: 4.7,
+    reviews: 52,
+    commission: 4280,
+    bars: [
+      ["Lun", 2600],
+      ["Mar", 2900],
+      ["Mié", 3100],
+      ["Jue", 3300],
+      ["Vie", 4200],
+      ["Sáb", 3800],
+      ["Dom", 1500],
+    ],
+  },
+  "30 días": {
+    sales: 48250,
+    orders: 312,
+    cancels: 9,
+    prep: 14,
+    rating: 4.7,
+    reviews: 185,
+    commission: 9650,
+    bars: [
+      ["Sem 1", 10900],
+      ["Sem 2", 12400],
+      ["Sem 3", 11300],
+      ["Sem 4", 13650],
+    ],
+  },
 };
 
 export const settlements = [
-  { id: "L-2026-11A", period: "1 – 15 nov 2026", status: "Pendiente de pago", gross: 48250, commission: 9650, adjustments: [["Ajuste por devolución #A239E004", -320]] },
-  { id: "L-2026-10B", period: "16 – 31 oct 2026", status: "Pagada", gross: 51200, commission: 10240, adjustments: [["Bono por tiempo de preparación", 400]] },
-  { id: "L-2026-10A", period: "1 – 15 oct 2026", status: "Pagada", gross: 44800, commission: 8960, adjustments: [] },
+  {
+    id: "L-2026-11A",
+    period: "1 – 15 nov 2026",
+    status: "Pendiente de pago",
+    gross: 48250,
+    commission: 9650,
+    adjustments: [["Ajuste por devolución #A239E004", -320]],
+  },
+  {
+    id: "L-2026-10B",
+    period: "16 – 31 oct 2026",
+    status: "Pagada",
+    gross: 51200,
+    commission: 10240,
+    adjustments: [["Bono por tiempo de preparación", 400]],
+  },
+  {
+    id: "L-2026-10A",
+    period: "1 – 15 oct 2026",
+    status: "Pagada",
+    gross: 44800,
+    commission: 8960,
+    adjustments: [],
+  },
 ];
 
 export const threads = [
-  { id: 1, orderId: "A23B567K", with: "Operaciones", messages: [{ from: "them", text: "¿Cuánto tarda el pedido?" }, { from: "me", text: "Estará listo en 15 min." }] },
-  { id: 2, orderId: "A23A640P", with: "Repartidor", messages: [{ from: "them", text: "Ya estoy en la puerta." }] },
-  { id: 3, orderId: "A239F118", with: "Operaciones", messages: [{ from: "me", text: "Falta confirmar el reembolso." }, { from: "them", text: "Lo revisamos hoy." }] },
+  {
+    id: 1,
+    orderId: "A23B567K",
+    with: "Operaciones",
+    messages: [
+      { from: "them", text: "¿Cuánto tarda el pedido?" },
+      { from: "me", text: "Estará listo en 15 min." },
+    ],
+  },
+  {
+    id: 2,
+    orderId: "A23A640P",
+    with: "Repartidor",
+    messages: [{ from: "them", text: "Ya estoy en la puerta." }],
+  },
+  {
+    id: 3,
+    orderId: "A239F118",
+    with: "Operaciones",
+    messages: [
+      { from: "me", text: "Falta confirmar el reembolso." },
+      { from: "them", text: "Lo revisamos hoy." },
+    ],
+  },
 ];

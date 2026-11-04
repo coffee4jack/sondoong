@@ -25,7 +25,9 @@ export default function Chat({ initial }) {
       {contacts.length > 1 && (
         <div className="flex gap-1.5">
           {contacts.map((c) => (
-            <ChipButton key={c} active={who === c} onClick={() => setWho(c)}>{c}</ChipButton>
+            <ChipButton key={c} active={who === c} onClick={() => setWho(c)}>
+              {c}
+            </ChipButton>
           ))}
         </div>
       )}
@@ -33,16 +35,26 @@ export default function Chat({ initial }) {
         {(msgs[who] ?? []).map((m, i) => (
           <p
             key={i}
-            className={`max-w-[85%] rounded-2xl px-3 py-2 ${m.from === "me" ? "self-end bg-brand text-ink" : "bg-sand text-ink"}`}
+            className={`max-w-[85%] rounded-2xl px-3 py-2 ${m.from === "me" ? "self-end bg-brand text-ink" : "border border-ink/10 bg-white text-ink"}`}
           >
             {m.text}
           </p>
         ))}
       </div>
       <form onSubmit={send} className="mt-3 flex gap-2">
-        <label htmlFor={`chat-${who}`} className="sr-only">Mensaje para {who}</label>
-        <input id={`chat-${who}`} value={text} onChange={(e) => setText(e.target.value)} placeholder="Escribe un mensaje…" className={inputCls} />
-        <Button type="submit" size="sm" className="h-11">Enviar</Button>
+        <label htmlFor={`chat-${who}`} className="sr-only">
+          Mensaje para {who}
+        </label>
+        <input
+          id={`chat-${who}`}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Escribe un mensaje…"
+          className={inputCls}
+        />
+        <Button type="submit" size="sm" className="h-11">
+          Enviar
+        </Button>
       </form>
     </div>
   );

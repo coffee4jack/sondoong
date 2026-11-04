@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 
 // Cambia esta imagen por la tuya (ideal: PNG/JPG ancho, de al menos 1600px)
-const IMAGE =
-  "https://images.pexels.com/photos/1149601/pexels-photo-1149601.jpeg";
+const IMAGE = "https://images.pexels.com/photos/1149601/pexels-photo-1149601.jpeg";
 
 export default function DriveSection() {
   return (
@@ -20,9 +19,9 @@ export default function DriveSection() {
         </motion.h2>
 
         <p className="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-white/60 sm:text-lg">
-          Trabaja con tu propio horario, cobra de forma rápida y transparente y
-          aprovecha comisiones competitivas. Además, cuentas con soporte las 24
-          horas para que te enfoques en lo importante: ganar a tu ritmo.
+          Trabaja con tu propio horario, cobra de forma rápida y transparente y aprovecha comisiones
+          competitivas. Además, cuentas con soporte las 24 horas para que te enfoques en lo
+          importante: ganar a tu ritmo.
         </p>
 
         <motion.button

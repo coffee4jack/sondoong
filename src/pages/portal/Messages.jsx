@@ -6,7 +6,7 @@ import { threads } from "../../data/portal";
 
 export default function Messages() {
   const [id, setId] = useState(threads[0].id);
-  const t = threads.find((x) => x.id === id);
+  const t = threads.find((x) => x.id === id) ?? threads[0];
 
   return (
     <>
@@ -23,8 +23,13 @@ export default function Messages() {
                   aria-pressed={x.id === id}
                   className={`w-full rounded-[20px] bg-white p-4 text-left shadow-sm focus-visible:outline-2 focus-visible:outline-brand ${x.id === id ? "ring-2 ring-brand" : ""}`}
                 >
-                  <span className="flex items-center justify-between"><b>Pedido #{x.orderId}</b><Chip>{x.with}</Chip></span>
-                  <span className="mt-1 block truncate text-sm text-ink/65">{x.messages.at(-1).text}</span>
+                  <span className="flex items-center justify-between">
+                    <b>Pedido #{x.orderId}</b>
+                    <Chip>{x.with}</Chip>
+                  </span>
+                  <span className="mt-1 block truncate text-sm text-ink/65">
+                    {x.messages.at(-1).text}
+                  </span>
                 </button>
               </li>
             ))}
@@ -32,14 +37,19 @@ export default function Messages() {
 
           <Card>
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="text-lg font-bold">Pedido #{t.orderId} · {t.with}</h3>
-              <Link to="/portal/pedidos" className="text-sm underline">Ver pedido</Link>
+              <h3 className="text-lg font-bold">
+                Pedido #{t.orderId} · {t.with}
+              </h3>
+              <Link to="/portal/pedidos" className="text-sm underline">
+                Ver pedido
+              </Link>
             </div>
             <div className="mt-3">
               <Chat key={t.id} initial={{ [t.with]: t.messages }} />
             </div>
             <p className="mt-3 text-[13px] text-ink/65">
-              La comunicación se limita al contexto del pedido. Los datos personales del cliente permanecen ocultos.
+              La comunicación se limita al contexto del pedido. Los datos personales del cliente
+              permanecen ocultos.
             </p>
           </Card>
         </div>

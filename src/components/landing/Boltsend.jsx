@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export default function BoltSend() {
   return (
-    <section id="send" className="bg-sand">
+    <section id="send" className="bg-white">
       <div className="mx-auto max-w-3xl px-5 pb-16 pt-20 text-center">
         <p className="text-sm font-bold text-ink/60">Últimas novedades</p>
         <motion.h2
@@ -21,7 +21,7 @@ export default function BoltSend() {
           Revisa en la app las funciones disponibles.
         </p>
         <a
-          href="#"
+          href="#app"
           className="mt-8 inline-flex h-12 items-center rounded-xl bg-brand px-7 text-sm font-bold text-ink transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
         >
           Enviar artículos

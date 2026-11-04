@@ -23,13 +23,26 @@ export default function Reports() {
 
   return (
     <>
-      <PageHeader tabs={tabs} active={range} onTab={setRange} action={<Button size="sm" onClick={() => window.print()}>Imprimir resumen</Button>} />
+      <PageHeader
+        tabs={tabs}
+        active={range}
+        onTab={setRange}
+        action={
+          <Button size="sm" onClick={() => window.print()}>
+            Imprimir resumen
+          </Button>
+        }
+      />
       <Body>
         <div className="print-area">
           <h2 className="text-2xl font-bold">Reportes · {range}</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             <Kpi label="Ventas" value={money(r.sales)} hint={`${r.orders} pedidos`} />
-            <Kpi label="Cancelaciones" value={r.cancels} hint={`${((r.cancels / r.orders) * 100).toFixed(1)} % de los pedidos`} />
+            <Kpi
+              label="Cancelaciones"
+              value={r.cancels}
+              hint={`${((r.cancels / r.orders) * 100).toFixed(1)} % de los pedidos`}
+            />
             <Kpi label="Tiempo de preparación" value={`${r.prep} min`} hint="Objetivo: 15 min" />
             <Kpi label="Valoración" value={`${r.rating} / 5`} hint={`${r.reviews} reseñas`} />
             <Kpi label="Comisiones" value={money(r.commission)} hint="20 % de las ventas" />
@@ -58,9 +71,15 @@ export default function Reports() {
 
             <Card>
               <h3 className="text-lg font-bold">Liquidaciones</h3>
-              <p className="mt-2 text-sm text-ink/70">Consulta importes, ajustes y estado de cada periodo. Solo lectura.</p>
-              <Button to="/portal/liquidaciones" variant="dark" className="mt-4 w-full">Ver liquidaciones</Button>
-              <Link to="/portal/historial" className="mt-3 inline-block text-sm underline">Ir al historial de pedidos</Link>
+              <p className="mt-2 text-sm text-ink/70">
+                Consulta importes, ajustes y estado de cada periodo. Solo lectura.
+              </p>
+              <Button to="/portal/liquidaciones" variant="dark" className="mt-4 w-full">
+                Ver liquidaciones
+              </Button>
+              <Link to="/portal/historial" className="mt-3 inline-block text-sm underline">
+                Ir al historial de pedidos
+              </Link>
             </Card>
           </div>
         </div>

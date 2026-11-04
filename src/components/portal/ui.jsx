@@ -1,23 +1,28 @@
 /* Piezas compartidas del portal: mismo estilo que la app móvil */
 
 export const inputCls =
-  "h-11 w-full rounded-xl bg-sand px-3.5 text-[15px] text-ink placeholder:text-ink/50 focus-visible:outline-2 focus-visible:outline-brand";
+  "h-11 w-full rounded-xl border border-ink/15 bg-white px-3.5 text-[15px] text-ink placeholder:text-ink/50 focus-visible:outline-2 focus-visible:outline-brand";
 
 export const Card = ({ as: Tag = "div", className = "", children, ...rest }) => (
-  <Tag className={`rounded-[20px] bg-white p-5 shadow-sm ${className}`} {...rest}>
+  <Tag
+    className={`rounded-[20px] border border-ink/10 bg-white p-5 shadow-sm ${className}`}
+    {...rest}
+  >
     {children}
   </Tag>
 );
 
 const chipTones = {
-  soft: "bg-sand text-ink",
+  soft: "border border-ink/15 bg-white text-ink",
   dark: "bg-ink text-white",
   brand: "bg-brand text-ink",
   outline: "border border-mute text-ink",
 };
 
 export const Chip = ({ tone = "soft", className = "", children }) => (
-  <span className={`inline-block rounded-full px-3 py-0.5 text-xs font-bold ${chipTones[tone]} ${className}`}>
+  <span
+    className={`inline-block rounded-full px-3 py-0.5 text-xs font-bold ${chipTones[tone]} ${className}`}
+  >
     {children}
   </span>
 );
@@ -28,7 +33,9 @@ export const ChipButton = ({ active, onClick, children }) => (
     aria-pressed={!!active}
     onClick={onClick}
     className={`rounded-full px-3.5 py-1.5 text-sm transition focus-visible:outline-2 focus-visible:outline-brand ${
-      active ? "bg-ink font-bold text-white" : "bg-sand text-ink hover:bg-ink/10"
+      active
+        ? "bg-ink font-bold text-white"
+        : "border border-ink/15 bg-white text-ink hover:bg-ink/5"
     }`}
   >
     {children}
@@ -69,20 +76,28 @@ export function PageHeader({ tabs = [], active, onTab, action }) {
     <header className="rounded-b-[32px] bg-ink px-5 py-6 text-white sm:px-9">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="grid h-12 w-12 place-items-center rounded-full bg-mute text-xs font-bold text-ink">Logo</div>
+          <div className="grid h-12 w-12 place-items-center rounded-full bg-mute text-xs font-bold text-ink">
+            Logo
+          </div>
           <div>
             <p className="text-sm text-mute">Bienvenido</p>
             <p className="text-xl font-bold">Restaurante El Sabor · Sucursal Centro</p>
           </div>
         </div>
         <div className="flex w-full items-center gap-3 sm:w-auto">
-          <label htmlFor="portal-search" className="sr-only">Buscar</label>
+          <label htmlFor="portal-search" className="sr-only">
+            Buscar
+          </label>
           <input
             id="portal-search"
             placeholder="Buscar pedido, producto…"
             className="h-11 min-w-0 flex-1 rounded-full bg-white px-5 text-sm text-ink placeholder:text-ink/50 sm:w-80"
           />
-          <button type="button" aria-label="3 notificaciones" className="grid h-11 w-11 place-items-center rounded-full bg-white font-bold text-ink">
+          <button
+            type="button"
+            aria-label="3 notificaciones"
+            className="grid h-11 w-11 place-items-center rounded-full bg-white font-bold text-ink"
+          >
             3
           </button>
         </div>
@@ -97,7 +112,9 @@ export function PageHeader({ tabs = [], active, onTab, action }) {
               onClick={() => onTab(t.id)}
               aria-pressed={active === t.id}
               className={`h-9 rounded-full px-4 text-sm transition focus-visible:outline-2 focus-visible:outline-brand ${
-                active === t.id ? "bg-brand font-bold text-ink" : "bg-white/10 text-white hover:bg-white/20"
+                active === t.id
+                  ? "bg-brand font-bold text-ink"
+                  : "bg-white/10 text-white hover:bg-white/20"
               }`}
             >
               {t.label}

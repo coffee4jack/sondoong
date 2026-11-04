@@ -155,10 +155,7 @@ const socials = [
 
 /* ---------- Logo ---------- */
 const Logo = () => (
-  <Link
-    to="/"
-    className="relative text-[28px] font-bold leading-none tracking-tighter text-ink"
-  >
+  <Link to="/" className="relative text-[28px] font-bold leading-none tracking-tighter text-ink">
     Bolt
     <span className="absolute -bottom-1 left-[17px] h-[5px] w-[5px] rounded-full bg-ink" />
   </Link>
@@ -189,9 +186,11 @@ export default function Navbar() {
 
   // Cierra el menú al navegar a otra ruta
   const { pathname } = useLocation();
-  useEffect(() => {
+  const [prevPath, setPrevPath] = useState(pathname);
+  if (prevPath !== pathname) {
+    setPrevPath(pathname);
     setOpen(false);
-  }, [pathname]);
+  }
 
   return (
     <>
@@ -201,7 +200,7 @@ export default function Navbar() {
         animate={{ opacity: 1, x: 0, scale: 1 }}
         transition={{ duration: 0.6 }}
       >
-        <header className="sticky top-0 z-[60]">
+        <header className="sticky top-0 z-[60] border-b border-ink/5 bg-white/90 backdrop-blur-md">
           <div className={`${CONTAINER} flex h-[68px] items-center justify-between`}>
             <Logo />
 
@@ -253,7 +252,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-sand pt-[113px]"
+            className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-white pt-[113px]"
           >
             <div className={CONTAINER}>
               {/* Paneles: principal flexible + lateral de 280px */}
@@ -271,8 +270,9 @@ export default function Navbar() {
                       <button
                         key={t}
                         onClick={() => setTab(t)}
-                        className={`rounded-xl px-[9px] py-[9px] text-[15px] font-bold leading-6 transition ${tab === t ? "bg-brand text-ink" : "hover:bg-sand"
-                          }`}
+                        className={`rounded-xl px-[9px] py-[9px] text-[15px] font-bold leading-6 transition ${
+                          tab === t ? "bg-brand text-ink" : "hover:bg-ink/5"
+                        }`}
                       >
                         {t}
                       </button>
@@ -349,9 +349,15 @@ export default function Navbar() {
                   ))}
                 </div>
                 <div className="flex flex-wrap items-center gap-x-[18px] gap-y-1">
-                  <a href="#" className="hover:text-ink">Terms &amp; Conditions</a>
-                  <a href="#" className="hover:text-ink">Privacy</a>
-                  <a href="#" className="hover:text-ink">Cookies</a>
+                  <a href="#" className="hover:text-ink">
+                    Terms &amp; Conditions
+                  </a>
+                  <a href="#" className="hover:text-ink">
+                    Privacy
+                  </a>
+                  <a href="#" className="hover:text-ink">
+                    Cookies
+                  </a>
                   <span>© {new Date().getFullYear()} Bolt Technology OÜ</span>
                 </div>
               </div>

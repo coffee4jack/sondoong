@@ -9,11 +9,17 @@ const signed = (n) => (n < 0 ? `− ${money(-n)}` : `+ ${money(n)}`);
 
 export default function Settlements() {
   const [id, setId] = useState(settlements[0].id);
-  const s = settlements.find((x) => x.id === id);
+  const s = settlements.find((x) => x.id === id) ?? settlements[0];
 
   return (
     <>
-      <PageHeader action={<Button size="sm" onClick={() => window.print()}>Imprimir detalle</Button>} />
+      <PageHeader
+        action={
+          <Button size="sm" onClick={() => window.print()}>
+            Imprimir detalle
+          </Button>
+        }
+      />
       <Body>
         <h2 className="text-2xl font-bold">Liquidaciones</h2>
         <div className="mt-4 grid items-start gap-5 lg:grid-cols-[340px_1fr]">
@@ -43,16 +49,37 @@ export default function Settlements() {
             </div>
             <table className="mt-3 w-full text-sm">
               <tbody>
-                <tr className="border-b border-ink/10"><th scope="row" className="py-3 text-left font-normal">Ventas brutas</th><td className="py-3 text-right">{money(s.gross)}</td></tr>
-                <tr className="border-b border-ink/10"><th scope="row" className="py-3 text-left font-normal">Comisión Bolt</th><td className="py-3 text-right">{signed(-s.commission)}</td></tr>
+                <tr className="border-b border-ink/10">
+                  <th scope="row" className="py-3 text-left font-normal">
+                    Ventas brutas
+                  </th>
+                  <td className="py-3 text-right">{money(s.gross)}</td>
+                </tr>
+                <tr className="border-b border-ink/10">
+                  <th scope="row" className="py-3 text-left font-normal">
+                    Comisión Bolt
+                  </th>
+                  <td className="py-3 text-right">{signed(-s.commission)}</td>
+                </tr>
                 {s.adjustments.map(([label, v]) => (
-                  <tr key={label} className="border-b border-ink/10"><th scope="row" className="py-3 text-left font-normal">{label}</th><td className="py-3 text-right">{signed(v)}</td></tr>
+                  <tr key={label} className="border-b border-ink/10">
+                    <th scope="row" className="py-3 text-left font-normal">
+                      {label}
+                    </th>
+                    <td className="py-3 text-right">{signed(v)}</td>
+                  </tr>
                 ))}
-                <tr><th scope="row" className="py-3 text-left">Importe neto</th><td className="py-3 text-right text-lg font-bold">{money(net(s))}</td></tr>
+                <tr>
+                  <th scope="row" className="py-3 text-left">
+                    Importe neto
+                  </th>
+                  <td className="py-3 text-right text-lg font-bold">{money(net(s))}</td>
+                </tr>
               </tbody>
             </table>
-            <p className="mt-3 rounded-xl bg-sand px-4 py-3 text-sm text-ink/75">
-              Solo lectura: los importes los calcula el sistema financiero y no se pueden modificar desde el portal.
+            <p className="mt-3 rounded-xl border border-ink/10 bg-white px-4 py-3 text-sm text-ink/75">
+              Solo lectura: los importes los calcula el sistema financiero y no se pueden modificar
+              desde el portal.
             </p>
           </Card>
         </div>

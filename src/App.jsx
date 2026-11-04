@@ -21,13 +21,13 @@ function ScrollToTop() {
 }
 
 const Loading = () => (
-  <div className="grid min-h-screen place-items-center bg-sand text-ink/70" role="status">
+  <div className="grid min-h-screen place-items-center bg-white text-ink/70" role="status">
     Cargando…
   </div>
 );
 
 const NotFound = () => (
-  <div className="grid min-h-screen place-items-center bg-sand p-6 text-center">
+  <div className="grid min-h-screen place-items-center bg-white p-6 text-center">
     <div>
       <h1 className="text-5xl font-bold">404</h1>
       <p className="mt-3 text-ink/70">Esta página no existe.</p>

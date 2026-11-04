@@ -1,17 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap");
 @import "tailwindcss";
 
-/* Paleta y tipografía de la app móvil */
+/* ==========================================================================
+   Paleta y variables globales de la aplicación
+   Modifica los valores aquí para cambiar los colores de toda la aplicación.
+   ========================================================================== */
 @theme {
   --font-sans: "PT Sans", ui-sans-serif, system-ui, sans-serif;
-  --color-ink: #010f1c;
-  /* azul oscuro */
-  --color-brand: #3bb77e;
-  /* verde */
-  --color-mute: #999999;
-  /* gris */
-  --color-sand: #ffffff;
-  /* crema */
+  --color-ink: #010f1c; /* Azul oscuro / texto principal */
+  --color-brand: #3bb77e; /* Verde Bolt / color de acento principal */
+  --color-mute: #999999; /* Gris neutro */
+  --color-sand: #ffffff; /* Blanco (reemplazo del tono arena) */
+  --color-bg-app: #ffffff; /* Fondo principal de la app */
+  --color-surface: #ffffff; /* Superficies y tarjetas */
 }
 
 html {
@@ -19,7 +20,7 @@ html {
 }
 
 body {
-  background: var(--color-sand);
+  background-color: var(--color-bg-app);
   color: var(--color-ink);
 }
 
