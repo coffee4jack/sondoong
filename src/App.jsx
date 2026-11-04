@@ -12,6 +12,7 @@ const Reports = lazy(() => import("./pages/portal/Reports"));
 const Settlements = lazy(() => import("./pages/portal/Settlements"));
 const Messages = lazy(() => import("./pages/portal/Messages"));
 
+
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
