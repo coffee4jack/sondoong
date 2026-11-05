@@ -27,7 +27,7 @@ const imageScale = useTransform(scrollY, [0, 500], [1, 0.95]);
 
       <!-- Botones -->
       <div class="mx-auto flex items-center justify-center gap-3 p-6">
-        <Button size="lg" to="/portal">Reservar Ahora</Button>
+        <Button size="lg" to="/portal" textColor="white">Reservar Ahora</Button>
         <Button size="lg" variant="outline" href="#app">Descargar App</Button>
       </div>
     </motion.div>
