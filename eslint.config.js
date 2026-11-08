@@ -1,13 +1,16 @@
 import js from "@eslint/js";
 import globals from "globals";
-import pluginVue from "eslint-plugin-vue";
+import react from "eslint-plugin-react";
+import reactHooks from "eslint-plugin-react-hooks";
 
 export default [
   { ignores: ["dist/**", "node_modules/**"] },
   js.configs.recommended,
-  ...pluginVue.configs["flat/recommended"],
+  react.configs.flat.recommended,
+  react.configs.flat["jsx-runtime"],
   {
-    files: ["**/*.{js,vue}"],
+    files: ["**/*.{js,jsx}"],
+    plugins: { "react-hooks": reactHooks },
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
@@ -16,16 +19,17 @@ export default [
         ...globals.es2021,
       },
     },
+    settings: { react: { version: "detect" } },
     rules: {
+      ...reactHooks.configs.recommended.rules,
       "no-unused-vars": ["warn", { varsIgnorePattern: "^[A-Z_]", argsIgnorePattern: "^_" }],
-      // Los componentes de una sola palabra (Button, Card, Chip...) son intencionales
-      "vue/multi-word-component-names": "off",
-      // Los iconos SVG son cadenas estáticas definidas en el código, nunca entrada del usuario
-      "vue/no-v-html": "off",
-      // El formato lo controla Prettier, así que se desactivan las reglas de estilo que chocan con él
-      "vue/max-attributes-per-line": "off",
-      "vue/singleline-html-element-content-newline": "off",
-      "vue/html-self-closing": "off",
+      // Los componentes reciben props simples; no se usa PropTypes
+      "react/prop-types": "off",
     },
+  },
+  {
+    // Los archivos de configuración corren en Node
+    files: ["*.config.js"],
+    languageOptions: { globals: { ...globals.node } },
   },
 ];

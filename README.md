@@ -1,14 +1,14 @@
-# Bolt · Landing y Portal del comercio (versión Vue)
+# Bolt · Landing y Portal del comercio (versión React)
 
 Landing page de movilidad y entregas, más el portal del comercio. Proyecto de práctica de frontend, no es un sitio oficial.
 
-Esta es la **migración a Vue 3** del proyecto original en React. Hecho con Vite, Vue 3 (Composition API con `<script setup>`), Tailwind CSS v4, Motion for Vue (`motion-v`) y vue-router 4. Colores y tipografía (PT Sans) tomados de la app móvil.
+Esta es la **migración a React 19** de la versión en Vue 3. Hecho con Vite, React, Tailwind CSS v4, Motion (`motion/react`) y React Router 7. Colores y tipografía (PT Sans) tomados de la app móvil. El diseño, los textos, las rutas y el comportamiento son los mismos que en la versión Vue.
 
 ## Requisitos
 
 Node.js 20.19 o superior.
 
-## Correrlo
+## Instalación y arranque
 
 ```bash
 npm install
@@ -45,40 +45,40 @@ Abre la URL que muestre la terminal (normalmente http://localhost:5173).
 
 ```
 src/
-├── main.js, App.vue, index.css
-├── router/index.js        Rutas (el portal se carga de forma diferida)
-├── pages/                 Landing.vue, NotFound.vue y pages/portal/*.vue
+├── main.jsx, App.jsx, index.css
+├── router/index.jsx       Rutas (el portal se carga de forma diferida)
+├── pages/                 Landing.jsx, NotFound.jsx y pages/portal/*.jsx
 ├── components/
-│   ├── buttons/           Button.vue
-│   ├── landing/           Navbar, Hero, Services, ... (+ Svg.vue, navIcons.js)
+│   ├── buttons/           Button.jsx
+│   ├── landing/           Navbar, Hero, Services, ... (+ Svg.jsx, navIcons.js)
 │   └── portal/            PortalLayout, Chat, OrderCard, Card, Chip, Toggle, ...
-├── composables/useNow.js  Hora actual reactiva (antes hooks/useNow.js)
+├── hooks/useNow.js        Hora actual que se refresca sola
 ├── data/portal.js         Datos de ejemplo del portal
-└── lib/beep.js
+└── lib/                   beep.js (sonido y formato de dinero) y cn.js (unir clases)
 ```
 
-## Equivalencias React → Vue
+## Equivalencias Vue → React
 
-| React                                  | Vue                                                                     |
-| -------------------------------------- | ----------------------------------------------------------------------- |
-| `useState`                             | `ref()`                                                                 |
-| Valores derivados (cálculos en render) | `computed()`                                                            |
-| `useEffect`                            | `onMounted` / `onUnmounted` / `watch`                                   |
-| `useCallback`, `useMemo`               | No hacen falta (`computed` cachea)                                      |
-| `className`, `onClick`                 | `class`, `@click`                                                       |
-| `{cond && <X />}`, `.map()`            | `v-if`, `v-for`                                                         |
-| `children` / props con JSX             | `<slot>` / slots con nombre (`#action`)                                 |
-| `onChange` de un hijo                  | `emit("change")` y `@change` en el padre                                |
-| `react-router-dom` (`Link`, `NavLink`) | `vue-router` (`RouterLink`, `RouterLink custom` + `isActive`)           |
-| `lazy()` + `Suspense`                  | `() => import(...)` en las rutas                                        |
-| `<ScrollToTop />`                      | `scrollBehavior` del router                                             |
-| `framer-motion`                        | `motion-v` (`viewport` → `in-view-options`, `whileTap` → `while-press`) |
-| `ui.jsx` (varios componentes)          | Un `.vue` por componente + `ui.js` con `inputCls`                       |
-| `hooks/useNow.js`                      | `composables/useNow.js`                                                 |
+| Vue                                              | React                                                                       |
+| ------------------------------------------------ | --------------------------------------------------------------------------- |
+| `ref()`                                          | `useState()`                                                                |
+| `computed()`                                     | Valores calculados en el render                                             |
+| `onMounted` / `onUnmounted` / `watch`            | `useEffect`                                                                 |
+| `class`, `@click`, `v-model`                     | `className`, `onClick`, `value` + `onChange`                                |
+| `v-if`, `v-for`                                  | `cond && <X />`, `.map()`                                                   |
+| `<slot>` / slots con nombre (`#action`)          | `children` / prop `action`                                                  |
+| `emit("change")` y `@change` en el padre         | Prop callback (`onChange`, `onTab`, `onAccept`...)                          |
+| `vue-router` (`RouterLink`, `RouterLink custom`) | `react-router-dom` (`Link`, `NavLink` con `className` en función)           |
+| `<RouterView />`                                 | `<Outlet />`                                                                |
+| `() => import(...)` en las rutas                 | `lazy` de React Router                                                      |
+| `scrollBehavior` del router                      | `<ScrollRestoration />` en `App.jsx`                                        |
+| `motion-v`                                       | `motion/react` (`in-view-options` → `viewport`, `while-press` → `whileTap`) |
+| `composables/useNow.js`                          | `hooks/useNow.js`                                                           |
+| `<component :is="as">`                           | `const Tag = as` (componente `Card`)                                        |
 
 ## Tipografía
 
-La fuente es **PT Sans** (400 y 700), instalada con el paquete `@fontsource/pt-sans` e importada en `src/main.js`. Así se sirve junto con la app (funciona sin internet y sin depender de Google Fonts). Se aplica globalmente con la variable `--font-sans` de Tailwind, definida en `src/index.css`.
+La fuente es **PT Sans** (400 y 700), instalada con el paquete `@fontsource/pt-sans` e importada en `src/main.jsx`. Así se sirve junto con la app (funciona sin internet y sin depender de Google Fonts). Se aplica globalmente con la variable `--font-sans` de Tailwind, definida en `src/index.css`.
 
 > PT Sans solo existe en pesos 400 y 700. Las clases `font-medium` (500) se muestran con el peso 400.
 
@@ -95,4 +95,4 @@ Todos los colores de la aplicación se administran desde un único archivo: [`sr
 
 ## Despliegue
 
-`vercel.json` incluye el rewrite que necesita vue-router (modo `history`). Los datos del portal son de ejemplo y no se guardan al recargar.
+`vercel.json` incluye el rewrite que necesita React Router (modo `history`). Los datos del portal son de ejemplo y no se guardan al recargar.
