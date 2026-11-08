@@ -4,6 +4,28 @@ import { cn } from "../../lib/cn";
 
 const items = [
   {
+    src: "https://images.pexels.com/photos/11485207/pexels-photo-11485207.jpeg",
+    title: "Viajes y Turismo",
+    text: "Pide en segundos, viaja en minutos.",
+    cta: "Empezar",
+    bg: "bg-ink",
+    textColor: "text-white",
+    sub: "text-white/70",
+    btn: "bg-brand text-ink",
+    href: "#",
+  },
+  {
+    src: "https://images.pexels.com/photos/5988831/pexels-photo-5988831.jpeg",
+    title: "Viajes",
+    text: "Pide en segundos, viaja en minutos.",
+    cta: "Empezar",
+    bg: "bg-ink",
+    textColor: "text-white",
+    sub: "text-white/70",
+    btn: "bg-brand text-ink",
+    href: "#",
+  },
+  {
     src: "https://images.pexels.com/photos/5988831/pexels-photo-5988831.jpeg",
     title: "Viajes",
     text: "Pide en segundos, viaja en minutos.",
