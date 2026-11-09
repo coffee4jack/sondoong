@@ -61,7 +61,7 @@ export default function AppDownload() {
                   role="tab"
                   aria-selected={active === k}
                   className={cn(
-                    "-mb-px border-b-2 px-4 py-2 text-sm font-bold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand",
+                    "-mb-px border-b-2 px-4 py-2 text-sm font-bold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand hover:cursor-pointer",
                     active === k
                       ? "border-brand text-white"
                       : "border-transparent text-white/60 hover:text-white"

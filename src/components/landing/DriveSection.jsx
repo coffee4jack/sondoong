@@ -27,7 +27,9 @@ export default function DriveSection() {
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          className="mt-10 rounded-xl bg-brand px-8 py-4 text-base font-bold text-ink transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          className="mt-10 rounded-xl bg-brand px-8 py-4 text-base font-bold text-ink transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand
+          hover:cursor-pointer
+          "
         >
           Regístrate como conductor
         </motion.button>

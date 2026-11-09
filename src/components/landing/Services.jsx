@@ -166,7 +166,7 @@ export default function Services() {
         <div className="mt-6 flex justify-end gap-2">
           <button
             disabled={!canPrev}
-            className={arrow}
+            className={cn(arrow, "hover:cursor-pointer")}
             aria-label="Anterior"
             onClick={() => move(-1)}
           >
@@ -174,7 +174,7 @@ export default function Services() {
           </button>
           <button
             disabled={!canNext}
-            className={arrow}
+            className={cn(arrow, "hover:cursor-pointer")}
             aria-label="Siguiente"
             onClick={() => move(1)}
           >
