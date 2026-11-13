@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Paleta y variables globales de la aplicación
+   Modifica los valores aquí para cambiar los colores de toda la aplicación.
+   La fuente PT Sans se carga desde el paquete @fontsource/pt-sans (ver main.js),
+   por lo que se sirve con la propia app, sin depender de Google Fonts.
+   ========================================================================== */
+@theme {
+  --font-sans: "PT Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-ink: #010f1c; /* Azul oscuro / texto principal */
+  --color-brand: #3bb77e; /* Verde Bolt / color de acento principal */
+  --color-mute: #999999; /* Gris neutro */
+  --color-sand: #ffffff; /* Blanco (reemplazo del tono arena) */
+  --color-bg-app: #ffffff; /* Fondo principal de la app */
+  --color-surface: #ffffff; /* Superficies y tarjetas */
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-sans);
+}
+
+body {
+  background-color: var(--color-bg-app);
+  color: var(--color-ink);
+}
+
+/* Visual settings are scoped to the merchant portal, not the public landing. */
+.portal-theme {
+  --color-brand: var(--portal-brand);
+  --color-ink: var(--portal-ink);
+  --color-surface: var(--portal-surface);
+}
+
+.portal-theme .portal-card {
+  background-color: var(--portal-surface);
+}
+
+.portal-theme button.bg-ink,
+.portal-theme a.bg-ink {
+  color: white;
+}
+
+.portal-theme button:not(:disabled),
+.portal-theme a,
+.portal-theme [role="switch"] {
+  cursor: pointer;
+}
+
+.portal-theme button:disabled {
+  cursor: not-allowed;
+}
+
+.portal-theme.portal-compact .portal-card {
+  padding: 0.75rem;
+}
+
+/* Los ajustes visuales se limitan al layout del portal. */
+.portal-theme {
+  --color-brand: var(--portal-brand);
+  --color-ink: var(--portal-ink);
+  --color-surface: var(--portal-surface);
+}
+
+.portal-theme button:not(:disabled),
+.portal-theme a,
+.portal-theme [role="switch"] {
+  cursor: pointer;
+}
+
+.portal-theme button:disabled {
+  cursor: not-allowed;
+}
+
+.portal-theme .portal-compact section,
+.portal-theme .portal-compact article {
+  padding-block: 0.75rem;
+}
+
+/* Impresión: solo se imprime el contenido marcado con .print-area */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}

@@ -1,3 +1,19 @@
+# Correr en docker.
+```bash
+docker compose up --pull always --build -
+```
+# La aplicación visual está en 
+```bash
+http://localhost:5173
+```
+# Django en 
+```bash
+http://localhost:8000
+```
+# MySQL se puede conectar (user sondoong - password - sondoong) desde el host en 
+```bash
+127.0.0.1:3306
+```
 # Bolt · Landing y Portal del comercio (versión React)
 
 Landing page de movilidad y entregas, más el portal del comercio. Proyecto de práctica de frontend, no es un sitio oficial.
@@ -6,27 +22,71 @@ Esta es la **migración a React 19** de la versión en Vue 3. Hecho con Vite, Re
 
 ## Requisitos
 
-Node.js 20.19 o superior.
+- Docker Desktop (o Docker Engine) con Docker Compose.
+- No necesitas instalar Python ni Node.js en el equipo.
+- Un archivo `.env` en la raíz del repositorio. Si no existe, copia `.env.example` como `.env` y ajusta las contraseñas y `DJANGO_SECRET_KEY`.
 
-## Instalación y arranque
+## Arranque con Docker Compose
+
+Desde la raíz del repositorio, construye las imágenes y arranca los servicios:
 
 ```bash
-npm install
-npm run dev
+docker compose up --pull always --build -d
 ```
 
-Abre la URL que muestre la terminal (normalmente http://localhost:5173).
+La primera construcción puede tardar unos minutos. Compose espera a que MySQL esté saludable antes de iniciar Django. Para aplicar las migraciones de Django:
 
-| Comando                | Qué hace                                                   |
-| ---------------------- | ---------------------------------------------------------- |
-| `npm run dev`          | Servidor de desarrollo                                     |
-| `npm run build`        | Build de producción en `dist/`                             |
-| `npm run preview`      | Sirve la build para revisarla                              |
-| `npm run lint`         | Control de calidad con ESLint (análisis estático)          |
-| `npm run lint:fix`     | Corrección automática de problemas de ESLint               |
-| `npm run format`       | Formatea el código con Prettier                            |
-| `npm run format:check` | Comprueba el formato de código sin modificarlo             |
-| `npm run qa`           | Pipeline completo de control de calidad (`lint` + `build`) |
+```bash
+docker compose exec backend python manage.py migrate
+```
+
+### Dónde ver la aplicación
+
+| Servicio | URL / conexión | Puerto del host |
+| --- | --- | --- |
+| Frontend React + Vite | [http://localhost:5173](http://localhost:5173) | `5173` |
+| Backend Django | [http://localhost:8000](http://localhost:8000) | `8000` |
+| MySQL | Host `127.0.0.1`, puerto `3306` (DBeaver / MySQL Workbench) | `3306` |
+
+El frontend es el resultado visual de la aplicación. El backend estará disponible en `http://localhost:8000`; crea rutas API en Django según las necesidades del frontend.
+
+### Comandos habituales
+
+Ver estado de los servicios:
+
+```bash
+docker compose ps
+```
+
+Ver logs en tiempo real:
+
+```bash
+docker compose logs -f backend frontend db
+```
+
+Detener los servicios sin eliminar los datos de MySQL:
+
+```bash
+docker compose down
+```
+
+Los cambios en `./backend` y `./frontend` se reflejan mediante bind mounts y hot reload. Si cambias dependencias en `backend/requirements.txt` o `frontend/package.json`, vuelve a construir y arrancar:
+
+```bash
+docker compose up --pull always --build -d
+```
+
+Los datos de MySQL se conservan en el volumen nombrado `mysql_data`. No ejecutes `docker compose down -v` salvo que quieras borrar esos datos.
+
+### Comandos del frontend
+
+Los scripts npm también se pueden ejecutar dentro del contenedor, sin instalar Node localmente:
+
+```bash
+docker compose exec frontend npm run lint
+docker compose exec frontend npm run build
+docker compose exec frontend npm run qa
+```
 
 ## Rutas
 

@@ -1,5 +1,25 @@
-node_modules
-dist
-.DS_Store
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+
+# Python / Django
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+*.pot
+*.mo
+.venv/
+venv/
+
+# Node / Vite
+node_modules/
+dist/
 *.local
-.gitleaks
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
