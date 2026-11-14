@@ -1,6 +1,25 @@
-# Correr en docker.
+# Gestor interactivo del proyecto
+
+Desde la raíz del repositorio, ejecuta el menú Python:
+
 ```bash
-docker compose up --pull always --build
+python gestor.py
+```
+
+El menú ofrece:
+
+1. Iniciar/reconstruir MySQL, backend y frontend web.
+2. Construir/iniciar el contenedor Expo para la app móvil.
+3. Crear el build de producción React en `frontend/dist/`.
+4. Crear un APK Android con EAS Build; requiere iniciar sesión y vincular el proyecto Expo la primera vez.
+5. Salir.
+
+Docker Desktop debe estar iniciado. El APK se construye en EAS y el comando devuelve el enlace de descarga.
+
+También puedes iniciar el stack manualmente:
+
+```bash
+docker compose up --pull always --build -d
 ```
 # La aplicación visual está en 
 ```bash

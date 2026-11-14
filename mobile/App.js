@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Alert, SafeAreaView, StatusBar } from "react-native";
+import { Alert, PanResponder, SafeAreaView, StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
@@ -29,6 +29,18 @@ export default function App() {
   const [trackingToken, setTrackingToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [address, setAddress] = useState("Centro, Tegucigalpa");
+
+  const mainTabs = ["Home", "Favoritos", "Orders", "Account"];
+  const activeMainTab = screen === "Home" || screen === "Favoritos" || screen === "Orders" || screen === "Account" ? screen : null;
+  const swipeResponder = React.useMemo(() => PanResponder.create({
+    onMoveShouldSetPanResponderCapture: (_event, gesture) => Boolean(activeMainTab) && Math.abs(gesture.dx) > 32 && Math.abs(gesture.dx) > Math.abs(gesture.dy) * 1.3,
+    onPanResponderRelease: (_event, gesture) => {
+      if (!activeMainTab || Math.abs(gesture.dx) < 60) return;
+      const currentIndex = mainTabs.indexOf(activeMainTab);
+      const nextIndex = Math.max(0, Math.min(mainTabs.length - 1, currentIndex + (gesture.dx < 0 ? 1 : -1)));
+      if (nextIndex !== currentIndex) setScreen(mainTabs[nextIndex]);
+    },
+  }), [activeMainTab]);
 
   const loadMenu = useCallback(async () => {
     try {
@@ -146,9 +158,11 @@ export default function App() {
     content = <CustomerTrackingScreen order={tracking} onBack={() => setScreen("Orders")} />;
   } else if (screen === "Favoritos") {
     content = <HomeScreen products={favorites} categories={["Todos"]} category="Todos" setCategory={() => {}} query="" setQuery={() => {}} loading={false} favorites={favorites} onFavorite={toggleFavorite} onProduct={(product) => { setSelected(product); setScreen("Product"); }} onQuickAdd={addToCart} onTab={(tab) => setScreen(tab === "Pedidos" ? "Orders" : tab === "Cuenta" ? "Account" : "Home")} address={address} onEditAddress={() => setScreen("Cart")} cartCount={cart.length} />;
+  } else if (screen === "Account") {
+    content = <RolePicker onSelect={selectRole} />;
   } else {
     content = <RolePicker onSelect={selectRole} />;
   }
 
-  return <SafeAreaProvider><SafeAreaView style={styles.safe} edges={["top", "left", "right"]}><StatusBar barStyle="light-content" backgroundColor="#010F1C" /><ExpoStatusBar style="light" />{content}</SafeAreaView></SafeAreaProvider>;
+  return <SafeAreaProvider><SafeAreaView style={styles.safe} edges={["top", "left", "right"]} {...(activeMainTab ? swipeResponder.panHandlers : {})}><StatusBar barStyle="light-content" backgroundColor="#010F1C" /><ExpoStatusBar style="light" />{content}</SafeAreaView></SafeAreaProvider>;
 }
