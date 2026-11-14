@@ -1,22 +1,17 @@
-const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:8000/api").replace(/\/$/, "");
+import axios from "axios";
+
+const baseURL = (import.meta.env.VITE_API_URL || "http://localhost:8000/api").replace(/\/$/, "");
+const client = axios.create({ baseURL, headers: { "Content-Type": "application/json" } });
 
 export async function api(path, options = {}) {
-  const response = await fetch(`${API_BASE}${path}`, {
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
-    ...options,
-  });
-
-  if (!response.ok) {
-    const body = await response.json().catch(() => null);
+  try {
+    const response = await client.request({ url: path, ...options });
+    return response.status === 204 ? null : response.data;
+  } catch (error) {
+    const body = error.response?.data;
     const detail = body && typeof body === "object"
       ? Object.entries(body).map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(", ") : value}`).join("; ")
       : "";
-    throw new Error(detail || `Error HTTP ${response.status}`);
+    throw new Error(detail || body?.detail || error.message || "Error de conexión");
   }
-
-  if (response.status === 204) return null;
-  return response.json();
 }

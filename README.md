@@ -1,19 +1,38 @@
 # Correr en docker.
 ```bash
-docker compose up --pull always --build -
+docker compose up --pull always --build
 ```
 # La aplicación visual está en 
 ```bash
 http://localhost:5173
 ```
-# Django en 
+# Backend en 
 ```bash
 http://localhost:8000
 ```
-# MySQL se puede conectar (user sondoong - password - sondoong) desde el host en 
+# MySQL se puede conectar en: 
 ```bash
 127.0.0.1:3306
 ```
+# Mobile (Expo Go SDK 58)
+La app móvil usa Expo SDK 58, React Native 0.88 y Node 22 dentro de Docker. Al abrirla, elige **Cliente** o **Repartidor** (el rol se recuerda en el dispositivo).
+
+- **Cliente:** consulta sus propios pedidos mediante tokens de seguimiento y pulsa “Rastrear pedido por GPS” para ver el mapa y estado. No se solicita GPS al cliente.
+- **Repartidor:** consulta pedidos activos, selecciona uno y pulsa “Iniciar seguimiento GPS”. La app pide permisos de ubicación en primer plano y segundo plano, publica coordenadas cada ~10 segundos al API y permite detener el tracking o marcar el pedido entregado.
+- **Portal:** el mapa del detalle del pedido muestra la misma última ubicación guardada.
+
+El permiso de ubicación solo se solicita al repartidor. El tracking background requiere instalar un build propio; Expo Go no incluye todas las configuraciones nativas necesarias. Genera un APK siguiendo la sección “Build de Android en APK”.
+
+El bundler de desarrollo debe iniciarse con:
+
+```bash
+docker compose --profile mobile stop mobile
+docker compose --profile mobile run --rm --service-ports mobile npx expo start --host lan --port 8081
+```
+
+Configura `MOBILE_DEV_HOST` y `EXPO_PUBLIC_API_URL` en `.env` con la IP LAN del equipo para escanear el QR desde Expo Go. Android Emulator normalmente usa `10.0.2.2` como host de API. QA móvil validado con `npx expo install --check`, `npx expo-doctor` y `npx expo export --platform android` dentro del contenedor.
+
+
 # Bolt · Landing y Portal del comercio (versión React)
 
 Landing page de movilidad y entregas, más el portal del comercio. Proyecto de práctica de frontend, no es un sitio oficial.
@@ -47,6 +66,7 @@ docker compose exec backend python manage.py migrate
 | Frontend React + Vite | [http://localhost:5173](http://localhost:5173) | `5173` |
 | Backend Django | [http://localhost:8000](http://localhost:8000) | `8000` |
 | MySQL | Host `127.0.0.1`, puerto `3306` (DBeaver / MySQL Workbench) | `3306` |
+| Expo Metro | QR Expo Go, puerto `8081` | `8081` |
 
 El frontend es el resultado visual de la aplicación. El backend estará disponible en `http://localhost:8000`; crea rutas API en Django según las necesidades del frontend.
 
@@ -78,9 +98,41 @@ docker compose up --pull always --build -d
 
 Los datos de MySQL se conservan en el volumen nombrado `mysql_data`. No ejecutes `docker compose down -v` salvo que quieras borrar esos datos.
 
-### Comandos del frontend
+## Builds desde los contenedores activos
 
-Los scripts npm también se pueden ejecutar dentro del contenedor, sin instalar Node localmente:
+Ejecuta estos comandos desde la raíz cuando Compose ya esté levantado.
+
+### Build de producción del frontend
+
+Genera los archivos estáticos en `frontend/dist/`:
+
+```bash
+docker compose exec frontend npm run build
+```
+
+El servidor de desarrollo sigue ejecutándose en `http://localhost:5173`; el resultado de producción queda en `frontend/dist/` y puede copiarse al host estático o pipeline de despliegue.
+
+### Build de Android en APK
+
+El APK usa Expo Application Services (EAS Build). La primera vez, inicia sesión y vincula el proyecto Expo. Después lanza el perfil `preview`, configurado como APK en `mobile/eas.json`:
+
+```bash
+docker compose --profile mobile run --rm mobile npx eas-cli login
+docker compose --profile mobile run --rm mobile npx eas-cli init
+docker compose --profile mobile run --rm mobile npx eas-cli build --platform android --profile preview
+```
+
+EAS compila en sus workers; al finalizar, la salida proporciona una URL para descargar el `.apk`. Instálalo transfiriendo el archivo al dispositivo Android o descargándolo desde esa URL. La primera vez, EAS puede pedir vincular/configurar el proyecto Expo. No subas tokens de Expo al repositorio.
+
+Para un Android App Bundle de distribución, usa el perfil `production`:
+
+```bash
+docker compose --profile mobile run --rm mobile npx eas-cli build --platform android --profile production
+```
+
+El perfil de producción produce un `.aab`, no un APK.
+
+### QA del frontend
 
 ```bash
 docker compose exec frontend npm run lint
@@ -152,6 +204,25 @@ Todos los colores de la aplicación se administran desde un único archivo: [`sr
 - `--color-sand`: `#ffffff` (Blanco)
 - `--color-bg-app`: `#ffffff` (Fondo principal de la app)
 - `--color-surface`: `#ffffff` (Superficies y tarjetas)
+
+## Build móvil
+
+Para generar un APK de prueba con GPS en segundo plano, inicia sesión/configura EAS una vez y compila el perfil Android `preview`:
+
+```bash
+docker compose --profile mobile run --rm mobile npx eas-cli login
+docker compose --profile mobile run --rm mobile npx eas-cli init
+docker compose --profile mobile run --rm mobile npx eas-cli build --platform android --profile preview
+```
+
+Expo EAS devuelve un enlace para descargar e instalar el APK. La primera compilación puede tardar varios minutos.
+
+## GPS de clientes y repartidores
+
+- El cliente rastrea su pedido mediante token privado; no recibe permiso de ubicación.
+- El repartidor elige un pedido activo y usa “Iniciar seguimiento GPS”. La app solicita ubicación foreground/background y publica puntos cada ~10 segundos al endpoint compartido.
+- El portal y el cliente consultan la última coordenada guardada en `OrderLocation`; marcar entrega detiene el tracking.
+- El endpoint POST GPS está abierto para desarrollo: **antes de producción hay que añadir autenticación/autorización por repartidor**, HTTPS, consentimiento y política de retención de coordenadas.
 
 ## Despliegue
 

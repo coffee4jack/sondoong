@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Bolt Cliente y Repartidor",
+    "slug": "bolt-customer-mobile",
+    "scheme": "boltcliente",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Bolt usa tu ubicación para compartir el progreso de entrega cuando trabajas como repartidor.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Bolt usa tu ubicación en segundo plano para actualizar al cliente durante una entrega activa."
+      }
+    },
+    "android": {
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION", "ACCESS_BACKGROUND_LOCATION", "FOREGROUND_SERVICE", "FOREGROUND_SERVICE_LOCATION"],
+      "adaptiveIcon": {
+        "backgroundColor": "#010F1C"
+      }
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Permite compartir tu GPS mientras realizas una entrega.",
+          "locationAlwaysAndWhenInUsePermission": "Permite actualizar la ubicación de una entrega activa en segundo plano.",
+          "isAndroidBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true,
+          "isIosBackgroundLocationEnabled": true
+        }
+      ]
+    ]
+  }
+}

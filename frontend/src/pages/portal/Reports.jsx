@@ -1,87 +1,27 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Button from "../../components/buttons/Button";
 import Body from "../../components/portal/Body";
 import Card from "../../components/portal/Card";
 import Kpi from "../../components/portal/Kpi";
 import PageHeader from "../../components/portal/PageHeader";
-import { reportRanges } from "../../data/portal";
+import { api } from "../../lib/api";
 import { money } from "../../lib/beep";
-import { cn } from "../../lib/cn";
 
-const tabs = Object.keys(reportRanges).map((k) => ({ id: k, label: k }));
+const ranges = [["today", "Hoy"], ["7d", "7 días"], ["30d", "30 días"]];
 
 export default function Reports() {
-  const [range, setRange] = useState("30 días");
+  const [period, setPeriod] = useState("30d");
+  const [summary, setSummary] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setLoading(true);
+    api(`/orders/summary/?period=${period}`).then(setSummary).catch((err) => setError(`No se pudieron cargar reportes: ${err.message}`)).finally(() => setLoading(false));
+  }, [period]);
 
-  const r = reportRanges[range];
-  const max = Math.max(...r.bars.map(([, v]) => v));
-  const net = r.sales - r.commission;
-  const chartLabel = `Ventas: ${r.bars.map(([l, v]) => `${l} ${money(v)}`).join(", ")}`;
-  const print = () => window.print();
+  const rows = summary?.daily_sales ?? [];
+  const max = Math.max(1, ...rows.map((row) => Number(row.sales)));
+  const chartLabel = rows.map((row) => `${row.date}: ${money(Number(row.sales))}`).join(", ");
 
-  return (
-    <>
-      <PageHeader
-        tabs={tabs}
-        active={range}
-        onTab={setRange}
-        action={
-          <Button size="sm" onClick={print}>
-            Imprimir resumen
-          </Button>
-        }
-      />
-      <Body>
-        <div className="print-area">
-          <h2 className="text-2xl font-bold">Reportes · {range}</h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            <Kpi label="Ventas" value={money(r.sales)} hint={`${r.orders} pedidos`} />
-            <Kpi
-              label="Cancelaciones"
-              value={r.cancels}
-              hint={`${((r.cancels / r.orders) * 100).toFixed(1)} % de los pedidos`}
-            />
-            <Kpi label="Tiempo de preparación" value={`${r.prep} min`} hint="Objetivo: 15 min" />
-            <Kpi label="Valoración" value={`${r.rating} / 5`} hint={`${r.reviews} reseñas`} />
-            <Kpi label="Comisiones" value={money(r.commission)} hint="20 % de las ventas" />
-            <Kpi label="Importe neto estimado" value={money(net)} hint="Antes de ajustes" />
-          </div>
-
-          <div className="mt-5 grid items-start gap-5 lg:grid-cols-[1fr_340px]">
-            <Card>
-              <h3 className="text-lg font-bold">Ventas por periodo</h3>
-              <div role="img" aria-label={chartLabel} className="mt-4 flex h-56 items-end gap-3">
-                {r.bars.map(([label, v], i) => (
-                  <div key={label} className="flex h-full flex-1 flex-col justify-end text-center">
-                    <div
-                      className={cn(
-                        "rounded-t-xl",
-                        i === r.bars.length - 1 ? "bg-brand" : "bg-ink/15"
-                      )}
-                      style={{ height: `${(v / max) * 85}%` }}
-                    />
-                    <span className="mt-2 text-xs text-ink/65">{label}</span>
-                  </div>
-                ))}
-              </div>
-            </Card>
-
-            <Card>
-              <h3 className="text-lg font-bold">Liquidaciones</h3>
-              <p className="mt-2 text-sm text-ink/70">
-                Consulta importes, ajustes y estado de cada periodo. Solo lectura.
-              </p>
-              <Button to="/portal/liquidaciones" variant="dark" className="mt-4 w-full">
-                Ver liquidaciones
-              </Button>
-              <Link to="/portal/historial" className="mt-3 inline-block text-sm underline">
-                Ir al historial de pedidos
-              </Link>
-            </Card>
-          </div>
-        </div>
-      </Body>
-    </>
-  );
+  return <><PageHeader tabs={ranges.map(([id, label]) => ({ id, label }))} active={period} onTab={setPeriod} action={<Button size="sm" onClick={() => window.print()}>Imprimir resumen</Button>} /><Body><div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-2xl font-bold">Reportes · {ranges.find(([id]) => id === period)?.[1]}</h2>{loading && <span role="status" className="text-sm text-ink/60">Actualizando…</span>}</div>{error && <p role="alert" className="mt-3 text-sm text-red-700">{error}</p>}{summary && <div className="print-area"><div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4"><Kpi label="Ventas no canceladas" value={money(Number(summary.sales))} hint="Desde pedidos guardados" /><Kpi label="Pedidos" value={summary.orders} hint="Incluye cancelados" /><Kpi label="Cancelaciones" value={summary.cancelled} hint="Rechazados y cancelados" /><Kpi label="Ticket promedio" value={money(Number(summary.average_ticket))} hint="Por pedido no cancelado" /></div><Card className="mt-5"><h3 className="text-lg font-bold">Ventas por día</h3><div role="img" aria-label={`Ventas por día: ${chartLabel}`} className="mt-4 flex h-64 items-end gap-1 overflow-x-auto sm:gap-2">{rows.map((row) => <div key={row.date} title={`${row.date}: ${money(Number(row.sales))} · ${row.orders} pedidos`} className="flex h-full min-w-6 flex-1 flex-col justify-end text-center"><div className="rounded-t-lg bg-brand transition-all" style={{ height: `${Math.max(Number(row.sales) > 0 ? 4 : 0, (Number(row.sales) / max) * 85)}%` }} /><span className="mt-2 text-[10px] text-ink/60">{row.date.slice(5)}</span></div>)}</div></Card></div>}<p className="mt-4 text-xs text-ink/55">Los importes se calculan con los pedidos actuales de MySQL. Para un cierre contable, usa los registros conciliados.</p></Body></>;
 }

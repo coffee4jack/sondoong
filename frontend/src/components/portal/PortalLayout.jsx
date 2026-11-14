@@ -23,7 +23,7 @@ export default function PortalLayout() {
 
   return (
     <div className={cn("portal-theme flex min-h-screen bg-white text-ink", settings.compact && "portal-compact")} style={theme}>
-      <aside className="sticky top-0 hidden h-screen w-56 shrink-0 flex-col rounded-r-[32px] bg-[var(--portal-sidebar)] p-4 text-white lg:flex">
+      <aside className="sticky top-0 hidden h-screen w-56 shrink-0 flex-col bg-[var(--portal-sidebar)] p-4 text-white lg:flex">
         <Link to="/portal" className="px-3.5 text-3xl font-bold tracking-tighter">
           Bolt
         </Link>
@@ -35,7 +35,7 @@ export default function PortalLayout() {
               to={`/portal/${path}`}
               className={({ isActive }) =>
                 cn(
-                  "rounded-2xl px-3.5 py-2.5 text-[15px] transition",
+                  "rounded-lg px-3.5 py-2.5 text-[15px] transition", 
                   isActive ? "bg-brand font-bold text-ink" : "text-mute hover:bg-white/10 hover:text-white"
                 )
               }
@@ -44,7 +44,7 @@ export default function PortalLayout() {
             </NavLink>
           ))}
         </nav>
-        <Link to="/admin" className="mb-2 mt-auto rounded-xl bg-white/10 px-3.5 py-2.5 text-sm transition-colors hover:bg-white/20">
+        <Link to="/admin" className="mb-2 mt-auto rounded-lg px-3.5 py-2.5 text-sm transition-colors hover:bg-white/10">
           ⚙ Configurar portal
         </Link>
         <Link to="/" className="px-3.5 py-2 text-sm text-mute hover:text-white">
