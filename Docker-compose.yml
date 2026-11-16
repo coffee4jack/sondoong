@@ -38,6 +38,27 @@ services:
       db:
         condition: service_healthy
 
+<<<<<<< Updated upstream
+=======
+  mobile:
+    image: node:22-alpine
+    working_dir: /mobile
+    command: sh -c "npm install && npx expo start --host lan --port 8081 --clear"
+    volumes:
+      - ./mobile:/mobile
+      - mobile_node_modules:/mobile/node_modules
+    ports:
+      - "8081:8081"
+      - "19000:19000"
+      - "19001:19001"
+      - "19002:19002"
+    environment:
+      EXPO_PUBLIC_API_URL: ${EXPO_PUBLIC_API_URL:-http://host.docker.internal:8000/api}
+      REACT_NATIVE_PACKAGER_HOSTNAME: ${MOBILE_DEV_HOST:-localhost}
+    profiles:
+      - mobile
+
+>>>>>>> Stashed changes
   frontend-init:
     image: node:20-alpine
     working_dir: /app

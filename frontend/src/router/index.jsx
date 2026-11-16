@@ -2,12 +2,18 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../App";
 import Landing from "../pages/Landing";
 
-// Carga diferida: cada página del portal se descarga solo cuando se visita
+// Carga diferida: el bundle de cada página del portal se descarga bajo demanda.
 const page = (loader) => async () => ({ Component: (await loader()).default });
+
+// React Router displays this fallback while resolving lazy routes at startup.
+function RouterLoading() {
+  return <div role="status" className="grid min-h-screen place-items-center text-ink">Cargando…</div>;
+}
 
 const router = createBrowserRouter([
   {
     element: <App />,
+    HydrateFallback: RouterLoading,
     children: [
       { path: "/", element: <Landing /> },
       { path: "/admin", lazy: page(() => import("../pages/admin/Settings")) },

@@ -52,9 +52,46 @@ export default function Orders() {
     if (sound) beep();
   };
 
+<<<<<<< Updated upstream
   const accept = (oid, eta) => {
     setStatus(oid, "preparing", { target: eta });
     setNotice(`Pedido #${oid} aceptado · ${eta} min estimados.`);
+=======
+  const accept = (id, eta) => updateOrder(id, { status: "preparing", target: eta }, `Pedido #${id} aceptado · ${eta} min estimados.`);
+  const reject = (id, reason) => updateOrder(id, { status: "rejected", rejection_reason: reason }, `Pedido #${id} rechazado · ${reason}.`);
+  const advance = (id, status) => updateOrder(id, { status }, status === "delivered" ? `Pedido #${id} entregado al repartidor.` : `Pedido #${id} marcado listo.`);
+
+  const shareCourierLocation = (order) => {
+    if (!navigator.geolocation) {
+      setError("Este navegador no ofrece geolocalización.");
+      return;
+    }
+    if (gpsWatch.current !== null) {
+      navigator.geolocation.clearWatch(gpsWatch.current);
+      gpsWatch.current = null;
+      setGpsActive(false);
+      setNotice("Seguimiento GPS detenido.");
+      return;
+    }
+    gpsWatch.current = navigator.geolocation.watchPosition(async ({ coords }) => {
+      try {
+        await api(`/orders/${order.db_id}/location/`, {
+          method: "POST",
+          data: {
+            latitude: Number(coords.latitude.toFixed(6)),
+            longitude: Number(coords.longitude.toFixed(6)),
+            accuracy_m: Number.isFinite(coords.accuracy) ? Math.max(0, Math.round(coords.accuracy)) : null,
+          },
+        });
+        await load();
+        setNotice(`GPS compartido para #${order.id} · precisión ${Math.round(coords.accuracy)} m.`);
+      } catch (err) {
+        setError(`No se pudo actualizar GPS: ${err.message}`);
+      }
+    }, (err) => setError(`No se obtuvo permiso/posición GPS: ${err.message}`), { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 });
+    setGpsActive(true);
+    setNotice(`Seguimiento GPS activo para #${order.id}.`);
+>>>>>>> Stashed changes
   };
   const reject = (oid, reason) => {
     setStatus(oid, "rejected");

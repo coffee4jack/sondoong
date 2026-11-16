@@ -14,6 +14,39 @@ http://localhost:8000
 ```bash
 127.0.0.1:3306
 ```
+<<<<<<< Updated upstream
+=======
+# Mobile (Expo Go SDK 58)
+La app móvil usa Expo SDK 58, React Native 0.88 y Node 22 dentro de Docker. Al abrirla, elige **Cliente** o **Repartidor** (el rol se recuerda en el dispositivo).
+
+- **Cliente:** consulta sus propios pedidos mediante tokens de seguimiento y pulsa “Rastrear pedido por GPS” para ver el mapa y estado. No se solicita GPS al cliente.
+- **Repartidor:** consulta pedidos activos, selecciona uno y pulsa “Iniciar seguimiento GPS”. La app pide permisos de ubicación en primer plano y segundo plano, publica coordenadas cada ~10 segundos al API y permite detener el tracking o marcar el pedido entregado.
+- **Portal:** el mapa del detalle del pedido muestra la misma última ubicación guardada.
+
+El permiso de ubicación solo se solicita al repartidor. El tracking background requiere instalar un build propio; Expo Go no incluye todas las configuraciones nativas necesarias. Genera un APK siguiendo la sección “Build de Android en APK”. La app usa safe-area insets arriba y abajo para que header/carrito no choquen con reloj y batería y la navegación inferior quede sobre el indicador de inicio.
+
+El bundler de desarrollo debe iniciarse con:
+
+```bash
+docker compose --profile mobile stop mobile
+docker compose --profile mobile run --rm --service-ports mobile npx expo start --host lan --port 8081
+```
+
+Configura `MOBILE_DEV_HOST` y `EXPO_PUBLIC_API_URL` en `.env` con la IP LAN del equipo para escanear el QR desde Expo Go. Android Emulator normalmente usa `10.0.2.2` como host de API. El cliente HTTP usa `fetch` nativo en web y móvil; los errores JSON del API se muestran como texto plano, nunca se renderiza HTML como componentes nativos.
+
+Para refrescar dependencias móviles en Docker después de cambios de `package.json` o de errores de Metro/cache:
+
+```bash
+docker compose --profile mobile stop mobile
+docker compose run --rm --no-deps mobile npm install --no-audit --no-fund
+docker compose --profile mobile up -d --force-recreate mobile
+docker compose logs -f mobile
+```
+
+En Expo Go, la ubicación background de Android no está disponible; genera e instala el APK de desarrollo para probar el modo repartidor en segundo plano. QA móvil validado con `npx expo install --check`, `npx expo-doctor` (20/20 comprobaciones) y `npx expo export --platform android` dentro del contenedor.
+
+
+>>>>>>> Stashed changes
 # Bolt · Landing y Portal del comercio (versión React)
 
 Landing page de movilidad y entregas, más el portal del comercio. Proyecto de práctica de frontend, no es un sitio oficial.
@@ -153,6 +186,30 @@ Todos los colores de la aplicación se administran desde un único archivo: [`sr
 - `--color-bg-app`: `#ffffff` (Fondo principal de la app)
 - `--color-surface`: `#ffffff` (Superficies y tarjetas)
 
+<<<<<<< Updated upstream
+=======
+## Build móvil
+
+Para generar un APK de prueba con GPS en segundo plano, inicia sesión/configura EAS una vez y compila el perfil Android `preview`:
+
+```bash
+docker compose --profile mobile run --rm mobile npx eas-cli login
+docker compose --profile mobile run --rm mobile npx eas-cli init
+docker compose --profile mobile run --rm mobile npx eas-cli build --platform android --profile preview
+```
+
+Expo EAS devuelve un enlace para descargar e instalar el APK. La primera compilación puede tardar varios minutos.
+
+## GPS de clientes y repartidores
+
+Las coordenadas se normalizan en el cliente a seis decimales y Django valida rangos geográficos antes de escribir en MySQL; errores de GPS se devuelven con detalle por campo.
+
+- El cliente rastrea su pedido mediante token privado; no recibe permiso de ubicación.
+- El repartidor elige un pedido activo y usa “Iniciar seguimiento GPS”. La app solicita ubicación foreground/background y publica puntos cada 5 segundos o 5 metros al endpoint compartido.
+- El portal y el cliente consultan la última coordenada guardada en `OrderLocation`; marcar entrega detiene el tracking.
+- El endpoint POST GPS está abierto para desarrollo: **antes de producción hay que añadir autenticación/autorización por repartidor**, HTTPS, consentimiento y política de retención de coordenadas.
+
+>>>>>>> Stashed changes
 ## Despliegue
 
 `vercel.json` incluye el rewrite que necesita React Router (modo `history`). Los datos del portal son de ejemplo y no se guardan al recargar.
