@@ -4,9 +4,6 @@ import { styles } from "../styles";
 
 export default function Header({ title, onBack, cartCount = 0, onCart }) {
   return (
-
-
-
     <View style={styles.header}>
       {onBack ? (
         <TouchableOpacity onPress={onBack} style={styles.back} accessibilityLabel="Volver">
@@ -24,6 +21,5 @@ export default function Header({ title, onBack, cartCount = 0, onCart }) {
         {cartCount > 0 && <Text style={styles.cartBadge}>{cartCount}</Text>}
       </TouchableOpacity>
     </View>
-
   );
 }
