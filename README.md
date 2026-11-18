@@ -1,196 +1,165 @@
-# Correr en docker.
-```bash
-docker compose up --pull always --build
-```
-# La aplicación visual está en 
-```bash
-http://localhost:5173
-```
-# Django en 
-```bash
-http://localhost:8000
-```
-# MySQL se puede conectar (user sondoong - password - sondoong) desde el host en 
-```bash
-127.0.0.1:3306
-```
-<<<<<<< Updated upstream
-=======
-# Mobile (Expo Go SDK 58)
-La app móvil usa Expo SDK 58, React Native 0.88 y Node 22 dentro de Docker. Al abrirla, elige **Cliente** o **Repartidor** (el rol se recuerda en el dispositivo).
+# Bolt · Landing, Portal del comercio y App móvil
 
-- **Cliente:** consulta sus propios pedidos mediante tokens de seguimiento y pulsa “Rastrear pedido por GPS” para ver el mapa y estado. No se solicita GPS al cliente.
-- **Repartidor:** consulta pedidos activos, selecciona uno y pulsa “Iniciar seguimiento GPS”. La app pide permisos de ubicación en primer plano y segundo plano, publica coordenadas cada ~10 segundos al API y permite detener el tracking o marcar el pedido entregado.
-- **Portal:** el mapa del detalle del pedido muestra la misma última ubicación guardada.
+Proyecto de práctica de un servicio de comida a domicilio inspirado en Bolt (no es un producto oficial). Tiene cuatro piezas que comparten una sola API:
 
-El permiso de ubicación solo se solicita al repartidor. El tracking background requiere instalar un build propio; Expo Go no incluye todas las configuraciones nativas necesarias. Genera un APK siguiendo la sección “Build de Android en APK”. La app usa safe-area insets arriba y abajo para que header/carrito no choquen con reloj y batería y la navegación inferior quede sobre el indicador de inicio.
+| Pieza | Carpeta | Tecnología | Qué hace |
+| --- | --- | --- | --- |
+| Landing + Portal del comercio | `frontend/` | React 19, Vite 7, Tailwind CSS v4, React Router 7, Motion | Sitio público y panel para pedidos, catálogo, horarios, historial, reportes, liquidaciones y mensajes |
+| API | `backend/` | Django 5.1, Django REST Framework, django-cors-headers | Catálogo, pedidos, GPS, horarios, liquidaciones, mensajes y búsqueda |
+| Base de datos | servicio `db` | MySQL 8.0 | Persistencia (volumen `mysql_data`) |
+| App móvil | `mobile/` | Expo SDK 58, React Native 0.88, React 19 | Modo **Cliente** (pedir y rastrear) y modo **Repartidor** (compartir GPS) |
 
-El bundler de desarrollo debe iniciarse con:
+Documentación de diseño y requerimientos: carpeta `Documentación/` (`Requerimientos.docx` y capturas de diseño de la app, landing y portal).
 
-```bash
-docker compose --profile mobile stop mobile
-docker compose --profile mobile run --rm --service-ports mobile npx expo start --host lan --port 8081
+```
+.
+├── Docker-compose.yml     Servicios: db, backend, frontend, mobile (perfil), frontend-init (perfil)
+├── .env.example           Variables de entorno (copiar a .env)
+├── update.py              Menú de tareas Docker (reconstruir, levantar, build, APK)
+├── backend/               API Django (app `catalog`, proyecto `core`)
+├── frontend/              Landing y portal (Vite + React)
+├── mobile/                App Expo / React Native
+└── Documentación/         Requerimientos y diseños
 ```
 
-Configura `MOBILE_DEV_HOST` y `EXPO_PUBLIC_API_URL` en `.env` con la IP LAN del equipo para escanear el QR desde Expo Go. Android Emulator normalmente usa `10.0.2.2` como host de API. El cliente HTTP usa `fetch` nativo en web y móvil; los errores JSON del API se muestran como texto plano, nunca se renderiza HTML como componentes nativos.
+## Inicio rápido (Docker)
 
-Para refrescar dependencias móviles en Docker después de cambios de `package.json` o de errores de Metro/cache:
-
-```bash
-docker compose --profile mobile stop mobile
-docker compose run --rm --no-deps mobile npm install --no-audit --no-fund
-docker compose --profile mobile up -d --force-recreate mobile
-docker compose logs -f mobile
-```
-
-En Expo Go, la ubicación background de Android no está disponible; genera e instala el APK de desarrollo para probar el modo repartidor en segundo plano. QA móvil validado con `npx expo install --check`, `npx expo-doctor` (20/20 comprobaciones) y `npx expo export --platform android` dentro del contenedor.
-
-
->>>>>>> Stashed changes
-# Bolt · Landing y Portal del comercio (versión React)
-
-Landing page de movilidad y entregas, más el portal del comercio. Proyecto de práctica de frontend, no es un sitio oficial.
-
-Esta es la **migración a React 19** de la versión en Vue 3. Hecho con Vite, React, Tailwind CSS v4, Motion (`motion/react`) y React Router 7. Colores y tipografía (PT Sans) tomados de la app móvil. El diseño, los textos, las rutas y el comportamiento son los mismos que en la versión Vue.
-
-## Requisitos
-
-- Docker Desktop (o Docker Engine) con Docker Compose.
-- No necesitas instalar Python ni Node.js en el equipo.
-- Un archivo `.env` en la raíz del repositorio. Si no existe, copia `.env.example` como `.env` y ajusta las contraseñas y `DJANGO_SECRET_KEY`.
-
-## Arranque con Docker Compose
-
-Desde la raíz del repositorio, construye las imágenes y arranca los servicios:
+Requisitos: Docker Desktop (o Docker Engine) con Compose. No necesitas Python ni Node instalados.
 
 ```bash
+cp .env.example .env            # ajusta contraseñas y DJANGO_SECRET_KEY
 docker compose up --pull always --build -d
 ```
 
-La primera construcción puede tardar unos minutos. Compose espera a que MySQL esté saludable antes de iniciar Django. Para aplicar las migraciones de Django:
+El contenedor del backend ejecuta `migrate` automáticamente al arrancar. Compose espera a que MySQL esté saludable antes de iniciar Django. Para cargar datos de ejemplo:
 
 ```bash
-docker compose exec backend python manage.py migrate
+docker compose exec backend python manage.py seed_products   # categorías y productos
+docker compose exec backend python manage.py seed_portal     # pedidos, horarios, liquidaciones
+docker compose exec backend python manage.py createsuperuser # opcional, para /admin/
 ```
 
-### Dónde ver la aplicación
+| Servicio | URL / conexión |
+| --- | --- |
+| Frontend (landing y portal) | http://localhost:5173 |
+| API Django | http://localhost:8000/api/ |
+| Admin de Django | http://localhost:8000/admin/ |
+| MySQL | `127.0.0.1:3306` (DBeaver / MySQL Workbench), usuario y contraseña del `.env` |
 
-| Servicio | URL / conexión | Puerto del host |
+Comandos útiles:
+
+```bash
+docker compose ps                                  # estado
+docker compose logs -f backend frontend db         # logs
+docker compose down                                # detener (conserva datos)
+docker compose down -v                             # detener y BORRAR la base de datos
+```
+
+`python update.py` abre un menú que envuelve estos comandos (reconstruir todo, levantar web, levantar móvil, build del frontend, APK Android).
+
+### Variables de entorno (`.env` en la raíz)
+
+| Variable | Uso | Ejemplo |
 | --- | --- | --- |
-| Frontend React + Vite | [http://localhost:5173](http://localhost:5173) | `5173` |
-| Backend Django | [http://localhost:8000](http://localhost:8000) | `8000` |
-| MySQL | Host `127.0.0.1`, puerto `3306` (DBeaver / MySQL Workbench) | `3306` |
+| `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_ROOT_PASSWORD` | Credenciales de MySQL | ver `.env.example` |
+| `DB_HOST`, `DB_PORT` | Dónde está MySQL para Django | `db`, `3306` |
+| `DJANGO_SECRET_KEY` | Clave secreta de Django | cadena larga aleatoria |
+| `EXPO_PUBLIC_API_URL` | URL de la API vista desde el teléfono | `http://192.168.1.20:8000/api` |
+| `MOBILE_DEV_HOST` | IP que Expo anuncia para el QR | IP LAN del equipo |
+| `VITE_API_URL` | URL de la API para el frontend (en Compose ya apunta a `http://localhost:8000/api`) | |
 
-El frontend es el resultado visual de la aplicación. El backend estará disponible en `http://localhost:8000`; crea rutas API en Django según las necesidades del frontend.
+## Base de datos y modelos
 
-### Comandos habituales
+Los modelos viven en `backend/catalog/models.py`; las migraciones en `backend/catalog/migrations/`.
 
-Ver estado de los servicios:
+| Modelo | Campos principales |
+| --- | --- |
+| `Category` | `name` (único) |
+| `Product` | `category` (FK, PROTECT), `name`, `price`, `stock`, `available`, `options` (JSON), `image` (URL). Si `stock = 0`, `available` se fuerza a `false` |
+| `Order` | `code` (único), `items` (JSON), `total`, `status` (`new`, `preparing`, `ready`, `delivered`, `rejected`, `cancelled`), `priority`, `target_minutes`, `branch`, `rejection_reason`, datos del cliente, `tracking_token` (UUID privado), `entered_at`, `updated_at` |
+| `OrderLocation` | `order` (FK, CASCADE), `latitude` y `longitude` (DECIMAL 9,6), `accuracy_m`, `recorded_at`. Una fila por punto GPS |
+| `StoreSchedule` | Una fila `key="default"`: pausa (`paused`, `pause_reason`, `pause_duration`, `paused_until`) y `weekly_hours` (JSON) |
+| `ScheduleException` | `date`, `start_time`, `end_time`, `reason` |
+| `Settlement` | `period`, `status`, `gross`, `commission`, `adjustments` |
+| `ChatMessage` | `thread_id`, `contact`, `sender` (`merchant`, `operations`, `courier`), `text` |
+
+Los modelos están registrados en el admin de Django (`/admin/`); `Order` muestra sus puntos GPS en línea.
+
+## API REST (`/api/`)
+
+| Ruta | Métodos | Notas |
+| --- | --- | --- |
+| `/categories/` | CRUD | |
+| `/products/` | CRUD | |
+| `/messages/` | GET, POST | `?thread_id=` filtra por conversación |
+| `/orders/` | CRUD | Filtros: `search`, `status`, `branch`, `from`, `to`, `min`. Cada pedido incluye `latest_location` y `db_id` |
+| `/orders/summary/?period=today\|7d\|30d` | GET | Ventas, cancelados, ticket promedio y ventas diarias |
+| `/orders/{id}/location/` | POST | El repartidor publica un punto GPS (`latitude`, `longitude`, `accuracy_m`) |
+| `/tracking/{token}/` | GET | Vista pública del cliente: estado, artículos y última ubicación. Token inválido → 404 |
+| `/tracking/{token}/location/` | POST | Igual que el anterior, usando el token del pedido |
+| `/schedule/`, `/schedule/default/` | GET, PATCH, PUT | Pausa y horarios |
+| `/schedule-exceptions/` | CRUD | Excepciones de horario |
+| `/settlements/` | CRUD | Liquidaciones |
+| `/search/?q=` | GET | Busca productos y pedidos (mínimo 2 caracteres) |
+
+Errores de validación se devuelven por campo, por ejemplo `{"latitude": ["Latitud debe estar entre -90 y 90."]}`.
+
+## Frontend (landing y portal)
+
+Rutas (`frontend/src/router/index.jsx`, carga diferida por página):
+
+| Ruta | Contenido |
+| --- | --- |
+| `/` | Landing (Navbar, Hero, Servicios, Conductores, Sobre nosotros, Negocio, Bolt Send, Apps, Noticias, Footer) |
+| `/portal/pedidos` | Pedidos con alertas, impresión, chat, simulación de pedido y botón de GPS del repartidor con mapa |
+| `/portal/catalogo` | Catálogo y existencias |
+| `/portal/horarios` | Pausas, horarios y excepciones |
+| `/portal/historial` | Historial con filtros |
+| `/portal/reportes` | Reportes (hoy, 7 y 30 días) |
+| `/portal/liquidaciones` | Liquidaciones |
+| `/portal/mensajes` | Mensajes por pedido |
+| `/admin` | Configuración del portal |
+
+Estructura de `frontend/src/`: `components/` (`landing`, `portal`, `buttons`), `pages/`, `router/`, `lib/api.js` (cliente `fetch` compartido: acepta `body` como objeto, string o `FormData`), `lib/portalSettings.js`, `hooks/useNow.js`, `data/portal.js`.
+
+Colores y tipografía: se definen en el bloque `@theme` de `frontend/src/index.css` (`--color-ink`, `--color-brand` `#3bb77e`, etc.). La fuente es PT Sans (400 y 700) vía `@fontsource/pt-sans`.
+
+Scripts (`cd frontend`): `npm run dev`, `npm run build`, `npm run lint`, `npm test` (Vitest), `npm run qa` (lint + test + build). También dentro de Docker: `docker compose exec frontend npm run qa`.
+
+Despliegue: `vercel.json` trae el rewrite que necesita React Router. Configura `VITE_API_URL` apuntando a tu API.
+
+## App móvil (`mobile/`)
+
+App Expo SDK 58 / React Native 0.88 (JavaScript). Al abrirla se elige el modo, que se recuerda en el dispositivo (`AsyncStorage`).
+
+- **Cliente**: Inicio (cabecera, dirección, búsqueda, categorías, banner y cuadrícula de productos), Favoritos, Pedidos, carrito, detalle de producto y seguimiento. Las pestañas inferiores también se cambian deslizando. No pide ubicación al cliente.
+- **Repartidor**: lista de pedidos `preparing` y `ready`, inicio y detención del GPS y botón “Marcar como entregado”.
+
+Archivos clave: `App.js` (estado y navegación por pantalla), `src/api.js` (cliente `fetch`), `src/locationTask.js` (tarea GPS en segundo plano), `src/styles.js` (colores y estilos; `ink` es `#0a0a0a`), `src/components/*` (pantallas y piezas), `src/TrackingMap.js` (mapa con `react-native-maps`).
+
+Los insets del sistema se pintan aparte en `App.js`: la franja superior (reloj y batería) usa el mismo color oscuro `#0a0a0a` del header y la inferior toma el de la barra de pestañas.
+
+### Ejecutar en desarrollo
+
+Con Docker (perfil `mobile`):
 
 ```bash
-docker compose ps
+# En .env: EXPO_PUBLIC_API_URL=http://<IP-LAN>:8000/api y MOBILE_DEV_HOST=<IP-LAN>
+docker compose --profile mobile up -d mobile
+docker compose logs -f mobile     # QR y URL de Expo
 ```
 
-Ver logs en tiempo real:
+Sin Docker: `cd mobile && npm install && npx expo start`. En el emulador de Android la API suele ser `http://10.0.2.2:8000/api`; en un teléfono físico usa la IP LAN del equipo. Para reinstalar dependencias tras cambiar `package.json`: `docker compose run --rm --no-deps mobile npm install --no-audit --no-fund`.
 
-```bash
-docker compose logs -f backend frontend db
-```
+### GPS: cómo funciona
 
-Detener los servicios sin eliminar los datos de MySQL:
+1. El repartidor abre el modo Repartidor, elige un pedido y pulsa **Iniciar seguimiento GPS**. La app pide permiso de ubicación en primer plano y en segundo plano.
+2. `locationTask.js` publica un punto cada 5 segundos o 5 metros a `POST /api/orders/{id}/location/` (con servicio en primer plano y notificación en Android).
+3. Django valida rango (latitud −90..90, longitud −180..180), redondea a 6 decimales y guarda un `OrderLocation`.
+4. El cliente consulta `GET /api/tracking/{token}/` cada 12 segundos y muestra el mapa; el portal muestra la misma última posición (mapa de OpenStreetMap incrustado).
+5. Al marcar el pedido como entregado o detener el seguimiento, la tarea se detiene. Un pedido `delivered`, `rejected` o `cancelled` rechaza nuevos puntos con HTTP 409.
 
-```bash
-docker compose down
-```
-
-Los cambios en `./backend` y `./frontend` se reflejan mediante bind mounts y hot reload. Si cambias dependencias en `backend/requirements.txt` o `frontend/package.json`, vuelve a construir y arrancar:
-
-```bash
-docker compose up --pull always --build -d
-```
-
-Los datos de MySQL se conservan en el volumen nombrado `mysql_data`. No ejecutes `docker compose down -v` salvo que quieras borrar esos datos.
-
-### Comandos del frontend
-
-Los scripts npm también se pueden ejecutar dentro del contenedor, sin instalar Node localmente:
-
-```bash
-docker compose exec frontend npm run lint
-docker compose exec frontend npm run build
-docker compose exec frontend npm run qa
-```
-
-## Rutas
-
-| Ruta                    | Contenido                                   |
-| ----------------------- | ------------------------------------------- |
-| `/`                     | Landing                                     |
-| `/portal/pedidos`       | Panel de pedidos, alertas, impresión y chat |
-| `/portal/catalogo`      | Catálogo y existencias                      |
-| `/portal/horarios`      | Pausas y horarios                           |
-| `/portal/historial`     | Historial con filtros                       |
-| `/portal/reportes`      | Reportes                                    |
-| `/portal/liquidaciones` | Liquidaciones (solo lectura)                |
-| `/portal/mensajes`      | Comunicación por pedido                     |
-
-## Estructura
-
-```
-src/
-├── main.jsx, App.jsx, index.css
-├── router/index.jsx       Rutas (el portal se carga de forma diferida)
-├── pages/                 Landing.jsx, NotFound.jsx y pages/portal/*.jsx
-├── components/
-│   ├── buttons/           Button.jsx
-│   ├── landing/           Navbar, Hero, Services, ... (+ Svg.jsx, navIcons.js)
-│   └── portal/            PortalLayout, Chat, OrderCard, Card, Chip, Toggle, ...
-├── hooks/useNow.js        Hora actual que se refresca sola
-├── data/portal.js         Datos de ejemplo del portal
-└── lib/                   beep.js (sonido y formato de dinero) y cn.js (unir clases)
-```
-
-## Equivalencias Vue → React
-
-| Vue                                              | React                                                                       |
-| ------------------------------------------------ | --------------------------------------------------------------------------- |
-| `ref()`                                          | `useState()`                                                                |
-| `computed()`                                     | Valores calculados en el render                                             |
-| `onMounted` / `onUnmounted` / `watch`            | `useEffect`                                                                 |
-| `class`, `@click`, `v-model`                     | `className`, `onClick`, `value` + `onChange`                                |
-| `v-if`, `v-for`                                  | `cond && <X />`, `.map()`                                                   |
-| `<slot>` / slots con nombre (`#action`)          | `children` / prop `action`                                                  |
-| `emit("change")` y `@change` en el padre         | Prop callback (`onChange`, `onTab`, `onAccept`...)                          |
-| `vue-router` (`RouterLink`, `RouterLink custom`) | `react-router-dom` (`Link`, `NavLink` con `className` en función)           |
-| `<RouterView />`                                 | `<Outlet />`                                                                |
-| `() => import(...)` en las rutas                 | `lazy` de React Router                                                      |
-| `scrollBehavior` del router                      | `<ScrollRestoration />` en `App.jsx`                                        |
-| `motion-v`                                       | `motion/react` (`in-view-options` → `viewport`, `while-press` → `whileTap`) |
-| `composables/useNow.js`                          | `hooks/useNow.js`                                                           |
-| `<component :is="as">`                           | `const Tag = as` (componente `Card`)                                        |
-
-## Tipografía
-
-La fuente es **PT Sans** (400 y 700), instalada con el paquete `@fontsource/pt-sans` e importada en `src/main.jsx`. Así se sirve junto con la app (funciona sin internet y sin depender de Google Fonts). Se aplica globalmente con la variable `--font-sans` de Tailwind, definida en `src/index.css`.
-
-> PT Sans solo existe en pesos 400 y 700. Las clases `font-medium` (500) se muestran con el peso 400.
-
-### Configuración centralizada de colores
-
-Todos los colores de la aplicación se administran desde un único archivo: [`src/index.css`](src/index.css) dentro del bloque `@theme`:
-
-- `--color-ink`: `#010f1c` (Azul oscuro / texto principal)
-- `--color-brand`: `#3bb77e` (Verde Bolt / color de acento)
-- `--color-mute`: `#999999` (Gris neutro)
-- `--color-sand`: `#ffffff` (Blanco)
-- `--color-bg-app`: `#ffffff` (Fondo principal de la app)
-- `--color-surface`: `#ffffff` (Superficies y tarjetas)
-
-<<<<<<< Updated upstream
-=======
-## Build móvil
-
-Para generar un APK de prueba con GPS en segundo plano, inicia sesión/configura EAS una vez y compila el perfil Android `preview`:
+El GPS en segundo plano **no funciona en Expo Go**; requiere un build propio. Para generar un APK de prueba (necesitas una cuenta Expo):
 
 ```bash
 docker compose --profile mobile run --rm mobile npx eas-cli login
@@ -198,18 +167,29 @@ docker compose --profile mobile run --rm mobile npx eas-cli init
 docker compose --profile mobile run --rm mobile npx eas-cli build --platform android --profile preview
 ```
 
-Expo EAS devuelve un enlace para descargar e instalar el APK. La primera compilación puede tardar varios minutos.
+Para mapas de Google en un build de producción de Android hay que añadir una clave de Google Maps en `app.json`.
 
-## GPS de clientes y repartidores
+## Pruebas y control de calidad
 
-Las coordenadas se normalizan en el cliente a seis decimales y Django valida rangos geográficos antes de escribir en MySQL; errores de GPS se devuelven con detalle por campo.
+```bash
+# Backend (SQLite en memoria, no necesita MySQL)
+cd backend && python manage.py test --settings=core.test_settings
+# Frontend
+cd frontend && npm run qa
+# Móvil: verificar que compila
+cd mobile && npx expo export --platform android
+```
 
-- El cliente rastrea su pedido mediante token privado; no recibe permiso de ubicación.
-- El repartidor elige un pedido activo y usa “Iniciar seguimiento GPS”. La app solicita ubicación foreground/background y publica puntos cada 5 segundos o 5 metros al endpoint compartido.
-- El portal y el cliente consultan la última coordenada guardada en `OrderLocation`; marcar entrega detiene el tracking.
-- El endpoint POST GPS está abierto para desarrollo: **antes de producción hay que añadir autenticación/autorización por repartidor**, HTTPS, consentimiento y política de retención de coordenadas.
+El backend incluye pruebas del catálogo, pedidos, horarios, reportes y GPS (precisión, rangos inválidos, pedido terminado, token inválido y flujo repartidor → cliente → portal).
 
->>>>>>> Stashed changes
-## Despliegue
+## Limitaciones conocidas (antes de producción)
 
-`vercel.json` incluye el rewrite que necesita React Router (modo `history`). Los datos del portal son de ejemplo y no se guardan al recargar.
+- **No hay autenticación.** Cualquiera con acceso a la API puede leer y escribir pedidos y puntos GPS. Falta login para repartidores y comercio, HTTPS, consentimiento de ubicación y política de retención de coordenadas.
+- `DEBUG = True`, `ALLOWED_HOSTS = ["*"]` y `CORS_ALLOWED_ORIGINS` solo con `http://localhost:5173` en `backend/core/settings.py`: ajustar para producción.
+- La tabla `OrderLocation` crece sin límite; conviene archivar o purgar puntos antiguos.
+- Las imágenes de ejemplo de la landing son de Pexels y Unsplash; reemplázalas antes de publicar.
+- Los servidores Linux distinguen mayúsculas: el nombre de cada archivo debe coincidir con su `import`.
+
+## Versiones
+
+Cada rama `version_X.Y.Z` es una entrega. `version_2.1.1` integra la API de pedidos y GPS (`version_2.1.0`) con la app móvil completa, el cliente `fetch` unificado y las correcciones de interfaz móvil.

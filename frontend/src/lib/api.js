@@ -1,27 +1,8 @@
 const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:8000/api").replace(/\/$/, "");
 
-// Shared fetch client; request bodies remain the standard Fetch `body` field.
+// Cliente fetch compartido. `body` puede ser un objeto (se serializa a JSON),
+// un string ya serializado o FormData.
 export async function api(path, options = {}) {
-<<<<<<< Updated upstream
-  const response = await fetch(`${API_BASE}${path}`, {
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-    },
-    ...options,
-  });
-
-  if (!response.ok) {
-    const body = await response.json().catch(() => null);
-    const detail = body && typeof body === "object"
-      ? Object.entries(body).map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(", ") : value}`).join("; ")
-      : "";
-    throw new Error(detail || `Error HTTP ${response.status}`);
-  }
-
-  if (response.status === 204) return null;
-  return response.json();
-=======
   const body = options.body;
   const isFormData = typeof FormData !== "undefined" && body instanceof FormData;
   let response;
@@ -47,5 +28,4 @@ export async function api(path, options = {}) {
     throw new Error(detail || `Error HTTP ${response.status}`);
   }
   return data;
->>>>>>> Stashed changes
 }

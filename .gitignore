@@ -23,3 +23,7 @@ dist/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Expo
+mobile/.expo/
+mobile/node_modules/

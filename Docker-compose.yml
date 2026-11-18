@@ -22,7 +22,7 @@ services:
     build:
       context: ./backend
     working_dir: /app
-    command: python manage.py runserver 0.0.0.0:8000
+    command: sh -c "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./backend:/app
     ports:
@@ -38,8 +38,6 @@ services:
       db:
         condition: service_healthy
 
-<<<<<<< Updated upstream
-=======
   mobile:
     image: node:22-alpine
     working_dir: /mobile
@@ -58,7 +56,6 @@ services:
     profiles:
       - mobile
 
->>>>>>> Stashed changes
   frontend-init:
     image: node:20-alpine
     working_dir: /app
@@ -84,3 +81,4 @@ services:
 
 volumes:
   mysql_data:
+  mobile_node_modules:

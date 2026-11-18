@@ -4,7 +4,7 @@ import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-cont
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import { api } from "./src/api";
-import { styles } from "./src/styles";
+import { colors, styles } from "./src/styles";
 import RolePicker from "./src/components/RolePicker";
 import CourierScreen from "./src/components/CourierScreen";
 import HomeScreen from "./src/components/HomeScreen";
@@ -165,8 +165,16 @@ function AppContent() {
     content = <RolePicker onSelect={selectRole} />;
   }
 
-  // Explicit insets keep the header below the status bar and bottom tabs above the home indicator.
-  return <View style={[styles.safe, { paddingTop: insets.top, paddingBottom: insets.bottom }]} {...(activeMainTab ? swipeResponder.panHandlers : {})}><StatusBar barStyle="light-content" backgroundColor="#010F1C" /><ExpoStatusBar style="light" />{content}</View>;
+  // La franja del reloj/batería se pinta del mismo color oscuro que el header (#0a0a0a);
+  // la inferior toma el color de la barra de pestañas (blanca) o del fondo de la pantalla.
+  const hasBottomNav = screen === "Home" || screen === "Favoritos" || screen === "Orders";
+  return <View style={styles.safe} {...(activeMainTab ? swipeResponder.panHandlers : {})}>
+    <StatusBar barStyle="light-content" backgroundColor={colors.ink} />
+    <ExpoStatusBar style="light" backgroundColor={colors.ink} />
+    <View style={{ height: insets.top, backgroundColor: colors.ink }} />
+    <View style={{ flex: 1 }}>{content}</View>
+    <View style={{ height: insets.bottom, backgroundColor: role === "customer" && hasBottomNav ? colors.white : colors.pale }} />
+  </View>;
 }
 
 // Keep safe-area context above every screen so status and navigation insets are valid.

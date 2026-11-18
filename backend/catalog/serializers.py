@@ -1,12 +1,18 @@
-<<<<<<< Updated upstream
-=======
 import uuid
 from decimal import Decimal, InvalidOperation
 
->>>>>>> Stashed changes
 from rest_framework import serializers
 
-from .models import Category, ChatMessage, Product
+from .models import (
+    Category,
+    ChatMessage,
+    Order,
+    OrderLocation,
+    Product,
+    ScheduleException,
+    Settlement,
+    StoreSchedule,
+)
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -27,28 +33,13 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = [
-            "id",
-            "name",
-            "category",
-            "category_name",
-            "price",
-            "stock",
-            "available",
-            "options",
-            "image",
-            "created_at",
-            "updated_at",
-        ]
+        fields = ["id", "name", "category", "category_name", "price", "stock", "available", "options", "image", "created_at", "updated_at"]
         read_only_fields = ["created_at", "updated_at"]
 
     def validate(self, attrs):
-        stock = attrs.get("stock", getattr(self.instance, "stock", 0))
-        if stock == 0:
+        if attrs.get("stock", getattr(self.instance, "stock", 0)) == 0:
             attrs["available"] = False
         return attrs
-<<<<<<< Updated upstream
-=======
 
 
 class GPSCoordinateField(serializers.DecimalField):
@@ -134,4 +125,3 @@ class SettlementSerializer(serializers.ModelSerializer):
         model = Settlement
         fields = ["id", "period", "status", "gross", "commission", "adjustments", "created_at"]
         read_only_fields = ["id", "created_at"]
->>>>>>> Stashed changes

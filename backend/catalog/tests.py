@@ -68,3 +68,22 @@ class PortalApiTests(APITestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn("latitude", response.data)
         self.assertIn("accuracy_m", response.data)
+
+    def test_location_is_rejected_after_order_is_delivered(self):
+        order = Order.objects.create(code="GPS-DONE-TEST", items=[], total="0.00", status="delivered")
+        body = {"latitude": "14.072300", "longitude": "-87.192100"}
+        self.assertEqual(self.client.post(f"/api/orders/{order.pk}/location/", body, format="json").status_code, 409)
+        self.assertEqual(self.client.post(f"/api/tracking/{order.tracking_token}/location/", body, format="json").status_code, 409)
+
+    def test_gps_flow_courier_updates_are_reflected_in_latest_location(self):
+        order = Order.objects.create(code="GPS-FLOW-TEST", items=[], total="0.00", status="preparing")
+        for lat, lng in [("14.072300", "-87.192100"), ("14.073000", "-87.191000")]:
+            self.client.post(f"/api/orders/{order.pk}/location/", {"latitude": lat, "longitude": lng, "accuracy_m": 8}, format="json")
+        latest = self.client.get(f"/api/tracking/{order.tracking_token}/").data["latest_location"]
+        self.assertEqual(str(latest["latitude"]), "14.073000")
+        self.assertEqual(self.client.get("/api/tracking/not-a-uuid/").status_code, 404)
+
+    def test_full_precision_device_coordinates_are_accepted(self):
+        order = Order.objects.create(code="GPS-PREC-TEST", items=[], total="0.00", status="preparing")
+        response = self.client.post(f"/api/orders/{order.pk}/location/", {"latitude": 14.07230123456, "longitude": -87.19210987654}, format="json")
+        self.assertEqual(response.status_code, 201)

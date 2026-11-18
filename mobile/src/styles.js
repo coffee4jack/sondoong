@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export const colors = {
-  ink: "#101010",
+  ink: "#0a0a0a",
   green: "#3bb77e",
   gray: "#999999",
   sand: "#EDE9E0",
@@ -12,7 +12,7 @@ export const colors = {
 export const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: colors.pale },
   screen: { flex: 1, backgroundColor: colors.pale },
-  header: { backgroundColor: colors.ink, minHeight: 86, flexDirection: "row", alignItems: "center", paddingHorizontal: 18, paddingTop: 16, paddingBottom: 16, gap: 12 },
+  header: { backgroundColor: colors.ink, minHeight: 74, flexDirection: "row", alignItems: "center", paddingHorizontal: 18, paddingVertical: 12, gap: 12 },
   logo: { width: 42, height: 42, borderRadius: 14, backgroundColor: colors.green, alignItems: "center", justifyContent: "center" },
   logoText: { color: colors.ink, fontSize: 23, fontWeight: "900" },
   welcome: { color: "#AAB4BB", fontSize: 9, letterSpacing: 1.2 },
@@ -29,11 +29,12 @@ export const styles = StyleSheet.create({
   change: { color: colors.green, fontWeight: "700" },
   searchBox: { marginHorizontal: 16, marginTop: 12, backgroundColor: colors.white, borderRadius: 14, height: 46, flexDirection: "row", alignItems: "center", paddingHorizontal: 14, gap: 9 },
   searchInput: { flex: 1, color: colors.ink },
-  categoryScroll: { maxHeight: 165, paddingLeft: 12, marginTop: 10 },
-  pill: { backgroundColor: colors.white, paddingHorizontal: 14, paddingVertical: 9, borderRadius: 24, marginHorizontal: 4, justifyContent: "center" },
+  categoryScroll: { flexGrow: 0, flexShrink: 0, height: 50, marginTop: 10 },
+  categoryContent: { alignItems: "center", paddingHorizontal: 12 },
+  pill: { height: 36, backgroundColor: colors.white, paddingHorizontal: 16, borderRadius: 18, marginHorizontal: 4, alignItems: "center", justifyContent: "center" },
   pillActive: { backgroundColor: colors.green },
-  pillText: { color: colors.ink, fontSize: 12 },
-  pillTextActive: { fontWeight: "800" },
+  pillText: { color: colors.ink, fontSize: 13, fontWeight: "600", includeFontPadding: false },
+  pillTextActive: { color: colors.ink, fontWeight: "800" },
   content: { padding: 16, paddingBottom: 28 },
   hero: { backgroundColor: colors.sand, borderRadius: 20, padding: 18, flexDirection: "row", alignItems: "center", marginBottom: 21 },
   heroEyebrow: { fontSize: 9, fontWeight: "800", color: colors.green, letterSpacing: 1 },
@@ -53,7 +54,7 @@ export const styles = StyleSheet.create({
   addCircle: { width: 30, height: 30, borderRadius: 15, backgroundColor: colors.green, alignItems: "center", justifyContent: "center" },
   addText: { fontSize: 20, color: colors.ink },
   heart: { position: "absolute", top: 15, right: 15, backgroundColor: colors.white, borderRadius: 15, width: 28, height: 28, alignItems: "center", justifyContent: "center" },
-  bottom: { flexDirection: "row", justifyContent: "space-around", backgroundColor: colors.white, paddingTop: 12, paddingBottom: 14, minHeight: 66, borderTopWidth: 1, borderTopColor: "#00000010" },
+  bottom: { flexDirection: "row", justifyContent: "space-around", backgroundColor: colors.white, paddingTop: 10, paddingBottom: 8, borderTopWidth: 1, borderTopColor: "#00000010" },
   navItem: { alignItems: "center", minWidth: 60 },
   navIcon: { fontSize: 20, color: colors.gray },
   navText: { fontSize: 9, color: colors.gray, marginTop: 2 },
