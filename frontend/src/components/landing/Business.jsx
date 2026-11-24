@@ -7,7 +7,7 @@ const blocks = [
     title: "Conduce y gana dinero",
     text: "Más de 200 millones de usuarios te enviarán solicitudes de viaje. Cuando la demanda es alta, puedes ganar aún más.",
     cta: "Regístrate para conducir",
-    img: "https://images.pexels.com/photos/5988831/pexels-photo-5988831.jpeg",
+    img: "https://plus.unsplash.com/premium_photo-1682088893443-384634324032?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
     alt: "Conductora sonriendo dentro de un auto",
   },
   {
@@ -15,7 +15,7 @@ const blocks = [
     title: "Gana con cada entrega",
     text: "Tú decides cuándo y con qué frecuencia entregas: entre semana, por las tardes, los fines de semana o solo una hora cuando quieras.",
     cta: "Regístrate como repartidor",
-    img: "https://images.pexels.com/photos/1149601/pexels-photo-1149601.jpeg",
+    img: "https://plus.unsplash.com/premium_photo-1661550053794-709dd3178721?q=80&w=869&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
     alt: "Repartidor entregando un pedido",
   },
   {
@@ -23,7 +23,7 @@ const blocks = [
     title: "Aumenta tus ventas y llega a nuevos clientes",
     text: "Millones de usuarios piden comida y productos a restaurantes y tiendas como la tuya.",
     cta: "Regístrate en Bolt Food",
-    img: "https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg",
+    img: "https://images.pexels.com/photos/34366572/pexels-photo-34366572.jpeg",
     alt: "Dueño de un comercio con una tableta",
   },
 ];

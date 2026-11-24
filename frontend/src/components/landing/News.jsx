@@ -3,24 +3,24 @@ const featured = {
   date: "28 oct 2026",
   title: "La IA nos ahorró 55 días de ingeniería. También nos mostró nuevas formas de fallar.",
   text: "Cómo los ingenieros de Bolt ahorraron más de 55 días con IA, detectaron identificaciones falsificadas y mejoraron la automatización del soporte.",
-  img: "https://images.pexels.com/photos/1149601/pexels-photo-1149601.jpeg",
+  img: "https://images.pexels.com/photos/8849295/pexels-photo-8849295.jpeg",
 };
 
 const list = [
   {
     title: "Métropole du Grand Paris, Bolt y Stellantis se unen para llevar...",
     date: "23 oct 2026",
-    img: "https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg",
+    img: "https://images.pexels.com/photos/32392390/pexels-photo-32392390.jpeg",
   },
   {
     title: "Bolt elige NVIDIA Alpamayo para impulsar sus vehículos autónomos...",
     date: "22 oct 2026",
-    img: "https://images.pexels.com/photos/5988831/pexels-photo-5988831.jpeg",
+    img: "https://images.pexels.com/photos/30608594/pexels-photo-30608594.jpeg",
   },
   {
     title: "Escalando pipelines de GitHub Actions",
     date: "19 oct 2026",
-    img: "https://images.pexels.com/photos/1149601/pexels-photo-1149601.jpeg",
+    img: "https://images.pexels.com/photos/15555952/pexels-photo-15555952.jpeg",
   },
 ];
 

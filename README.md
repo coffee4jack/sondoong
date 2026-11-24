@@ -1,6 +1,6 @@
 # Correr en docker.
 ```bash
-docker compose up --pull always --build -
+docker compose up --pull always --build
 ```
 # La aplicación visual está en 
 ```bash

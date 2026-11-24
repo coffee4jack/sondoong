@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 
 // Cambia esta imagen por la tuya (ideal: PNG/JPG ancho, de al menos 1600px)
-const IMAGE = "https://images.pexels.com/photos/1149601/pexels-photo-1149601.jpeg";
+const IMAGE = "https://images.unsplash.com/photo-1695654397056-9de11d81d282?q=80&w=872&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D";
 
 export default function DriveSection() {
   return (

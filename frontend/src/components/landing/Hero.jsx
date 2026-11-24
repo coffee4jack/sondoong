@@ -47,7 +47,7 @@ export default function Hero() {
         >
           <div className="h-[640px] w-full overflow-hidden">
             <img
-              src="https://images.pexels.com/photos/38163315/pexels-photo-38163315.jpeg"
+              src="https://images.pexels.com/photos/8649289/pexels-photo-8649289.jpeg"
               alt="Paisaje de viaje"
               loading="eager"
               className="h-full w-full rounded-2xl object-cover"
