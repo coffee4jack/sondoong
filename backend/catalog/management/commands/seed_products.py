@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from catalog.models import Category, Product
+from catalog.models import Category, Merchant, Product
 
 
 PRODUCTS = [
@@ -15,15 +15,26 @@ PRODUCTS = [
 ]
 
 
+def default_merchant():
+    """Comercio de ejemplo al que pertenecen los datos de demostración."""
+    merchant, _ = Merchant.objects.get_or_create(
+        slug="comercio-inicial",
+        defaults={"name": "Restaurante El Sabor", "category": "Restaurante", "status": "active"},
+    )
+    return merchant
+
+
 class Command(BaseCommand):
     help = "Creates the example catalog categories and products if missing."
 
     def handle(self, *args, **options):
+        merchant = default_merchant()
         for name, category_name, price, stock, product_options in PRODUCTS:
             category, _ = Category.objects.get_or_create(name=category_name)
             Product.objects.get_or_create(
                 name=name,
                 category=category,
+                merchant=merchant,
                 defaults={
                     "price": price,
                     "stock": stock,

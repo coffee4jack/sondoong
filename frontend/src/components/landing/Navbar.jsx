@@ -170,12 +170,19 @@ export default function Navbar() {
                 Support
               </a>
 
-              {/* Para comercios */}
+              {/* Acceso: login y portal del comercio */}
+              <Link
+                to="/login"
+                className="hidden cursor-pointer rounded-full border border-ink/15 px-4 py-2 text-sm font-bold transition hover:bg-ink/5 sm:block"
+              >
+                Iniciar sesión
+              </Link>
+
               <Link
                 to="/portal"
-                className="hidden cursor-pointer text-sm font-medium sm:block"
+                className="hidden cursor-pointer rounded-full bg-brand px-4 py-2 text-sm font-bold text-ink transition hover:brightness-105 md:block"
               >
-                Para comercios
+                Portal del comercio
               </Link>
 
               {/* Register */}

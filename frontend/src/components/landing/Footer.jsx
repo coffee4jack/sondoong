@@ -2,6 +2,25 @@ import { Link } from "react-router-dom";
 
 const columns = [
   {
+    title: "Acceso",
+    links: [
+      { label: "Iniciar sesión", to: "/login" },
+      { label: "Portal del comercio", to: "/portal" },
+      { label: "Backoffice", to: "/backoffice" },
+      { label: "Registrar mi comercio", to: "/login" },
+    ],
+  },
+  {
+    title: "Explora",
+    links: [
+      { label: "Nosotros", to: "/#nosotros" },
+      { label: "Gana dinero", to: "/#gana" },
+      { label: "Bolt Send", to: "/#send" },
+      { label: "Descarga la app", to: "/#app" },
+      { label: "Noticias", to: "/#noticias" },
+    ],
+  },
+  {
     title: "Productos",
     links: ["Viajes", "Scooters", "Bicicletas eléctricas", "Autos compartidos", "Bolt Food"],
   },
@@ -11,8 +30,8 @@ const columns = [
       "Conductores Bolt",
       "Ganancias del conductor",
       "Repartidores Bolt",
-      { label: "Portal del comercio", to: "/portal" },
       "Flotas",
+      "Restaurantes y tiendas",
     ],
   },
   {
@@ -21,13 +40,16 @@ const columns = [
   },
   {
     title: "Soporte",
-    links: ["Pasajeros", "Conductores", "Bolt Food", "Centro de ayuda", "Contacto"],
+    links: ["Pasajeros", "Conductores", "Bolt Food", "Centro de ayuda", "Contacto", "Reportar un problema"],
   },
   {
     title: "Seguridad",
     links: ["Seguridad del pasajero", "Seguridad del conductor", "Seguridad en scooters"],
   },
-  { title: "Ubicaciones", links: ["Nuestras ciudades", "Nuestros aeropuertos"] },
+  {
+    title: "Ubicaciones",
+    links: ["Nuestras ciudades", "Nuestros aeropuertos", "Ciudad de México", "Bogotá", "Lima"],
+  },
   { title: "Soluciones para ciudades", links: ["Nuestra misión", "Estaciones de carga"] },
 ];
 
@@ -41,7 +63,7 @@ export default function Footer() {
   return (
     <footer className="bg-ink text-white">
       <div className="mx-auto max-w-6xl px-5 py-16">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-7">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
           {columns.map((c) => (
             <nav key={c.title} aria-label={c.title}>
               <h4 className="text-sm font-bold">{c.title}</h4>
@@ -66,7 +88,25 @@ export default function Footer() {
 
         <div className="mt-16 flex flex-col gap-3 border-t border-white/10 pt-6 text-sm text-white/50 sm:flex-row sm:justify-between">
           <p>© {year} Bolt. Todos los derechos reservados.</p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            <a href="#" className="hover:text-white">
+              App Store
+            </a>
+            <a href="#" className="hover:text-white">
+              Google Play
+            </a>
+            <a href="#" className="hover:text-white">
+              Facebook
+            </a>
+            <a href="#" className="hover:text-white">
+              Instagram
+            </a>
+            <a href="#" className="hover:text-white">
+              TikTok
+            </a>
+            <a href="#" className="hover:text-white">
+              LinkedIn
+            </a>
             <a href="#" className="hover:text-white">
               Privacidad
             </a>

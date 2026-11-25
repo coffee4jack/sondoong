@@ -3,9 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { cn } from "../../lib/cn";
 import { usePortalSettings } from "../../lib/usePortalSettings";
 import { api } from "../../lib/api";
+import { useAuth } from "../../lib/useAuth";
 
 export default function PageHeader({ tabs = [], active, onTab, action }) {
   const settings = usePortalSettings();
+  const { merchantName } = useAuth();
+  const businessName = merchantName ?? settings.businessName;
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState(null);
@@ -36,13 +39,13 @@ export default function PageHeader({ tabs = [], active, onTab, action }) {
   const hasResults = results && (results.products.length > 0 || results.orders.length > 0);
 
   return (
-    <header className="relative z-20 rounded-b-3xl bg-ink px-5 py-5 text-white sm:px-9">
+    <header className="relative z-20 border-b border-ink/10 bg-white px-5 py-5 text-ink sm:px-9">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-xl bg-brand text-sm font-bold text-ink">{settings.businessName.slice(0, 1)}</div>
+          <div className="grid h-11 w-11 place-items-center rounded-xl bg-brand text-sm font-bold text-ink">{businessName.slice(0, 1)}</div>
           <div>
-            <p className="text-xs text-white/60">Portal del comercio</p>
-            <p className="text-lg font-bold">{settings.businessName} · {settings.branchName}</p>
+            <p className="text-xs text-ink/60">Portal del comercio</p>
+            <p className="text-lg font-bold">{businessName}{merchantName ? "" : ` · ${settings.branchName}`}</p>
           </div>
         </div>
         <div className="relative flex w-full items-center gap-3 sm:w-auto">
@@ -63,7 +66,7 @@ export default function PageHeader({ tabs = [], active, onTab, action }) {
             }}
             placeholder="Buscar pedidos o productos…"
             autoComplete="off"
-            className="h-10 min-w-0 flex-1 rounded-xl border border-white/15 bg-white/10 px-4 text-sm text-white placeholder:text-white/55 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/40 sm:w-80"
+            className="h-10 min-w-0 flex-1 rounded-xl border border-ink/10 bg-ink/[0.04] px-4 text-sm text-ink placeholder:text-ink/50 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/40 sm:w-80"
           />
           {open && query.trim().length >= 2 && (
             <div className="absolute right-0 top-12 z-50 max-h-96 w-full overflow-y-auto rounded-xl bg-white p-2 text-ink shadow-2xl sm:w-96">
@@ -84,13 +87,13 @@ export default function PageHeader({ tabs = [], active, onTab, action }) {
               ))}
             </div>
           )}
-          <Link to="/portal/reportes" title="Resumen de operación" aria-label="Abrir reportes" className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/10 text-sm font-bold transition hover:bg-white/20">↗</Link>
+          <Link to="/portal/reportes" title="Resumen de operación" aria-label="Abrir reportes" className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-ink/5 text-sm font-bold transition hover:bg-ink/10">↗</Link>
         </div>
       </div>
       {(tabs.length > 0 || action) && (
         <div className="mt-5 flex flex-wrap items-center gap-2">
           {tabs.map((tab) => (
-            <button key={tab.id} type="button" aria-pressed={active === tab.id} className={cn("h-9 cursor-pointer rounded-full px-4 text-sm transition focus-visible:outline-2 focus-visible:outline-brand", active === tab.id ? "bg-brand font-bold text-ink" : "bg-white/10 text-white hover:bg-white/20")} onClick={() => onTab?.(tab.id)}>
+            <button key={tab.id} type="button" aria-pressed={active === tab.id} className={cn("h-9 cursor-pointer rounded-full px-4 text-sm transition focus-visible:outline-2 focus-visible:outline-brand", active === tab.id ? "bg-brand font-bold text-ink" : "border border-ink/10 bg-white text-ink hover:bg-ink/5")} onClick={() => onTab?.(tab.id)}>
               {tab.label}
             </button>
           ))}

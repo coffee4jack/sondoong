@@ -29,7 +29,7 @@ export default function BoltSend() {
       </div>
 
       <img
-        src="https://images.pexels.com/photos/264636/pexels-photo-264636.jpeg"
+        src="https://images.pexels.com/photos/12725450/pexels-photo-12725450.jpeg"
         alt="Regalos en el asiento trasero de un auto"
         loading="lazy"
         className="h-[320px] w-full object-cover sm:h-[480px] lg:h-[600px]"

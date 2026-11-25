@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, ChatMessage, Order, OrderLocation, Product, ScheduleException, Settlement, StoreSchedule
+from .models import Category, ChatMessage, Membership, Merchant, Order, OrderLocation, Product, ScheduleException, Settlement, StoreSchedule
 
 
 @admin.register(Category)
@@ -34,3 +34,17 @@ admin.site.register(ChatMessage)
 admin.site.register(StoreSchedule)
 admin.site.register(ScheduleException)
 admin.site.register(Settlement)
+
+
+class MembershipInline(admin.TabularInline):
+    model = Membership
+    extra = 0
+
+
+@admin.register(Merchant)
+class MerchantAdmin(admin.ModelAdmin):
+    list_display = ["name", "category", "zone", "commission_rate", "status"]
+    list_filter = ["status", "category"]
+    search_fields = ["name", "slug"]
+    prepopulated_fields = {"slug": ["name"]}
+    inlines = [MembershipInline]

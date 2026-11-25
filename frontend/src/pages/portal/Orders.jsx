@@ -5,6 +5,7 @@ import OrderCard from "../../components/portal/OrderCard";
 import OrderTrackingMap from "../../components/portal/OrderTrackingMap";
 import Body from "../../components/portal/Body";
 import Card from "../../components/portal/Card";
+import TodayStrip from "../../components/portal/TodayStrip";
 import PageHeader from "../../components/portal/PageHeader";
 import Toggle from "../../components/portal/Toggle";
 import { initialChats } from "../../data/portal";
@@ -133,6 +134,7 @@ export default function Orders() {
       <PageHeader tabs={tabs} active={filter} onTab={setFilter} action={<Button size="sm" onClick={simulate}>+ Pedido de prueba</Button>} />
       <Body>
         <h2 className="sr-only">Panel de pedidos</h2>
+        <TodayStrip />
         {loading && <p role="status">Cargando pedidos…</p>}
         {error && <p role="alert" className="mb-3 text-sm text-red-700">{error}</p>}
         {notice && <p role="status" className="mb-3 text-sm text-ink/70">{notice}</p>}

@@ -6,6 +6,7 @@ from rest_framework import serializers
 from .models import (
     Category,
     ChatMessage,
+    Merchant,
     Order,
     OrderLocation,
     Product,
@@ -33,8 +34,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ["id", "name", "category", "category_name", "price", "stock", "available", "options", "image", "created_at", "updated_at"]
-        read_only_fields = ["created_at", "updated_at"]
+        fields = ["id", "merchant", "name", "category", "category_name", "price", "stock", "available", "options", "image", "created_at", "updated_at"]
+        read_only_fields = ["merchant", "created_at", "updated_at"]
 
     def validate(self, attrs):
         if attrs.get("stock", getattr(self.instance, "stock", 0)) == 0:
@@ -85,10 +86,14 @@ class OrderSerializer(serializers.ModelSerializer):
     code = serializers.CharField(required=False)
     rejection_reason = serializers.CharField(required=False, allow_blank=True)
     latest_location = serializers.SerializerMethodField()
+    # La app móvil puede indicar el comercio; si no, se deduce de los productos pedidos.
+    merchant = serializers.PrimaryKeyRelatedField(
+        queryset=Merchant.objects.exclude(status="suspended"), required=False, allow_null=True
+    )
 
     class Meta:
         model = Order
-        fields = ["id", "db_id", "code", "items", "total", "status", "priority", "target", "branch", "rejection_reason", "customer_name", "customer_phone", "delivery_address", "tracking_token", "latest_location", "enteredAt", "updated_at"]
+        fields = ["id", "db_id", "merchant", "code", "items", "total", "status", "priority", "target", "branch", "rejection_reason", "customer_name", "customer_phone", "delivery_address", "tracking_token", "latest_location", "enteredAt", "updated_at"]
         read_only_fields = ["id", "updated_at"]
 
     def to_representation(self, instance):
@@ -103,7 +108,29 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data["code"] = validated_data.get("code") or uuid.uuid4().hex[:8].upper()
+        if not validated_data.get("merchant"):
+            validated_data["merchant"] = self._guess_merchant(validated_data.get("items", []))
         return super().create(validated_data)
+
+    @staticmethod
+    def _guess_merchant(items):
+        """Deduce el comercio por el nombre de los productos (pedidos antiguos sin comercio)."""
+        names = {str(item).split("×", 1)[-1].strip() for item in items if item}
+        merchant_ids = set(Product.objects.filter(name__in=names, merchant__isnull=False).values_list("merchant_id", flat=True))
+        return Merchant.objects.filter(pk=merchant_ids.pop()).first() if len(merchant_ids) == 1 else None
+
+
+class CourierOrderSerializer(OrderSerializer):
+    """Vista reducida para la app del repartidor (sin teléfono del cliente)."""
+
+    class Meta(OrderSerializer.Meta):
+        fields = [f for f in OrderSerializer.Meta.fields if f != "customer_phone"]
+
+
+class MerchantBriefSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Merchant
+        fields = ["id", "name", "slug", "status", "logo", "category"]
 
 
 class StoreScheduleSerializer(serializers.ModelSerializer):

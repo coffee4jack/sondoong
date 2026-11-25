@@ -1,0 +1,11 @@
+SONDOONG / BOLT - version 2.2.0
+================================
+1. Cierra Docker:           docker compose down      (SIN -v)
+2. Copia tu carpeta y tu .env como respaldo.
+3. Copia TODO el contenido de este comprimido encima de tu carpeta (Reemplazar).
+4. Levanta:                 docker compose up --build -d
+5. Datos de ejemplo:        docker compose exec backend python manage.py seed_backoffice
+6. Abre:                    http://localhost:5173/login
+   Admin:   admin@bolt.hn / Bolt12345!      (solo desarrollo)
+   Comercio: gerente@elsabor.hn / Bolt12345!
+Guia completa: docs/INSTALACION-WINDOWS.md

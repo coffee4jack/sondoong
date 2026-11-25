@@ -4,7 +4,7 @@ import { cn } from "../../lib/cn";
 export default function Card({ as: Tag = "div", className, children, ...rest }) {
   return (
     <Tag
-      className={cn("portal-card rounded-[20px] border border-ink/10 bg-white p-5 shadow-sm", className)}
+      className={cn("portal-card rounded-[20px] border border-ink/10 bg-white p-5", className)}
       {...rest}
     >
       {children}

@@ -129,7 +129,7 @@ function AppContent() {
   const checkout = async () => {
     if (!cart.length) return;
     try {
-      const order = await api("/orders/", { method: "POST", data: { items: cart.map((item) => `${item.quantity}× ${item.name}`), total, status: "new", priority: "Media", target: 30, branch: "Centro", customer_name: "Cliente móvil", delivery_address: address } });
+      const order = await api("/orders/", { method: "POST", data: { merchant: cart[0]?.merchant ?? null, items: cart.map((item) => `${item.quantity}× ${item.name}`), total, status: "new", priority: "Media", target: 30, branch: "Centro", customer_name: "Cliente móvil", delivery_address: address } });
       const saved = JSON.parse(await AsyncStorage.getItem("bolt-order-tokens") || "[]");
       saved.unshift({ token: order.tracking_token, code: order.code });
       await AsyncStorage.setItem("bolt-order-tokens", JSON.stringify(saved.slice(0, 20)));

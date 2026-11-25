@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase
 
 from .models import Category, Order, Product, StoreSchedule
@@ -7,8 +8,14 @@ class PortalApiTests(APITestCase):
     def setUp(self):
         self.category = Category.objects.create(name="QA categoría")
         Product.objects.create(category=self.category, name="QA producto", price="12.50", stock=3)
+        self.admin = get_user_model().objects.create_user("qa-admin@bolt.hn", "qa-admin@bolt.hn", "x-qa-pass-1", is_staff=True)
+
+    def login(self):
+        """Las rutas del portal exigen sesión; las de la app móvil y el tracking no."""
+        self.client.force_authenticate(self.admin)
 
     def test_search_finds_products(self):
+        self.login()
         response = self.client.get("/api/search/?q=QA producto")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["products"][0]["name"], "QA producto")
@@ -27,6 +34,7 @@ class PortalApiTests(APITestCase):
         self.assertTrue(Order.objects.filter(code="QA-ORDER-1").exists())
 
     def test_schedule_endpoint_persists_pause_state(self):
+        self.login()
         response = self.client.patch("/api/schedule/default/", {
             "paused": True,
             "pause_reason": "QA mantenimiento",
@@ -36,6 +44,7 @@ class PortalApiTests(APITestCase):
         self.assertTrue(StoreSchedule.objects.get(key="default").paused)
 
     def test_reports_summary_and_settlements_endpoints(self):
+        self.login()
         self.assertEqual(self.client.get("/api/orders/summary/?period=7d").status_code, 200)
         self.assertEqual(self.client.get("/api/settlements/").status_code, 200)
 

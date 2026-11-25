@@ -4,7 +4,7 @@ import { cn } from "../../lib/cn";
 
 const items = [
   {
-    src: "https://images.pexels.com/photos/11485207/pexels-photo-11485207.jpeg",
+    src: "https://images.pexels.com/photos/8804979/pexels-photo-8804979.jpeg",
     title: "Viajes y Turismo",
     text: "Pide en segundos, viaja en minutos.",
     cta: "Empezar",
@@ -15,7 +15,7 @@ const items = [
     href: "#",
   },
   {
-    src: "https://images.pexels.com/photos/5988831/pexels-photo-5988831.jpeg",
+    src: "https://images.pexels.com/photos/9461759/pexels-photo-9461759.jpeg",
     title: "Viajes",
     text: "Pide en segundos, viaja en minutos.",
     cta: "Empezar",
@@ -26,7 +26,7 @@ const items = [
     href: "#",
   },
   {
-    src: "https://images.pexels.com/photos/5988831/pexels-photo-5988831.jpeg",
+    src: "https://images.pexels.com/photos/8229875/pexels-photo-8229875.jpeg",
     title: "Viajes",
     text: "Pide en segundos, viaja en minutos.",
     cta: "Empezar",
@@ -37,7 +37,7 @@ const items = [
     href: "#",
   },
   {
-    src: "https://images.unsplash.com/photo-1793443354968-0f50fdceabf3?q=80&w=715&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
+    src: "https://media.istockphoto.com/id/1660821332/photo/online-grocery-shopping-app-on-smartphone.jpg?s=1024x1024&w=is&k=20&c=1weT5T__O-5p22upHoDZwA5f56SLzpb8mzWvONKr24M=",
     title: "Comida",
     text: "Tus restaurantes favoritos, entregados rápido.",
     cta: "Ir a Comida",
@@ -48,7 +48,7 @@ const items = [
     href: "#",
   },
   {
-    src: "https://images.pexels.com/photos/1149601/pexels-photo-1149601.jpeg",
+    src: "https://images.pexels.com/photos/17622833/pexels-photo-17622833.jpeg",
     title: "Scooters",
     text: "Recorre la ciudad en scooters eléctricos, sin tráfico.",
     cta: "Ir a Scooters",

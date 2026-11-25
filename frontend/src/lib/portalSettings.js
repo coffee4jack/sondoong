@@ -4,7 +4,7 @@ export const DEFAULT_PORTAL_SETTINGS = {
   brand: "#3bb77e",
   ink: "#010f1c",
   surface: "#ffffff",
-  sidebar: "#010f1c",
+  sidebar: "#ffffff",
   businessName: "Restaurante El Sabor",
   branchName: "Sucursal Centro",
   compact: false,

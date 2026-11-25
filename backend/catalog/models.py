@@ -1,7 +1,55 @@
 import uuid
 
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
+
+
+class Merchant(models.Model):
+    """Comercio (restaurante, tienda...) que vende a través de la plataforma."""
+
+    STATUSES = [
+        ("pending", "Por aprobar"),
+        ("active", "Activo"),
+        ("paused", "Pausado"),
+        ("suspended", "Suspendido"),
+    ]
+
+    name = models.CharField(max_length=140)
+    slug = models.SlugField(max_length=160, unique=True)
+    category = models.CharField(max_length=80, blank=True)
+    zone = models.CharField(max_length=100, blank=True)
+    address = models.CharField(max_length=250, blank=True)
+    phone = models.CharField(max_length=30, blank=True)
+    logo = models.URLField(blank=True)
+    commission_rate = models.DecimalField(max_digits=5, decimal_places=2, default=15)
+    status = models.CharField(max_length=20, choices=STATUSES, default="pending", db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+class Membership(models.Model):
+    """Relación usuario-comercio con un rol. Un usuario puede pertenecer a varios comercios."""
+
+    ROLES = [("owner", "Dueño"), ("manager", "Gerente"), ("staff", "Equipo")]
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="memberships")
+    merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE, related_name="memberships")
+    role = models.CharField(max_length=20, choices=ROLES, default="staff")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["merchant__name", "user__email"]
+        constraints = [models.UniqueConstraint(fields=["user", "merchant"], name="unique_user_merchant")]
+
+    def __str__(self):
+        return f"{self.user} @ {self.merchant} ({self.role})"
 
 
 class Category(models.Model):
@@ -22,6 +70,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField(default=0)
     available = models.BooleanField(default=True)
+    merchant = models.ForeignKey(Merchant, null=True, blank=True, on_delete=models.CASCADE, related_name="products")
     options = models.JSONField(default=list, blank=True)
     image = models.URLField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -45,6 +94,7 @@ class Order(models.Model):
     ]
     PRIORITIES = [("Alta", "Alta"), ("Media", "Media"), ("Baja", "Baja")]
 
+    merchant = models.ForeignKey(Merchant, null=True, blank=True, on_delete=models.CASCADE, related_name="orders")
     code = models.CharField(max_length=32, unique=True)
     items = models.JSONField(default=list)
     total = models.DecimalField(max_digits=10, decimal_places=2)
@@ -79,6 +129,7 @@ class OrderLocation(models.Model):
 
 
 class StoreSchedule(models.Model):
+    merchant = models.ForeignKey(Merchant, null=True, blank=True, on_delete=models.CASCADE, related_name="schedules")
     key = models.CharField(max_length=30, unique=True, default="default")
     paused = models.BooleanField(default=False)
     pause_reason = models.CharField(max_length=120, blank=True)
@@ -89,6 +140,7 @@ class StoreSchedule(models.Model):
 
 
 class ScheduleException(models.Model):
+    merchant = models.ForeignKey(Merchant, null=True, blank=True, on_delete=models.CASCADE, related_name="schedule_exceptions")
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
@@ -100,7 +152,8 @@ class ScheduleException(models.Model):
 
 
 class Settlement(models.Model):
-    period = models.CharField(max_length=100, unique=True)
+    merchant = models.ForeignKey(Merchant, null=True, blank=True, on_delete=models.CASCADE, related_name="settlements")
+    period = models.CharField(max_length=100)
     status = models.CharField(max_length=30, default="Pendiente de pago")
     gross = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     commission = models.DecimalField(max_digits=12, decimal_places=2, default=0)
@@ -109,11 +162,13 @@ class Settlement(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+        constraints = [models.UniqueConstraint(fields=["merchant", "period"], name="unique_settlement_period_per_merchant")]
 
 
 class ChatMessage(models.Model):
     SENDER_CHOICES = [("merchant", "Comercio"), ("operations", "Operaciones"), ("courier", "Repartidor")]
 
+    merchant = models.ForeignKey(Merchant, null=True, blank=True, on_delete=models.CASCADE, related_name="messages")
     thread_id = models.CharField(max_length=120, db_index=True)
     contact = models.CharField(max_length=80)
     sender = models.CharField(max_length=20, choices=SENDER_CHOICES, default="merchant")

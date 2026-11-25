@@ -4,16 +4,27 @@ from decimal import Decimal
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from catalog.models import Order, ScheduleException, Settlement, StoreSchedule
+from catalog.models import Merchant, Order, ScheduleException, Settlement, StoreSchedule
+
+
+def default_merchant():
+    """Comercio de ejemplo al que pertenecen los datos de demostración."""
+    merchant, _ = Merchant.objects.get_or_create(
+        slug="comercio-inicial",
+        defaults={"name": "Restaurante El Sabor", "category": "Restaurante", "status": "active"},
+    )
+    return merchant
 
 
 class Command(BaseCommand):
     help = "Adds repeatable sample data for portal modules."
 
     def handle(self, *args, **options):
+        merchant = default_merchant()
         StoreSchedule.objects.get_or_create(
-            key="default",
+            key=f"m{merchant.pk}",
             defaults={
+                "merchant": merchant,
                 "weekly_hours": [
                     {"day": "Lun – Vie", "open": "10:00", "close": "22:00"},
                     {"day": "Sábado", "open": "10:00", "close": "23:00"},
@@ -33,6 +44,7 @@ class Command(BaseCommand):
             Order.objects.get_or_create(
                 code=code,
                 defaults={
+                    "merchant": merchant,
                     "items": items,
                     "total": Decimal(total),
                     "status": order_status,
@@ -46,6 +58,7 @@ class Command(BaseCommand):
             date=date.today() + timedelta(days=3),
             start_time=time(10, 0),
             end_time=time(16, 0),
+            merchant=merchant,
             defaults={"reason": "Evento privado"},
         )
         for period, status, gross, commission in [
@@ -55,6 +68,7 @@ class Command(BaseCommand):
         ]:
             Settlement.objects.get_or_create(
                 period=period,
+                merchant=merchant,
                 defaults={"status": status, "gross": Decimal(gross), "commission": Decimal(commission)},
             )
         self.stdout.write(self.style.SUCCESS("Portal sample data is ready."))
